@@ -4,61 +4,77 @@
   <meta charset="UTF-8" />
   <title>Umut Lab · Privacy-First App Store</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="A calm, respectful collection of ad-free, privacy-first apps handcrafted by Umut Candan." />
+  <meta
+    name="description"
+    content="A small, handcrafted collection of ad-free, privacy-first apps by Umut Candan: games, tools, spiritual & wellbeing companions."
+  />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%230ea5e9'/%3E%3Cpath fill='white' d='M9 18.5c0-4.2 2.7-7.5 7.3-7.5 1.7 0 3 .5 3.9 1l-1.4 2.4c-.6-.3-1.5-.7-2.5-.7-2.4 0-4 1.7-4 4.7V24H9v-5.5z'/%3E%3C/svg%3E" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+  />
+
   <style>
     :root {
-      --bg: #0b1221;
-      --bg-soft: #0f172a;
-      --panel: rgba(17, 24, 39, 0.92);
-      --panel-soft: rgba(17, 24, 39, 0.86);
-      --panel-strong: rgba(17, 24, 39, 0.98);
-      --accent: #0ea5e9;
-      --accent-strong: #0284c7;
-      --accent-soft: rgba(14, 165, 233, 0.12);
+      --bg: #020617;
+      --bg-soft: #020617;
+      --panel: rgba(15, 23, 42, 0.92);
+      --panel-soft: rgba(15, 23, 42, 0.88);
+      --panel-strong: rgba(15, 23, 42, 0.97);
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.16);
+      --accent-strong: #0ea5e9;
+      --danger: #f97373;
       --text: #e5e7eb;
-      --text-soft: #cbd5e1;
+      --text-soft: #9ca3af;
       --border: #1f2937;
-      --chip-bg: rgba(255, 255, 255, 0.04);
-      --shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.28);
-      --radius-lg: 20px;
-      --radius-md: 12px;
-      --transition-fast: 0.18s ease;
-      --transition-med: 0.36s ease;
-      --nav-height: 72px;
+      --chip-bg: #0b1120;
+      --radius-lg: 18px;
+      --radius-md: 999px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.6);
+      --blur: 22px;
+      --transition-fast: 0.18s ease-out;
+      --transition-med: 0.3s ease;
+      --nav-height: 66px;
     }
 
     html[data-theme="light"] {
       --bg: #f8fafc;
-      --bg-soft: #eef2f6;
+      --bg-soft: #f3f4f6;
       --panel: #ffffff;
-      --panel-soft: #f5f7fb;
-      --panel-strong: #ffffff;
-      --accent: #0284c7;
-      --accent-strong: #075985;
-      --accent-soft: rgba(2, 132, 199, 0.12);
+      --panel-soft: #f8fafc;
+      --panel-strong: #f5f7fa;
+      --accent: #0ea5e9;
+      --accent-soft: rgba(14, 165, 233, 0.12);
+      --accent-strong: #0369a1;
+      --danger: #dc2626;
       --text: #0f172a;
       --text-soft: #475569;
-      --border: #d9e1eb;
-      --chip-bg: rgba(2, 132, 199, 0.06);
-      --shadow-soft: 0 20px 60px rgba(15, 23, 42, 0.12);
+      --border: #e5e7eb;
+      --chip-bg: #e0f2fe;
+      --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.12);
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
       font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at 12% 15%, rgba(56, 189, 248, 0.18), transparent 34%),
-        radial-gradient(circle at 80% 0%, rgba(236, 72, 153, 0.18), transparent 32%),
-        linear-gradient(135deg, var(--bg), var(--bg-soft));
+      background: radial-gradient(circle at 10% 10%, rgba(14, 165, 233, 0.18), transparent 35%),
+        radial-gradient(circle at 80% 0%, rgba(236, 72, 153, 0.16), transparent 32%),
+        linear-gradient(135deg, rgba(8, 47, 73, 0.9), rgba(2, 6, 23, 0.95));
       color: var(--text);
       -webkit-font-smoothing: antialiased;
       display: flex;
       justify-content: center;
+      position: relative;
       overflow-x: hidden;
     }
 
@@ -77,34 +93,30 @@
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: 1280px;
-      padding: 18px clamp(16px, 3vw, 32px) 40px;
+      max-width: 1260px;
+      padding: 18px clamp(16px, 3vw, 32px) 36px;
     }
 
-    .fade-in-up {
-      opacity: 0;
-      transform: translateY(12px);
-      animation: fadeUp 0.6s var(--transition-med) forwards;
-    }
-
-    @keyframes fadeUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
+    /* HEADER / HERO */
     header {
       position: sticky;
       top: 0;
       z-index: 22;
-      backdrop-filter: blur(22px);
-      background: color-mix(in srgb, var(--panel) 94%, transparent);
-      border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+      backdrop-filter: blur(var(--blur));
+      background: linear-gradient(
+        to bottom,
+        rgba(2, 6, 23, 0.96),
+        rgba(2, 6, 23, 0.9),
+        rgba(2, 6, 23, 0.6)
+      );
       transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.16);
     }
 
-    header.scrolled { box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); }
+    header.scrolled {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      border-color: rgba(148, 163, 184, 0.3);
+    }
 
     .top-bar {
       display: flex;
@@ -118,25 +130,29 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: -0.02em;
-      font-size: 17px;
+      font-size: 16px;
       color: var(--text);
     }
 
     .brand-mark {
-      width: 36px;
-      height: 36px;
-      border-radius: 14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
       background: linear-gradient(135deg, #0ea5e9, #6366f1);
       display: grid;
       place-items: center;
       color: #0b1120;
       font-weight: 800;
-      box-shadow: 0 10px 26px rgba(56, 189, 248, 0.38);
+      box-shadow: 0 12px 28px rgba(56, 189, 248, 0.45);
     }
 
-    .header-actions { display: inline-flex; align-items: center; gap: 10px; }
+    .header-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
 
     .lang-toggle {
       display: inline-flex;
@@ -146,14 +162,14 @@
       border: 1px solid var(--border);
       background: var(--panel-soft);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-      gap: 6px;
+      gap: 4px;
     }
 
     .lang-option {
       border: none;
-      padding: 7px 12px;
+      padding: 6px 10px;
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 11px;
       cursor: pointer;
       color: var(--text-soft);
       background: transparent;
@@ -163,42 +179,55 @@
     .lang-option.active {
       background: var(--accent-soft);
       color: var(--accent-strong);
-      font-weight: 700;
+      font-weight: 600;
       transform: translateY(-1px);
-      box-shadow: 0 10px 22px rgba(56, 189, 248, 0.28);
+      box-shadow: 0 10px 22px rgba(56, 189, 248, 0.35);
     }
 
     .theme-toggle {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
+      gap: 6px;
+      padding: 6px 12px;
       border-radius: 999px;
-      border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+      border: 1px solid rgba(148, 163, 184, 0.55);
       background: var(--panel-soft);
       color: var(--text-soft);
       cursor: pointer;
-      font-size: 12px;
+      font-size: 11px;
       user-select: none;
-      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+      transition: background var(--transition-fast), transform var(--transition-fast),
+        box-shadow var(--transition-fast);
     }
 
-    .theme-toggle:hover, .lang-toggle:hover { background: var(--panel); transform: translateY(-1px); }
-    .theme-toggle:active, .lang-toggle:active { transform: scale(0.98); }
-    .theme-icon { font-size: 15px; }
+    .theme-toggle:hover,
+    .lang-toggle:hover {
+      background: var(--panel);
+      transform: translateY(-1px);
+    }
+
+    .theme-toggle:active,
+    .lang-toggle:active {
+      transform: scale(0.98);
+    }
+
+    .theme-icon {
+      font-size: 14px;
+    }
 
     .hero {
-      position: relative;
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
-      gap: 22px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px 20px;
       align-items: center;
-      margin: 16px 0 14px;
-      padding: 22px 22px 24px;
+      margin: 16px 0 12px;
+      padding: 18px 20px;
       border-radius: var(--radius-lg);
-      border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+      border: 1px solid rgba(148, 163, 184, 0.3);
       box-shadow: var(--shadow-soft);
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(99, 102, 241, 0.12)), var(--panel);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(99, 102, 241, 0.1)),
+        var(--panel);
+      position: relative;
       overflow: hidden;
     }
 
@@ -206,23 +235,28 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.08), transparent 42%);
+      background: radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1), transparent 42%);
       pointer-events: none;
     }
 
-    .hero-main { position: relative; z-index: 1; min-width: 0; }
+    .hero-main {
+      position: relative;
+      z-index: 1;
+      min-width: 0;
+    }
+
     .hero-kicker {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 5px 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+      padding: 4px 12px;
+      border-radius: var(--radius-md);
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.6);
       font-size: 11px;
       letter-spacing: 0.08em;
       color: var(--text-soft);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       text-transform: uppercase;
     }
 
@@ -234,23 +268,54 @@
       box-shadow: 0 0 0 8px rgba(34, 197, 94, 0.22);
     }
 
-    .hero-title { font-size: clamp(26px, 4vw, 34px); font-weight: 800; letter-spacing: -0.03em; margin: 0 0 10px; }
-    .hero-sub { margin: 0; font-size: 14px; line-height: 1.7; color: var(--text-soft); max-width: 620px; }
-    .hero-sub strong { color: var(--text); font-weight: 700; }
+    .hero-title {
+      font-size: clamp(26px, 4vw, 32px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 0 0 8px;
+    }
 
-    .hero-side { position: relative; z-index: 1; display: grid; gap: 12px; }
-    .hero-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+    .hero-sub {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--text-soft);
+      max-width: 540px;
+    }
+
+    .hero-sub strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .hero-side {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+      min-width: 220px;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      width: 100%;
+      max-width: 380px;
+    }
 
     .metric {
-      padding: 12px 14px;
+      padding: 10px 12px;
       border-radius: 14px;
       background: var(--panel-strong);
-      border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+      border: 1px solid rgba(148, 163, 184, 0.45);
       font-size: 12px;
       display: grid;
       gap: 6px;
       align-content: center;
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.22);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.4);
     }
 
     .metric-label {
@@ -262,134 +327,570 @@
       color: var(--text-soft);
     }
 
-    .metric-value { font-weight: 800; color: var(--text); font-size: 16px; }
-
-    .hero-app {
-      margin: 8px 0 20px;
-      padding: 18px;
-      border-radius: 18px;
-      border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
-      background: color-mix(in srgb, var(--panel) 94%, transparent);
-      box-shadow: var(--shadow-soft);
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      gap: 16px;
-      position: relative;
-      overflow: hidden;
+    .metric-value {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 16px;
     }
 
-    .hero-app::before {
-      content: "";
+    /* CONTROLS */
+    .controls-bar {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 16px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 12px 8px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: var(--panel-strong);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.3);
+      position: sticky;
+      top: calc(var(--nav-height) - 6px);
+      z-index: 18;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-pill {
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      font-size: 11px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.82);
+      color: var(--text-soft);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background var(--transition-fast), border-color var(--transition-fast),
+        color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .filter-pill span.count {
+      font-variant-numeric: tabular-nums;
+      opacity: 0.9;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .filter-pill.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent-strong);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(56, 189, 248, 0.25);
+    }
+
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 260px;
+      min-width: 0;
+      justify-content: flex-end;
+    }
+
+    .search-inner {
+      position: relative;
+      flex: 1 1 auto;
+      max-width: 300px;
+    }
+
+    .search-inner input {
+      width: 100%;
+      padding: 10px 36px 10px 32px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text);
+      font-size: 12px;
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
+        background var(--transition-fast), transform var(--transition-fast);
+    }
+
+    html[data-theme="light"] .search-inner input {
+      background: #ffffff;
+    }
+
+    .search-inner input::placeholder {
+      color: var(--text-soft);
+    }
+
+    .search-inner input:focus,
+    .search-inner.has-text input {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+      transform: translateY(-0.5px);
+    }
+
+    .search-icon {
       position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(14, 165, 233, 0.14), rgba(56, 189, 248, 0.05));
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      opacity: 0.7;
       pointer-events: none;
     }
 
-    .hero-app-main { position: relative; z-index: 1; display: grid; gap: 12px; }
-    .hero-app-header { display: flex; align-items: center; gap: 12px; }
-    .app-icon { width: 48px; height: 48px; border-radius: 14px; background: linear-gradient(135deg, #0ea5e9, #6366f1); display: grid; place-items: center; font-weight: 800; color: #0b1120; }
-    .hero-app-title { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
-    .hero-app-sub { margin: 0; color: var(--text-soft); font-size: 13px; }
-    .hero-app-desc { margin: 0; color: var(--text-soft); line-height: 1.6; font-size: 13px; }
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-    .btn { border-radius: 12px; padding: 10px 14px; font-size: 12px; font-weight: 700; border: 1px solid transparent; cursor: pointer; outline: none; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; white-space: nowrap; transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast); }
-    .btn-primary { background: linear-gradient(135deg, var(--accent), #60a5fa); color: #0b1120; box-shadow: 0 12px 28px rgba(14, 165, 233, 0.38); }
-    .btn-primary:hover { transform: translateY(-1.5px); box-shadow: 0 16px 34px rgba(14, 165, 233, 0.55); }
-    .btn-ghost { background: var(--chip-bg); border-color: color-mix(in srgb, var(--border) 80%, transparent); color: var(--text); }
-    .btn-ghost:hover { color: var(--accent-strong); border-color: var(--accent); transform: translateY(-1px); }
-    .btn span.icon { font-size: 14px; line-height: 1; }
-    .btn-full { justify-content: center; width: 100%; }
-
-    .hero-preview { position: relative; z-index: 1; border-radius: 18px; border: 1px solid color-mix(in srgb, var(--border) 80%, transparent); background: var(--panel-strong); box-shadow: 0 20px 40px rgba(0,0,0,0.24); padding: 10px; display: grid; gap: 10px; }
-    .device-frame { border-radius: 18px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--border) 80%, transparent); background: #0b1120; position: relative; }
-    .device-frame iframe { width: 100%; height: 380px; border: none; display: block; background: #0b1120; }
-    .preview-loader { padding: 10px 12px; border-radius: 12px; background: var(--accent-soft); color: var(--accent-strong); font-size: 12px; display: none; }
-    .hero-preview.loading .preview-loader, .app-preview.preview-loading .preview-loader { display: block; }
-
-    .controls-bar { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; position: sticky; top: calc(var(--nav-height) + 12px); z-index: 10; backdrop-filter: blur(18px); background: color-mix(in srgb, var(--panel) 92%, transparent); padding: 12px; border-radius: 14px; border: 1px solid color-mix(in srgb, var(--border) 70%, transparent); box-shadow: 0 12px 30px rgba(0,0,0,0.2); }
-    .filters { display: flex; flex-wrap: wrap; gap: 8px; }
-    .filter-chip { padding: 9px 12px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--border) 70%, transparent); background: var(--panel-strong); color: var(--text-soft); font-size: 12px; cursor: pointer; transition: all var(--transition-fast); display: inline-flex; align-items: center; gap: 8px; }
-    .filter-chip.active { background: var(--accent-soft); color: var(--accent-strong); border-color: var(--accent); box-shadow: 0 10px 24px rgba(14, 165, 233, 0.25); transform: translateY(-1px); }
-
-    .search-wrap { display: grid; gap: 8px; min-width: min(380px, 100%); }
-    .search-inner { position: relative; display: flex; align-items: center; background: var(--panel-strong); border: 1px solid color-mix(in srgb, var(--border) 70%, transparent); border-radius: 12px; padding: 10px 12px; transition: box-shadow var(--transition-fast), border-color var(--transition-fast); }
-    .search-inner:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-    .search-inner.has-text { box-shadow: 0 10px 24px rgba(14, 165, 233, 0.16); }
-    .search-icon { color: var(--text-soft); margin-right: 8px; font-size: 14px; }
-    #searchInput { flex: 1; background: transparent; border: none; outline: none; color: var(--text); font-size: 13px; }
-    .search-clear { background: transparent; border: none; color: var(--text-soft); cursor: pointer; font-size: 16px; padding: 2px 6px; border-radius: 8px; transition: color var(--transition-fast), background var(--transition-fast); }
-    .search-clear:hover { color: var(--accent-strong); background: var(--accent-soft); }
-    .results-counter { font-size: 11px; color: var(--text-soft); text-align: right; }
-
-    .section-heading { display: flex; align-items: center; justify-content: space-between; margin: 24px 2px 12px; }
-    .section-heading h3 { margin: 0; font-size: 16px; letter-spacing: -0.01em; }
-    .section-heading .hint { color: var(--text-soft); font-size: 12px; }
-
-    .featured-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(240px, 1fr); gap: 12px; overflow-x: auto; padding-bottom: 4px; }
-    .featured-card { background: var(--panel); border: 1px solid color-mix(in srgb, var(--border) 80%, transparent); border-radius: 14px; padding: 14px; display: grid; gap: 8px; min-height: 150px; box-shadow: var(--shadow-soft); position: relative; overflow: hidden; cursor: pointer; transition: transform var(--transition-fast), box-shadow var(--transition-fast); }
-    .featured-card:hover { transform: translateY(-2px); box-shadow: 0 18px 36px rgba(0,0,0,0.26); }
-    .featured-card .app-icon { width: 40px; height: 40px; border-radius: 12px; }
-    .featured-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; background: var(--chip-bg); border: 1px solid color-mix(in srgb, var(--border) 70%, transparent); font-size: 11px; color: var(--text-soft); }
-
-    main { margin-top: 6px; }
-    .app-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
-    .app-card { background: var(--panel); border-radius: 16px; padding: 14px; border: 1px solid color-mix(in srgb, var(--border) 80%, transparent); box-shadow: var(--shadow-soft); display: grid; gap: 10px; position: relative; overflow: hidden; transform: translateY(4px); opacity: 0; transition: transform var(--transition-med), box-shadow var(--transition-fast), opacity var(--transition-med); }
-    .app-card.in-view { transform: translateY(0); opacity: 1; }
-    .app-card:hover { box-shadow: 0 16px 34px rgba(0,0,0,0.24); transform: translateY(-2px); }
-    .app-top { display: flex; gap: 10px; align-items: flex-start; }
-    .app-icon.small { width: 38px; height: 38px; border-radius: 12px; font-size: 14px; }
-    .app-title { margin: 0; font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
-    .app-sub { margin: 0; color: var(--text-soft); font-size: 12px; }
-    .app-badges { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-    .app-category { font-size: 11px; padding: 6px 10px; border-radius: 999px; background: var(--chip-bg); border: 1px solid color-mix(in srgb, var(--border) 70%, transparent); color: var(--accent-strong); }
-    .platforms { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: 11px; color: var(--text-soft); }
-    .platform-pill { padding: 5px 10px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--border) 70%, transparent); background: var(--panel-strong); white-space: nowrap; }
-    .rating { display: inline-flex; align-items: center; gap: 4px; color: var(--text-soft); font-size: 11px; }
-    .app-desc { margin: 0; color: var(--text-soft); line-height: 1.55; font-size: 12px; }
-    .app-desc strong { color: var(--text); }
-    .app-actions { display: flex; gap: 8px; margin-top: 2px; flex-wrap: wrap; }
-
-    .pulse-highlight { animation: pulse 1.2s ease; }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.6); } 100% { box-shadow: 0 0 0 18px rgba(14, 165, 233, 0); } }
-
-    .app-preview { margin-top: 8px; border-radius: 14px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--border) 70%, transparent); background: var(--panel-strong); display: flex; flex-direction: column; gap: 0; max-height: 0; opacity: 0; transform: translateY(-4px); transition: max-height 0.4s ease, opacity 0.32s ease, transform 0.32s ease; }
-    .app-preview.active { opacity: 1; transform: translateY(0); max-height: 560px; }
-    .preview-hint { padding: 10px 12px; border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent); background: color-mix(in srgb, var(--panel) 96%, transparent); font-size: 11px; color: var(--text-soft); display: grid; gap: 4px; }
-    .app-preview iframe { width: 100%; height: 420px; border: none; display: block; background: #0b1120; }
-
-    .empty-state { text-align: center; padding: 32px 12px 40px; border-radius: 16px; border: 1px dashed color-mix(in srgb, var(--border) 70%, transparent); background: color-mix(in srgb, var(--panel) 90%, transparent); color: var(--text-soft); display: none; }
-    .empty-state .small { color: var(--text-soft); font-size: 12px; }
-
-    footer { margin-top: 28px; padding: 18px 12px; text-align: center; color: var(--text-soft); font-size: 12px; border-top: 1px solid color-mix(in srgb, var(--border) 70%, transparent); background: color-mix(in srgb, var(--panel) 90%, transparent); border-radius: 16px; }
-
-    @media (max-width: 960px) {
-      .hero { grid-template-columns: 1fr; }
-      .hero-side { order: -1; }
-      .hero-app { grid-template-columns: 1fr; }
-      .controls-bar { position: static; }
+    .search-clear {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-soft);
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity var(--transition-fast), visibility var(--transition-fast), background var(--transition-fast);
     }
-    @media (max-width: 640px) {
-      .top-bar { flex-direction: column; align-items: flex-start; gap: 10px; }
-      .header-actions { width: 100%; justify-content: space-between; }
-      .search-wrap { min-width: 100%; }
-      .featured-row { grid-auto-flow: row; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+
+    .search-inner.has-text .search-clear {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .search-clear:hover {
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+    }
+
+    .results-counter {
+      font-size: 11px;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    /* FEATURED */
+    .section-heading {
+      margin: 24px 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .section-heading h3 {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .featured-row {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(220px, 1fr);
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scroll-snap-type: x mandatory;
+    }
+
+    .featured-card {
+      position: relative;
+      border-radius: 16px;
+      padding: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: linear-gradient(145deg, rgba(56, 189, 248, 0.16), rgba(99, 102, 241, 0.12)), var(--panel-soft);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+      display: grid;
+      gap: 10px;
+      scroll-snap-align: start;
+      min-height: 140px;
+      cursor: pointer;
+      transition: transform var(--transition-med), box-shadow var(--transition-med), border-color var(--transition-med);
+    }
+
+    .featured-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 36px rgba(56, 189, 248, 0.45);
+      border-color: var(--accent);
+    }
+
+    .featured-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .featured-title {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .featured-desc {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    /* GRID & CARDS */
+    main {
+      margin-top: 14px;
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    @media (min-width: 720px) {
+      .app-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .app-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .app-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: radial-gradient(circle at 20% 0%, rgba(248, 250, 252, 0.05), transparent 55%),
+        var(--panel-soft);
+      padding: 14px 14px 13px;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.58);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+      transition: transform var(--transition-med), box-shadow var(--transition-med),
+        border-color var(--transition-med), background var(--transition-med);
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    .app-card.in-view {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 60ms;
+    }
+
+    .app-card:hover {
+      transform: translateY(-3px) translateZ(0);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+      border-color: rgba(56, 189, 248, 0.8);
+      background: radial-gradient(circle at 20% 0%, rgba(56, 189, 248, 0.18), transparent 60%),
+        var(--panel-soft);
+    }
+
+    .app-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 6px 10px;
+    }
+
+    .app-title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .app-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.9), rgba(99, 102, 241, 0.95));
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #0b1120;
+      box-shadow: 0 10px 26px rgba(56, 189, 248, 0.45);
+      flex-shrink: 0;
+    }
+
+    .app-category {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    .app-description {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--text-soft);
+    }
+
+    .app-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      align-items: flex-start;
+      margin-top: 4px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--chip-bg);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text-soft);
+    }
+
+    .platforms {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      font-size: 10px;
+      text-align: right;
+      color: var(--text-soft);
+    }
+
+    .platform-pill {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+      white-space: nowrap;
+    }
+
+    .app-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      outline: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background var(--transition-fast), border-color var(--transition-fast),
+        color var(--transition-fast), transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #0b1120;
+      box-shadow: 0 10px 25px rgba(56, 189, 248, 0.6);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1.5px);
+      box-shadow: 0 14px 32px rgba(56, 189, 248, 0.9);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: rgba(148, 163, 184, 0.7);
+      color: var(--text-soft);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 1);
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .btn span.icon {
+      font-size: 13px;
+      line-height: 1;
+    }
+
+    .btn-full {
+      justify-content: center;
+      width: 100%;
+    }
+
+    .pulse-highlight {
+      animation: pulse 1.2s ease;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
+      100% { box-shadow: 0 0 0 18px rgba(56, 189, 248, 0); }
+    }
+
+    .app-preview {
+      margin-top: 8px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: #020617;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: max-height 0.35s ease, opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .app-preview.active {
+      opacity: 1;
+      transform: translateY(0);
+      max-height: 560px;
+    }
+
+    .preview-hint {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.92);
+      font-size: 11px;
+      color: var(--text-soft);
+      display: grid;
+      gap: 4px;
+    }
+
+    .preview-frame {
+      width: 100%;
+      min-height: 360px;
+      border: none;
+      background: #000;
+    }
+
+    .preview-loader {
+      padding: 10px 12px;
+      font-size: 11px;
+      color: var(--text-soft);
+      background: rgba(15, 23, 42, 0.9);
+      display: none;
+    }
+
+    .preview-loading .preview-loader {
+      display: block;
+    }
+
+    .empty-state {
+      display: none;
+      text-align: center;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      border: 1px dashed var(--border);
+      color: var(--text-soft);
+      background: var(--panel-soft);
+      margin-top: 10px;
+    }
+
+    footer {
+      margin-top: 24px;
+      padding: 16px 10px 8px;
+      font-size: 12px;
+      color: var(--text-soft);
+      border-top: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 14px 14px 0 0;
+      line-height: 1.6;
+    }
+
+    footer a {
+      color: var(--accent);
+    }
+
+    /* Animations & accessibility */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+      * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    @media (max-width: 720px) {
+      :root {
+        --nav-height: 58px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-side {
+        align-items: flex-start;
+      }
+
+      .controls-bar {
+        top: calc(var(--nav-height) - 2px);
+        padding: 12px 10px 8px;
+      }
+
+      .featured-row {
+        grid-auto-columns: minmax(200px, 70vw);
+      }
+
+      .app-actions {
+        flex-direction: column;
+      }
+
+      .platforms {
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="ambient-grid"></div>
+  <div class="ambient-grid" aria-hidden="true"></div>
   <div class="app-shell">
     <header>
-      <div class="top-bar">
-        <div class="brand" aria-label="AdilStore brand">
+      <div class="top-bar fade-in-up" style="animation-delay: 0.05s">
+        <div class="brand" aria-label="Umut Lab">
           <div class="brand-mark">U</div>
-          <div class="brand-text">Umut Lab · AdilStore</div>
+          <span>Umut Lab</span>
         </div>
         <div class="header-actions">
           <div class="lang-toggle" id="languageToggle" role="group" aria-label="Language toggle">
@@ -397,40 +898,38 @@
             <button class="lang-option" data-lang="tr" type="button">TR</button>
           </div>
           <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
-            <span class="theme-icon" aria-hidden="true">🌙</span>
+            <span class="theme-icon">🌙</span>
             <span class="theme-label">Dark mode</span>
           </button>
         </div>
       </div>
     </header>
 
-    <section class="hero fade-in-up" style="animation-delay: 0.05s">
+    <section class="hero fade-in-up" style="animation-delay: 0.12s">
       <div class="hero-main">
-        <div class="hero-kicker"><span class="dot"></span><span data-i18n="heroKicker">Ad-Free · Privacy-First</span></div>
+        <div class="hero-kicker"><span class="dot"></span><span data-i18n="heroKicker">Ad-Free · Privacy-First · Built with love</span></div>
         <h1 class="hero-title" data-i18n="heroTitle">Umut Lab · App Showcase</h1>
         <p class="hero-sub" data-i18n="heroSubtitle">
-          A calm collection of respectful, ad-free experiences crafted for wellbeing, spiritual growth, and clean fun. All apps are privacy-first, no trackers.
+          A small ecosystem of handcrafted tools, games, and spiritual companions built to respect your time, privacy, and dignity.
         </p>
       </div>
       <div class="hero-side">
         <div class="hero-metrics">
           <div class="metric">
-            <div class="metric-label"><span aria-hidden="true">📱</span><span data-i18n="metrics.apps">Apps live</span></div>
+            <div class="metric-label" data-i18n="metrics.apps">Apps live</div>
             <div class="metric-value" id="metricApps">0</div>
           </div>
           <div class="metric">
-            <div class="metric-label"><span aria-hidden="true">🛡️</span><span data-i18n="metrics.privacy">Privacy first</span></div>
-            <div class="metric-value" id="metricPrivacy">No ads · No trackers</div>
+            <div class="metric-label" data-i18n="metrics.privacy">Privacy first</div>
+            <div class="metric-value" data-i18n="metrics.privacyValue">No ads · No trackers</div>
           </div>
           <div class="metric">
-            <div class="metric-label"><span aria-hidden="true">✨</span><span data-i18n="metrics.platforms">Platforms</span></div>
-            <div class="metric-value" id="metricPlatforms">Web & Android</div>
+            <div class="metric-label" data-i18n="metrics.platforms">Platforms</div>
+            <div class="metric-value" data-i18n="metrics.platformsValue">Web & Android</div>
           </div>
         </div>
       </div>
     </section>
-
-    <section class="hero-app fade-in-up" id="heroApp" aria-label="Featured hero app" style="animation-delay: 0.12s"></section>
 
     <div class="controls-bar fade-in-up" style="animation-delay: 0.18s">
       <div class="filters" id="filters" aria-label="Category filters"></div>
@@ -446,14 +945,12 @@
 
     <section class="section-heading" aria-label="Featured apps">
       <h3 data-i18n="featuredTitle">Featured</h3>
-      <span class="hint" data-i18n="featuredHint">Handpicked highlights ready to explore.</span>
     </section>
     <div class="featured-row" id="featuredRow"></div>
 
     <main aria-label="App grid">
       <div class="section-heading" aria-label="All apps">
         <h3 data-i18n="allAppsTitle">All apps</h3>
-        <span class="hint" data-i18n="allAppsHint">Everything built by Umut Candan.</span>
       </div>
       <div class="app-grid" id="appGrid"></div>
       <div class="empty-state" id="emptyState">
@@ -463,25 +960,22 @@
     </main>
 
     <footer>
-      <div data-i18n="footer.line1">All apps by <strong>Umut Candan</strong>. Respectful by design. No ads, no trackers, no hidden games with your data.</div>
-      <div data-i18n="footer.line2">Add more apps by editing the <code>apps</code> array in this page · Hosted on <a href="https://pages.github.com/" target="_blank" rel="noreferrer">GitHub Pages</a>.</div>
+      <div data-i18n="footer.line1">All apps by <strong>Umut Candan</strong>. No ads, no trackers, no games with your data.</div>
+      <div data-i18n="footer.line2">
+        Add more apps by editing the <code>apps</code> array in this page · Hosted on
+        <a href="https://pages.github.com/" target="_blank" rel="noreferrer">GitHub Pages</a>.
+      </div>
     </footer>
   </div>
 
   <script>
+    // i18n: translations and language state
     const translations = {
       en: {
-        heroKicker: "Ad-free · Privacy-first · Crafted with care",
+        heroKicker: "Ad-Free · Privacy-First · Built with love",
         heroTitle: "Umut Lab · App Showcase",
-        heroSubtitle: "A calm collection of respectful apps for spiritual growth, wellbeing, learning, and wholesome play. All handcrafted by Umut Candan, with privacy at the center.",
-        heroAppTitle: "ZikrChecker · Daily Remembrance Tracker",
-        heroAppSubtitle: "Stay grounded with gentle dhikr reminders and gratitude habits.",
-        heroAppDesc: "A focused dashboard to record istighfar, salawat, Qur'an reading, gratitude, and good deeds. Build istiqamah through small, consistent steps without pressure.",
-        heroAppButtons: { open: "Open app", live: "Live preview" },
-        featuredTitle: "Featured",
-        featuredHint: "Handpicked highlights ready to explore.",
-        allAppsTitle: "All apps",
-        allAppsHint: "Everything built by Umut Candan.",
+        heroSubtitle:
+          "A small ecosystem of handcrafted tools, games, and spiritual companions built to respect your time, privacy, and dignity.",
         categories: {
           all: "All apps",
           spiritual: "Spiritual & Ihsan",
@@ -491,7 +985,6 @@
           tools: "Tools & Utilities",
         },
         searchPlaceholder: "Search apps, tags, feelings…",
-        searchClear: "Clear search",
         results: { single: "app", plural: "apps" },
         metrics: {
           apps: "Apps live",
@@ -508,32 +1001,29 @@
         },
         preview: {
           lead: "Inline preview:",
-          body: "Loads the real app in a safe iframe so you can explore without leaving.",
-          fallback: "Some stores block embedding — if it stays blank, use the main button instead.",
-          loading: "Loading preview…",
+          body: "this loads the real app in an iframe so you can try it without leaving this page.",
+          fallback: "Some stores may block embedding — if it stays blank, use the main button instead.",
+          loading: "Loading live preview…",
         },
         empty: {
           title: "No apps match your search.",
           subtitle: "Try another category or reset filters.",
         },
         footer: {
-          line1: "All apps by <strong>Umut Candan</strong>. Respectful by design. No ads, no trackers, no hidden games with your data.",
-          line2: "Add more apps by editing the <code>apps</code> array in this page · Hosted on <a href=\"https://pages.github.com/\" target=\"_blank\" rel=\"noreferrer\">GitHub Pages</a>.",
+          line1: "All apps by <strong>Umut Candan</strong>. No ads, no trackers, no games with your data.",
+          line2:
+            "Add more apps by editing the <code>apps</code> array in this page · Hosted on <a href=\"https://pages.github.com/\" target=\"_blank\" rel=\"noreferrer\">GitHub Pages</a>.",
         },
+        featuredTitle: "Featured",
+        allAppsTitle: "All apps",
+        searchClear: "Clear search",
         theme: { light: "Light mode", dark: "Dark mode" },
       },
       tr: {
-        heroKicker: "Reklamsız · Gizlilik öncelikli · Özenle yapıldı",
+        heroKicker: "Reklamsız · Mahremiyet Öncelikli · Sevgiyle inşa edildi",
         heroTitle: "Umut Lab · Uygulama Vitrini",
-        heroSubtitle: "Maneviyat, iyilik hali, öğrenme ve temiz eğlence için saygılı uygulamalar. Hepsi Umut Candan tarafından mahremiyet merkezli olarak geliştirildi.",
-        heroAppTitle: "ZikrChecker · Günlük Zikir Takibi",
-        heroAppSubtitle: "Nazik hatırlatmalarla zikir ve şükür alışkanlıklarını güçlendir.",
-        heroAppDesc: "İstiğfar, salavat, Kur'an okuma, şükür ve hayırlı işleri kaydetmek için odaklı bir pano. Baskı olmadan, küçük ve tutarlı adımlarla istikamet inşa et.",
-        heroAppButtons: { open: "Uygulamayı aç", live: "Canlı önizleme" },
-        featuredTitle: "Öne çıkanlar",
-        featuredHint: "Keşfetmeye hazır seçilmiş uygulamalar.",
-        allAppsTitle: "Tüm uygulamalar",
-        allAppsHint: "Umut Candan'ın geliştirdiği her şey.",
+        heroSubtitle:
+          "Zamanına, mahremiyetine ve onuruna saygı duyan el yapımı araçlar, oyunlar ve manevi yoldaşlardan oluşan küçük bir ekosistem.",
         categories: {
           all: "Tüm uygulamalar",
           spiritual: "Maneviyat & İhsan",
@@ -543,7 +1033,6 @@
           tools: "Araçlar & Yardımcılar",
         },
         searchPlaceholder: "Uygulama, etiket veya his ara…",
-        searchClear: "Aramayı temizle",
         results: { single: "uygulama", plural: "uygulama" },
         metrics: {
           apps: "Aktif uygulama",
@@ -560,8 +1049,8 @@
         },
         preview: {
           lead: "Satır içi önizleme:",
-          body: "Gerçek uygulamayı güvenli bir iframe içinde açar, sayfadan çıkmadan deneyebilirsin.",
-          fallback: "Bazı mağazalar yerleştirmeyi engelleyebilir — boş kalırsa ana butonu kullan.",
+          body: "Bu sayfadan çıkmadan uygulamanın gerçek halini iframe içinde yükler.",
+          fallback: "Bazı mağazalar yerleştirmeyi engelleyebilir — boş kalırsa ana butonu kullanın.",
           loading: "Canlı önizleme yükleniyor…",
         },
         empty: {
@@ -569,13 +1058,19 @@
           subtitle: "Farklı bir kategori deneyin veya filtreleri sıfırlayın.",
         },
         footer: {
-          line1: "Tüm uygulamalar <strong>Umut Candan</strong> tarafından. Saygılı, reklamsız, takipçisiz, verinle oyun yok.",
-          line2: "Yeni uygulamalar eklemek için bu sayfadaki <code>apps</code> dizisini düzenleyin · <a href=\"https://pages.github.com/\" target=\"_blank\" rel=\"noreferrer\">GitHub Pages</a> üzerinde barındırılır.",
+          line1: "Tüm uygulamalar <strong>Umut Candan</strong> tarafından. Reklam yok, takipçi yok, verinle oyun yok.",
+          line2:
+            "Yeni uygulamalar eklemek için bu sayfadaki <code>apps</code> dizisini düzenleyin · <a href=\"https://pages.github.com/\" target=\"_blank\" rel=\"noreferrer\">GitHub Pages</a> üzerinde barındırılır.",
         },
+        featuredTitle: "Öne çıkanlar",
+        allAppsTitle: "Tüm uygulamalar",
+        searchClear: "Aramayı temizle",
         theme: { light: "Açık mod", dark: "Koyu mod" },
       },
     };
 
+    // 1) DATA MODEL — add / edit apps here
+    // -------------------------------------------------------
     const apps = [
       {
         id: "unmask",
@@ -584,13 +1079,14 @@
         url: "https://candanumut.github.io/Unmasking_sexual_engineered/",
         previewUrl: "https://candanumut.github.io/Unmasking_sexual_engineered/",
         description: {
-          en: "<strong>Protect your heart.</strong> Faith-aware reboot guide that reveals how harmful sexual content is engineered, helps you rebuild dignity, and keeps plans, streaks, and notes fully on your device.",
-          tr: "<strong>Kalbini koru.</strong> Zararlı cinsel içeriklerin nasıl kurgulandığını gösteren iman dostu reboot rehberi; haysiyetini onarmanı destekler, plan ve notların tamamen cihazında kalır.",
+          en: "Faith-friendly NoFap / reboot companion that helps you see how sexual conditioning is engineered, protect your brain and heart from porn, and rebuild a life of clarity, dignity, and worship. All plans, streaks, and notes stay fully local in your browser.",
+          tr: "Pornografinin nasıl mühendislik edildiğini gösteren, beynini ve kalbini korumana yardımcı olan iman dostu bir reboot rehberi. Bağımlılık döngüsünden çıkıp berraklık, haysiyet ve ibadet dolu bir hayata dönmen için planlar, seriler ve notlar tamamen cihazında kalır.",
         },
-        tags: { en: ["NoFap", "Faith", "Self-control", "Education"], tr: ["NoFap", "İman", "Öz-denetim", "Eğitim"] },
+        tags: {
+          en: ["NoFap", "Faith", "Self-control", "Education"],
+          tr: ["NoFap", "İman", "Öz-denetim", "Eğitim"],
+        },
         platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.9",
-        installs: "10K+"
       },
       {
         id: "nova-arena-3d",
@@ -599,13 +1095,14 @@
         url: "https://candanumut.github.io/newbrotato/",
         previewUrl: "https://candanumut.github.io/newbrotato/",
         description: {
-          en: "<strong>Arcade survival.</strong> Dash and experiment through a living Perlin world of forests, rocks, lakes, and enemies. Stack upgrades and see how long you last.",
-          tr: "<strong>Atari tadında hayatta kalma.</strong> Ormanlar ve düşmanlarla dolu Perlin dünyasında fırla, yükseltmeleri dene ve ne kadar dayanacağını gör.",
+          en: "Top-down rogue-survivor in a Perlin-generated world of forests, rocks, lakes, and enemies. Dash, jump, experiment with different upgrades, and try to survive as long as possible in a living terrain that actually feels like ground.",
+          tr: "Ormanlar, kayalar, göller ve düşmanlarla dolu Perlin üretimli bir dünyada yukarıdan görünüşlü rogue-survivor. Fırlayıp zıpla, farklı yükseltmeleri dene ve gerçekten zemin gibi hissedilen yaşayan bir arazide olabildiğince uzun süre hayatta kal.",
         },
-        tags: { en: ["Action", "Roguelite", "3D", "Prototype"], tr: ["Aksiyon", "Roguelite", "3D", "Prototip"] },
+        tags: {
+          en: ["Action", "Roguelite", "3D", "Prototype"],
+          tr: ["Aksiyon", "Roguelite", "3D", "Prototip"],
+        },
         platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.6",
-        installs: "5K+"
       },
       {
         id: "scale-universe",
@@ -614,133 +1111,81 @@
         url: "https://candanumut.github.io/Scaleuniverse/",
         previewUrl: "https://candanumut.github.io/Scaleuniverse/",
         description: {
-          en: "<strong>Travel the scales.</strong> Glide from subatomic particles to galaxies to feel awe and humility. Jump between atoms, cells, Earth, and beyond.",
-          tr: "<strong>Ölçekler arasında yolculuk.</strong> Atom altından galaksilere kay, hayranlık ve tevazu hisset. Atomlar, hücreler, Dünya ve ötesi arasında gezin.",
+          en: "An interactive visual journey from subatomic particles all the way to the edge of the observable universe. Designed for tefekkür and humility: scroll through the scales, jump between atoms, cells, Earth, and galaxies, and feel how small (and special) human life really is.",
+          tr: "Atom altı parçacıklardan gözlemlenebilir evrenin sınırına uzanan etkileşimli bir görsel yolculuk. Tefekkür ve tevazu için tasarlandı: ölçekler arasında kay, atomlardan hücrelere, Dünya'dan galaksilere atla ve insan hayatının ne kadar küçük (ve özel) olduğunu hisset.",
         },
-        tags: { en: ["Education", "Cosmos", "Reflection", "Interactive"], tr: ["Eğitim", "Kozmos", "Tefekkür", "Etkileşim"] },
+        tags: {
+          en: ["Education", "Cosmos", "Reflection", "Interactive"],
+          tr: ["Eğitim", "Kozmos", "Tefekkür", "Etkileşim"],
+        },
         platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.8",
-        installs: "8K+"
       },
       {
-        id: "balloon-dog-puzzle",
-        name: "Balloon Dog Puzzle",
+        id: "ready-to-die",
+        name: "Hereafter Readiness Assessment",
+        category: "spiritual",
+        url: "https://candanumut.github.io/Readytodie/",
+        previewUrl: "https://candanumut.github.io/Readytodie/",
+        description: {
+          en: "A Qur’an & Sunnah–inspired self-accounting tool. Reflect on faith, worship, character, rights of others, knowledge, tawba and sincerity. Generates an approximate ‘Ahirete hazırlık’ score to show direction — not a fatwa, just a gentle nudge to realign your life.",
+          tr: "Kur’an ve Sünnet'ten ilham alan bir muhasebe aracı. İman, ibadet, ahlak, kul hakları, ilim, tevbe ve ihlas üzerine düşün. Hayata yön vermek için yaklaşık bir ‘Ahirete hazırlık’ puanı üretir; fetva değildir, sadece yumuşak bir hatırlatma.",
+        },
+        tags: {
+          en: ["Faith", "Self-reflection", "Accountability"],
+          tr: ["İman", "Öz muhasebe", "Sorumluluk"],
+        },
+        platforms: { en: ["Web"], tr: ["Web"] },
+      },
+      {
+        id: "how-old",
+        name: "Body & Mind Age Assessment",
+        category: "wellness",
+        url: "https://candanumut.github.io/Howold/",
+        previewUrl: "https://candanumut.github.io/Howold/",
+        description: {
+          en: "Science-inspired questionnaire to estimate your ‘body age’ and ‘mind age’ based on sleep, movement, nutrition, stress, habits, social life, and meaning. Not a medical test — just a mirror to see where lifestyle is keeping you young and where it’s quietly aging you.",
+          tr: "Uyku, hareket, beslenme, stres, alışkanlıklar, sosyal hayat ve anlam üzerinden ‘beden yaşı’ ve ‘zihin yaşı’ tahmini yapan bilim esintili bir anket. Tıbbi bir test değil; yaşam tarzının seni nerede genç tuttuğunu, nerede sessizce yaşlandırdığını gösteren bir ayna.",
+        },
+        tags: {
+          en: ["Health", "Psychology", "Habits", "Self-awareness"],
+          tr: ["Sağlık", "Psikoloji", "Alışkanlık", "Farkındalık"],
+        },
+        platforms: { en: ["Web"], tr: ["Web"] },
+      },
+      {
+        id: "takva-race",
+        name: "TakvaRace · Sprint Toward Goodness",
         category: "games",
-        url: "https://candanumut.github.io/balloon_dog_puzzle/",
-        previewUrl: "https://candanumut.github.io/balloon_dog_puzzle/",
+        url: "https://candanumut.github.io/adilstore-webapps/com.takvarace.takvarace/1.0.0/",
+        previewUrl: "https://candanumut.github.io/adilstore-webapps/com.takvarace.takvarace/1.0.0/",
         description: {
-          en: "<strong>Delightful puzzles.</strong> Swap and match balloon pieces to form playful shapes. Quick, cheerful levels for calm focus.",
-          tr: "<strong>Neşeli bulmacalar.</strong> Balon parçalarını değiştirip eğlenceli şekiller oluştur. Sakin bir odak için kısa ve keyifli bölümler.",
+          en: "A small arcade experiment from the Takva universe. Dash through a minimalist track while symbolically racing toward khayr and away from distractions. Built as a playful reminder that life is a race where direction matters more than raw speed.",
+          tr: "Takva evreninden küçük bir arcade denemesi. Minimalist parkurda hızla ilerlerken hayra doğru, dikkat dağıtıcılardan uzağa sembolik bir yarış koş. Hayatın, hızdan çok yönün önemli olduğu bir yarış olduğunu hatırlatmak için tasarlandı.",
         },
-        tags: { en: ["Puzzle", "Cute", "Casual"], tr: ["Bulmaca", "Sevimli", "Gündelik"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.5",
-        installs: "2K+"
+        tags: {
+          en: ["Arcade", "Prototype", "Takva"],
+          tr: ["Arcade", "Prototip", "Takva"],
+        },
+        platforms: {
+          en: ["Web", "Android (APK build)"],
+          tr: ["Web", "Android (APK sürümü)"],
+        },
       },
       {
-        id: "wallstack-ai",
-        name: "WallStack AI",
-        category: "tools",
-        url: "https://candanumut.github.io/wallstack/",
-        previewUrl: "https://candanumut.github.io/wallstack/",
-        description: {
-          en: "<strong>Wallpaper curator.</strong> Explore fresh AI-crafted wallpapers with mindful aesthetics. Browse, favorite, and refresh your screens calmly.",
-          tr: "<strong>Duvar kağıdı küratörü.</strong> Özenli estetikle üretilmiş yapay zeka duvar kağıtlarını keşfet. Sakin bir deneyimle göz at, favori ekle ve yenile.",
-        },
-        tags: { en: ["Wallpapers", "AI", "Gallery"], tr: ["Duvar kağıdı", "YZ", "Galeri"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.4",
-        installs: "3K+"
-      },
-      {
-        id: "riliv",
-        name: "Riliv",
+        id: "dreamsleep",
+        name: "DreamSleep · Gentle Night Companion",
         category: "wellness",
-        url: "https://play.google.com/store/apps/details?id=com.riliv.android&hl=en",
-        previewUrl: "https://play.google.com/store/apps/details?id=com.riliv.android&hl=en",
+        url: "https://candanumut.github.io/adilstore-webapps/com.dreamsleep.dreamsleep/1.0.0/",
+        previewUrl: "https://candanumut.github.io/adilstore-webapps/com.dreamsleep.dreamsleep/1.0.0/",
         description: {
-          en: "<strong>Guided calm.</strong> Mindfulness sessions, sleep stories, and gentle check-ins to help you breathe deeper and rest well.",
-          tr: "<strong>Yönlendirilmiş huzur.</strong> Farkındalık seansları, uyku hikâyeleri ve nazik kontrollerle derin nefes alıp iyi dinlenmene yardımcı olur.",
+          en: "A calm sleep helper focused on better nights and kinder mornings. Mix soothing sounds and intentional routines, and use it together with your own sleep habits and dua to slowly rebuild a healthier relationship with rest.",
+          tr: "Daha iyi geceler ve daha yumuşak sabahlar için sakin bir uyku yardımcısı. Sakinleştirici sesleri ve niyetli rutinleri karıştır, kendi uyku alışkanlıkların ve dualarınla birlikte kullanarak dinlenmeyle daha sağlıklı bir ilişkiyi yavaşça kur.",
         },
-        tags: { en: ["Mindfulness", "Sleep", "Calm"], tr: ["Farkındalık", "Uyku", "Sakinlik"] },
-        platforms: { en: ["Android (Google Play)", "Web"], tr: ["Android (Google Play)", "Web"] },
-        rating: "4.7",
-        installs: "100K+"
-      },
-      {
-        id: "atomic-habits",
-        name: "Atomic Habit Builder",
-        category: "wellness",
-        url: "https://candanumut.github.io/habit-tracker-app-main/",
-        previewUrl: "https://candanumut.github.io/habit-tracker-app-main/",
-        description: {
-          en: "<strong>Stack healthy habits.</strong> Create clear routines, track streaks, and celebrate small wins that add up.",
-          tr: "<strong>Sağlıklı alışkanlıklar biriktir.</strong> Net rutinler kur, serileri takip et ve biriken küçük zaferleri kutla.",
+        tags: {
+          en: ["Sleep", "Relaxation", "Routine"],
+          tr: ["Uyku", "Rahatlama", "Rutin"],
         },
-        tags: { en: ["Habits", "Routine", "Productivity"], tr: ["Alışkanlık", "Rutin", "Verimlilik"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.8",
-        installs: "12K+"
-      },
-      {
-        id: "gratitude-journal",
-        name: "Gratitude Journal",
-        category: "wellness",
-        url: "https://candanumut.github.io/GratitudeJournalApp/",
-        previewUrl: "https://candanumut.github.io/GratitudeJournalApp/",
-        description: {
-          en: "<strong>Thankfulness made daily.</strong> Capture blessings, add photos, and build a gentle gratitude rhythm that stays on your device.",
-          tr: "<strong>Günlük şükür ritmi.</strong> Nimetlerini yaz, fotoğraf ekle ve cihazında kalan nazik bir şükran alışkanlığı kur.",
-        },
-        tags: { en: ["Gratitude", "Reflection", "Journaling"], tr: ["Şükür", "Tefekkür", "Günlük"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.7",
-        installs: "7K+"
-      },
-      {
-        id: "small-talks",
-        name: "Small Talks · Conversation Game",
-        category: "games",
-        url: "https://play.google.com/store/apps/details?id=com.smalltalks.android&hl=en",
-        previewUrl: "https://play.google.com/store/apps/details?id=com.smalltalks.android&hl=en",
-        description: {
-          en: "<strong>Warm conversations.</strong> Thoughtful prompts that spark meaningful dialogue with friends and family.",
-          tr: "<strong>Sıcak sohbetler.</strong> Dostlar ve aileyle anlamlı diyalogları tetikleyen özenli sorular.",
-        },
-        tags: { en: ["Conversation", "Family", "Cards"], tr: ["Sohbet", "Aile", "Kart"] },
-        platforms: { en: ["Android (Google Play)", "Web"], tr: ["Android (Google Play)", "Web"] },
-        rating: "4.6",
-        installs: "50K+"
-      },
-      {
-        id: "minimalist-phone",
-        name: "Minimalist Phone",
-        category: "tools",
-        url: "https://play.google.com/store/apps/details?id=info.plateaukao.minimalistlauncher",
-        previewUrl: "https://play.google.com/store/apps/details?id=info.plateaukao.minimalistlauncher",
-        description: {
-          en: "<strong>Declutter your home screen.</strong> A calm launcher that reduces distraction and centers what truly matters.",
-          tr: "<strong>Ana ekranı sadeleştir.</strong> Dikkati azaltan, gerçekten önemli olana odaklayan sakin bir başlatıcı.",
-        },
-        tags: { en: ["Focus", "Launcher", "Minimal"], tr: ["Odak", "Başlatıcı", "Minimal"] },
-        platforms: { en: ["Android (Google Play)"], tr: ["Android (Google Play)"] },
-        rating: "4.5",
-        installs: "200K+"
-      },
-      {
-        id: "sleep-sounds",
-        name: "Sleep Sounds · Calm Nights",
-        category: "wellness",
-        url: "https://candanumut.github.io/adilstore-webapps/com.example.sleepsounds/1.0.6/",
-        previewUrl: "https://candanumut.github.io/adilstore-webapps/com.example.sleepsounds/1.0.6/",
-        description: {
-          en: "<strong>Restful ambience.</strong> Ocean waves, rain, and soft tones to ease you into deep, peaceful sleep.",
-          tr: "<strong>Dinlendirici ambiyans.</strong> Okyanus dalgaları, yağmur ve yumuşak tonlarla derin, huzurlu uykuya dal.",
-        },
-        tags: { en: ["Sleep", "Relaxation", "Routine"], tr: ["Uyku", "Rahatlama", "Rutin"] },
         platforms: { en: ["Web build", "Android"], tr: ["Web sürümü", "Android"] },
-        rating: "4.8",
-        installs: "30K+"
       },
       {
         id: "pdf-reader",
@@ -749,13 +1194,14 @@
         url: "https://candanumut.github.io/adilstore-webapps/com.example.pdfreader/1.0.1/",
         previewUrl: "https://candanumut.github.io/adilstore-webapps/com.example.pdfreader/1.0.1/",
         description: {
-          en: "<strong>Read without noise.</strong> Lightweight, distraction-free PDF reader that keeps documents simple and local.",
-          tr: "<strong>Gürültüsüz okuma.</strong> Belgeleri sade ve yerelde tutan hafif, dikkat dağıtmayan PDF okuyucu.",
+          en: "Lightweight, distraction-free PDF reader. No ads, no analytics, no nonsense — just open your files and read. Built for people who want to escape bloated readers and keep documents simple and local.",
+          tr: "Hafif ve dikkat dağıtmayan bir PDF okuyucu. Reklam yok, analitik yok, gereksiz özellik yok — dosyalarını açıp oku. Şişkin okuyuculardan kaçıp belgelerini basit ve yerelde tutmak isteyenler için yapıldı.",
         },
-        tags: { en: ["Productivity", "Reader", "Offline-friendly"], tr: ["Verimlilik", "Okuyucu", "Çevrimdışı dostu"] },
+        tags: {
+          en: ["Productivity", "Reader", "Offline-friendly"],
+          tr: ["Verimlilik", "Okuyucu", "Çevrimdışı dostu"],
+        },
         platforms: { en: ["Web build", "Android"], tr: ["Web sürümü", "Android"] },
-        rating: "4.4",
-        installs: "15K+"
       },
       {
         id: "zikr-checker",
@@ -764,738 +1210,313 @@
         url: "https://candanumut.github.io/adilstore-webapps/com.example.zikrchecker/1.0.9/",
         previewUrl: "https://candanumut.github.io/adilstore-webapps/com.example.zikrchecker/1.0.9/",
         description: {
-          en: "<strong>Gentle dhikr coach.</strong> Track istighfar, salawat, Qur'an reading, gratitude, and good deeds with a calm dashboard built for istiqamah.",
-          tr: "<strong>Nazik zikir rehberi.</strong> İstiğfar, salavat, Kur'an okuma, şükür ve hayırlı işleri istikamet için tasarlanmış sakin bir panoda takip et.",
+          en: "A simple, focused dashboard to keep track of daily spiritual actions: istighfar, salawat, Qur’an reading, gratitude, and good deeds. Designed to build istiqamah gently — small consistent steps instead of guilt and burnout.",
+          tr: "Günlük manevi amelleri takip etmek için sade bir pano: istiğfar, salavat, Kur’an okuma, şükür ve hayırlı işler. İstikameti nazikçe inşa etmek için tasarlandı — suçluluk ve tükenmişlik yerine küçük ama tutarlı adımlar.",
         },
-        tags: { en: ["Dhikr", "Habits", "Dashboard"], tr: ["Zikir", "Alışkanlık", "Pano"] },
+        tags: {
+          en: ["Dhikr", "Habits", "Dashboard"],
+          tr: ["Zikir", "Alışkanlık", "Pano"],
+        },
         platforms: { en: ["Web build", "Android"], tr: ["Web sürümü", "Android"] },
-        rating: "5.0",
-        installs: "25K+"
       },
       {
         id: "healing-sounds",
         name: "Healing Sounds · Frequency & Sound Baths",
         category: "wellness",
         url: "https://play.google.com/store/apps/details?id=com.healing.healingsound.healingsounds",
-        previewUrl: "https://play.google.com/store/apps/details?id=com.healing.healingsound.healingsounds",
+        previewUrl:
+          "https://play.google.com/store/apps/details?id=com.healing.healingsound.healingsounds",
         description: {
-          en: "<strong>Soothing frequencies.</strong> Nature ambience and frequency-based tracks to support focus, relaxation, and reflection.",
-          tr: "<strong>Rahatlatıcı frekanslar.</strong> Odak, rahatlama ve tefekkürü destekleyen doğa ambiyansı ve frekans temelli parçalar.",
+          en: "A collection of calming soundscapes, nature ambience, and frequency-based tracks to support focus, relaxation, and meditation. Use it to wind down, create a soft background while you work, or deepen reflection and prayer.",
+          tr: "Odaklanma, rahatlama ve meditasyonu desteklemek için sakinleştirici soundscape'ler, doğa ambiyansları ve frekans temelli parçalar. Günün yorgunluğunu atmak, çalışırken yumuşak bir arka plan oluşturmak veya tefekkür ve duayı derinleştirmek için kullan.",
         },
-        tags: { en: ["Sound therapy", "Meditation", "Relaxation"], tr: ["Ses terapisi", "Meditasyon", "Rahatlama"] },
+        tags: {
+          en: ["Sound therapy", "Meditation", "Relaxation"],
+          tr: ["Ses terapisi", "Meditasyon", "Rahatlama"],
+        },
         platforms: { en: ["Android (Google Play)"], tr: ["Android (Google Play)"] },
-        rating: "4.6",
-        installs: "80K+"
       },
       {
         id: "awakening",
         name: "Awakening · Mindful Wake-Up",
         category: "wellness",
         url: "https://play.google.com/store/apps/details?id=com.wakeup.wakeup.awakening",
-        previewUrl: "https://play.google.com/store/apps/details?id=com.wakeup.wakeup.awakening",
+        previewUrl:
+          "https://play.google.com/store/apps/details?id=com.wakeup.wakeup.awakening",
         description: {
-          en: "<strong>Ease into your mornings.</strong> Gentle alarms, breathwork, and reflections that help you greet the day with balance.",
-          tr: "<strong>Sabahlara yumuşak başlangıç.</strong> Nazik alarmlar, nefes çalışmaları ve dengeli bir güne uyanmanı sağlayan yansımalar.",
+          en: "A meditation-first wake-up app. Instead of starting the day with chaos and social feeds, Awakening invites you to breathe, remember your values, and step into the morning with clarity and gratitude — with no tracking behind the scenes.",
+          tr: "Güne meditasyonla başlaman için bir alarm uygulaması. Sabahı kaos ve sosyal akışlarla açmak yerine derin nefes almaya, değerlerini hatırlamaya ve şükürle berrak bir güne adım atmaya davet eder — arkada takip kodu olmadan.",
         },
-        tags: { en: ["Breathwork", "Mindfulness", "Morning"], tr: ["Nefes", "Farkındalık", "Sabah"] },
-        platforms: { en: ["Android (Google Play)", "Web"], tr: ["Android (Google Play)", "Web"] },
-        rating: "4.5",
-        installs: "60K+"
-      },
-      {
-        id: "hadith-quiz",
-        name: "Hadith Quiz",
-        category: "learning",
-        url: "https://candanumut.github.io/hadithquiz/",
-        previewUrl: "https://candanumut.github.io/hadithquiz/",
-        description: {
-          en: "<strong>Learn with gentle questions.</strong> Quick quizzes to refresh hadith knowledge and keep the heart engaged.",
-          tr: "<strong>Sorularla öğren.</strong> Hadis bilgisini tazeleyen, kalbi diri tutan hızlı testler.",
+        tags: {
+          en: ["Meditation", "Morning routine", "Mindfulness"],
+          tr: ["Meditasyon", "Sabah rutini", "Farkındalık"],
         },
-        tags: { en: ["Islam", "Quiz", "Learning"], tr: ["İslam", "Quiz", "Öğrenme"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.7",
-        installs: "6K+"
-      },
-      {
-        id: "adventure-hero",
-        name: "Adventure Hero",
-        category: "games",
-        url: "https://candanumut.github.io/adventure-hero/",
-        previewUrl: "https://candanumut.github.io/adventure-hero/",
-        description: {
-          en: "<strong>Classic platforming.</strong> Run, jump, and collect in bright worlds that stay family-friendly and fun.",
-          tr: "<strong>Klasik platform macerası.</strong> Koş, zıpla ve topla; aile dostu ve keyifli bölümler seni bekliyor.",
-        },
-        tags: { en: ["Platformer", "Retro", "Adventure"], tr: ["Platform", "Retro", "Macera"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.3",
-        installs: "4K+"
-      },
-      {
-        id: "block-blast",
-        name: "Block Blast",
-        category: "games",
-        url: "https://candanumut.github.io/block-blast/",
-        previewUrl: "https://candanumut.github.io/block-blast/",
-        description: {
-          en: "<strong>Zen block clearing.</strong> Place shapes, clear lines, and enjoy a calm rhythm without pressure.",
-          tr: "<strong>Blok temizleme dinginliği.</strong> Şekilleri yerleştir, satırları temizle; baskı olmadan huzurlu bir tempo yakala.",
-        },
-        tags: { en: ["Puzzle", "Blocks", "Calm"], tr: ["Bulmaca", "Blok", "Sakin"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.4",
-        installs: "9K+"
-      },
-      {
-        id: "2048",
-        name: "2048 Classic",
-        category: "games",
-        url: "https://candanumut.github.io/2048js/",
-        previewUrl: "https://candanumut.github.io/2048js/",
-        description: {
-          en: "<strong>Timeless puzzle.</strong> Slide tiles, combine numbers, and chase that 2048 tile in a clean layout.",
-          tr: "<strong>Zamansız bulmaca.</strong> Kareleri kaydır, sayıları birleştir ve 2048'e ulaşmayı dene; sade bir düzenle.",
-        },
-        tags: { en: ["Puzzle", "Numbers", "Strategy"], tr: ["Bulmaca", "Sayı", "Strateji"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.7",
-        installs: "40K+"
-      },
-      {
-        id: "tic-tac-toe",
-        name: "Tic Tac Toe",
-        category: "games",
-        url: "https://candanumut.github.io/TicTacToe/",
-        previewUrl: "https://candanumut.github.io/TicTacToe/",
-        description: {
-          en: "<strong>Simple and friendly.</strong> Play quick rounds of tic tac toe with a clean board and smooth turns.",
-          tr: "<strong>Basit ve dostça.</strong> Temiz bir tahtada hızlı X-O maçları yap, akıcı turların tadını çıkar.",
-        },
-        tags: { en: ["Board", "Casual", "Family"], tr: ["Tahta", "Gündelik", "Aile"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.2",
-        installs: "5K+"
-      },
-      {
-        id: "noteit",
-        name: "NoteIt",
-        category: "tools",
-        url: "https://candanumut.github.io/Notely/",
-        previewUrl: "https://candanumut.github.io/Notely/",
-        description: {
-          en: "<strong>Notes without clutter.</strong> Capture ideas quickly with a crisp interface and offline-friendly storage.",
-          tr: "<strong>Dağınıklıksız notlar.</strong> Fikirlerini hızlıca kaydet; sade arayüz ve çevrimdışı dostu saklama.",
-        },
-        tags: { en: ["Notes", "Productivity", "Offline"], tr: ["Not", "Verimlilik", "Çevrimdışı"] },
-        platforms: { en: ["Web build", "Android"], tr: ["Web sürümü", "Android"] },
-        rating: "4.6",
-        installs: "11K+"
-      },
-      {
-        id: "ayah-today",
-        name: "Ayah Today",
-        category: "spiritual",
-        url: "https://candanumut.github.io/ayah/",
-        previewUrl: "https://candanumut.github.io/ayah/",
-        description: {
-          en: "<strong>Daily Qur'an reminders.</strong> Receive a reflective ayah each day with translations and tafsir notes.",
-          tr: "<strong>Günlük Kur'an hatırlatıcısı.</strong> Her gün tercümeli ve tefsir notlu tefekkürlük bir ayet al.",
-        },
-        tags: { en: ["Qur'an", "Reflection", "Daily"], tr: ["Kur'an", "Tefekkür", "Günlük"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.9",
-        installs: "22K+"
-      },
-      {
-        id: "calendar",
-        name: "Minimal Calendar",
-        category: "tools",
-        url: "https://candanumut.github.io/calendar/",
-        previewUrl: "https://candanumut.github.io/calendar/",
-        description: {
-          en: "<strong>Plan with clarity.</strong> A lean calendar that keeps events and tasks organized without noise.",
-          tr: "<strong>Sade planlama.</strong> Etkinlik ve görevlerini gürültüsüz tutan hafif bir takvim.",
-        },
-        tags: { en: ["Calendar", "Planning", "Productivity"], tr: ["Takvim", "Planlama", "Verimlilik"] },
-        platforms: { en: ["Web build", "Android"], tr: ["Web sürümü", "Android"] },
-        rating: "4.5",
-        installs: "9K+"
-      },
-      {
-        id: "quran-gpt",
-        name: "Quran GPT",
-        category: "learning",
-        url: "https://qurandaily.github.io/",
-        previewUrl: "https://qurandaily.github.io/",
-        description: {
-          en: "<strong>Reflective Q&A.</strong> Ask thoughtful questions and explore answers drawn respectfully from Qur'anic guidance.",
-          tr: "<strong>Tefekkürlü sorular.</strong> Düşündürücü sorular sor, cevapları Kur'an rehberliğinden saygıyla keşfet.",
-        },
-        tags: { en: ["Qur'an", "AI", "Reflection"], tr: ["Kur'an", "YZ", "Tefekkür"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.6",
-        installs: "13K+"
-      },
-      {
-        id: "chess-ai",
-        name: "Chess AI",
-        category: "learning",
-        url: "https://candanumut.github.io/chessAI/",
-        previewUrl: "https://candanumut.github.io/chessAI/",
-        description: {
-          en: "<strong>Sharpen strategy.</strong> Practice chess against an AI with clean visuals and smooth moves.",
-          tr: "<strong>Stratejini keskinleştir.</strong> Temiz görseller ve akıcı hamlelerle yapay zekâya karşı satranç oyna.",
-        },
-        tags: { en: ["Chess", "AI", "Strategy"], tr: ["Satranç", "YZ", "Strateji"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.5",
-        installs: "6K+"
-      },
-      {
-        id: "book-list",
-        name: "My Book List",
-        category: "learning",
-        url: "https://candanumut.github.io/booklist-app/",
-        previewUrl: "https://candanumut.github.io/booklist-app/",
-        description: {
-          en: "<strong>Track your reads.</strong> Organize books to read, finished titles, and reflections in a clean library.",
-          tr: "<strong>Okumalarını takip et.</strong> Okunacaklar ve biten kitapları, notlarınla birlikte sade bir kütüphanede topla.",
-        },
-        tags: { en: ["Books", "Library", "Tracker"], tr: ["Kitap", "Kütüphane", "Takip"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.3",
-        installs: "3K+"
-      },
-      {
-        id: "happim",
-        name: "Happim",
-        category: "wellness",
-        url: "https://play.google.com/store/apps/details?id=com.teapp.happim",
-        previewUrl: "https://play.google.com/store/apps/details?id=com.teapp.happim",
-        description: {
-          en: "<strong>Feel-good routines.</strong> Mood tracking, affirmations, and self-kindness exercises for brighter days.",
-          tr: "<strong>İyi hissetme rutinleri.</strong> Ruh hali takibi, olumlamalar ve kendine şefkat egzersizleriyle gününü aydınlat.",
-        },
-        tags: { en: ["Mood", "Affirmations", "Wellbeing"], tr: ["Ruh hali", "Olumlama", "İyilik hali"] },
         platforms: { en: ["Android (Google Play)"], tr: ["Android (Google Play)"] },
-        rating: "4.4",
-        installs: "90K+"
       },
       {
-        id: "heart-rate-monitor",
-        name: "Heart Rate Monitor",
-        category: "wellness",
-        url: "https://play.google.com/store/apps/details?id=heart.ratemonitor.pro",
-        previewUrl: "https://play.google.com/store/apps/details?id=heart.ratemonitor.pro",
-        description: {
-          en: "<strong>Check your pulse.</strong> Quick heart-rate readings with calming visuals to track wellness.",
-          tr: "<strong>Nabzını kontrol et.</strong> İyilik halini takip için sakin görsellerle hızlı nabız ölçümü.",
-        },
-        tags: { en: ["Health", "Pulse", "Wellness"], tr: ["Sağlık", "Nabız", "İyilik"] },
-        platforms: { en: ["Android (Google Play)"] },
-        rating: "4.3",
-        installs: "70K+"
-      },
-      {
-        id: "random-number",
-        name: "Random Number Generator",
-        category: "tools",
-        url: "https://candanumut.github.io/random-num/",
-        previewUrl: "https://candanumut.github.io/random-num/",
-        description: {
-          en: "<strong>Instant randomness.</strong> Generate numbers for draws, picks, and playful choices.",
-          tr: "<strong>Anında rastgelelik.</strong> Çekilişler, seçimler ve eğlenceli kararlar için sayılar üret.",
-        },
-        tags: { en: ["Random", "Utility", "Picker"], tr: ["Rastgele", "Araç", "Seçici"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.1",
-        installs: "3K+"
-      },
-      {
-        id: "expense-tracker",
-        name: "Expense Tracker",
-        category: "tools",
-        url: "https://candanumut.github.io/Expense-tracker2/",
-        previewUrl: "https://candanumut.github.io/Expense-tracker2/",
-        description: {
-          en: "<strong>Money made clear.</strong> Log expenses, visualize spending, and keep budgets steady.",
-          tr: "<strong>Paranı netleştir.</strong> Harcamaları kaydet, grafikleri gör ve bütçeni dengede tut.",
-        },
-        tags: { en: ["Budget", "Finance", "Tracker"], tr: ["Bütçe", "Finans", "Takip"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.2",
-        installs: "4K+"
-      },
-      {
-        id: "qtetris",
-        name: "Q Tetris",
+        id: "hopy-tower-3",
+        name: "Hopy Tower 3 · Vertical Challenge",
         category: "games",
-        url: "https://candanumut.github.io/Qtetris/",
-        previewUrl: "https://candanumut.github.io/Qtetris/",
+        url: "https://play.google.com/store/apps/details?id=com.hopy_tower3.hopy.hopy_tower3",
+        previewUrl:
+          "https://play.google.com/store/apps/details?id=com.hopy_tower3.hopy.hopy_tower3",
         description: {
-          en: "<strong>Stack in serenity.</strong> Classic falling blocks with a clean, focused interface.",
-          tr: "<strong>Sakin yığma.</strong> Temiz ve odaklı arayüzle klasik düşen bloklar.",
+          en: "Fast, vertical arcade game where you climb a colorful tower, time your jumps, and try not to fall. Built for short, satisfying sessions when you just want a quick break without getting sucked into an endless feed.",
+          tr: "Renkli bir kuleyi tırmandığın, zıplamalarını zamanladığın ve düşmemeye çalıştığın hızlı bir dikey arcade oyunu. Sonsuz bir akışa kapılmadan kısa ve tatmin edici oyun seansları için yapıldı.",
         },
-        tags: { en: ["Tetris", "Puzzle", "Classic"], tr: ["Tetris", "Bulmaca", "Klasik"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.3",
-        installs: "6K+"
-      },
-      {
-        id: "book-tracker",
-        name: "Book Tracker",
-        category: "learning",
-        url: "https://candanumut.github.io/book/",
-        previewUrl: "https://candanumut.github.io/book/",
-        description: {
-          en: "<strong>Library companion.</strong> Track reading progress, organize shelves, and remember takeaways.",
-          tr: "<strong>Kütüphane refakatçisi.</strong> Okuma ilerlemeni takip et, rafları düzenle ve notlarını sakla.",
+        tags: {
+          en: ["Arcade", "Casual", "Mobile"],
+          tr: ["Arcade", "Gündelik", "Mobil"],
         },
-        tags: { en: ["Books", "Progress", "Notes"], tr: ["Kitap", "İlerleme", "Not"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.2",
-        installs: "4K+"
-      },
-      {
-        id: "my-city",
-        name: "My City · Mini RPG",
-        category: "games",
-        url: "https://candanumut.github.io/MyCity/",
-        previewUrl: "https://candanumut.github.io/MyCity/",
-        description: {
-          en: "<strong>Tiny city adventure.</strong> Build and explore a cozy town with simple quests and upgrades.",
-          tr: "<strong>Minik şehir macerası.</strong> Sade görevler ve yükseltmelerle sıcacık bir kasaba kur ve keşfet.",
-        },
-        tags: { en: ["City", "RPG", "Cozy"], tr: ["Şehir", "RPG", "Sıcak"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.1",
-        installs: "3K+"
-      },
-      {
-        id: "mini-astro",
-        name: "Mini Astro",
-        category: "learning",
-        url: "https://candanumut.github.io/MiniAstro/",
-        previewUrl: "https://candanumut.github.io/MiniAstro/",
-        description: {
-          en: "<strong>Learn the skies.</strong> Explore planets and stars with bite-sized facts for quick curiosity.",
-          tr: "<strong>Gökyüzünü öğren.</strong> Gezegen ve yıldızları kısa bilgilerle keşfet, merakını gider.",
-        },
-        tags: { en: ["Space", "Education", "Kids"], tr: ["Uzay", "Eğitim", "Çocuk"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.4",
-        installs: "5K+"
-      },
-      {
-        id: "3d-roller-coaster",
-        name: "3D Roller Coaster",
-        category: "games",
-        url: "https://candanumut.github.io/Roller-Coaster/",
-        previewUrl: "https://candanumut.github.io/Roller-Coaster/",
-        description: {
-          en: "<strong>Ride in first person.</strong> A playful coaster experience with smooth tracks and bright visuals.",
-          tr: "<strong>Birinci şahıs hız treni.</strong> Akıcı raylar ve parlak görsellerle eğlenceli bir deneyim.",
-        },
-        tags: { en: ["Coaster", "3D", "Fun"], tr: ["Hız treni", "3D", "Eğlence"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.1",
-        installs: "7K+"
-      },
-      {
-        id: "memory-tiles",
-        name: "Memory Tiles",
-        category: "learning",
-        url: "https://candanumut.github.io/memorytile/",
-        previewUrl: "https://candanumut.github.io/memorytile/",
-        description: {
-          en: "<strong>Remember and match.</strong> Flip tiles, pair symbols, and train your memory calmly.",
-          tr: "<strong>Hatırla ve eşleştir.</strong> Kartları çevir, sembolleri eşleştir ve hafızanı sakin şekilde çalıştır.",
-        },
-        tags: { en: ["Memory", "Cards", "Brain"], tr: ["Hafıza", "Kart", "Beyin"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.3",
-        installs: "6K+"
-      },
-      {
-        id: "robot-gladiator",
-        name: "Robot Gladiator",
-        category: "games",
-        url: "https://candanumut.github.io/robotgladiator/",
-        previewUrl: "https://candanumut.github.io/robotgladiator/",
-        description: {
-          en: "<strong>Battle with style.</strong> Pilot a robot, dodge attacks, and enjoy arcade brawls without gore.",
-          tr: "<strong>Tarzıyla savaş.</strong> Bir robotu yönet, saldırılardan kaç ve şiddetsiz arcade dövüşlerin tadını çıkar.",
-        },
-        tags: { en: ["Arcade", "Robots", "Action"], tr: ["Arcade", "Robot", "Aksiyon"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.0",
-        installs: "5K+"
-      },
-      {
-        id: "brick-crusher",
-        name: "Brick Crusher",
-        category: "games",
-        url: "https://candanumut.github.io/Brick-Crush/",
-        previewUrl: "https://candanumut.github.io/Brick-Crush/",
-        description: {
-          en: "<strong>Satisfying break.</strong> Aim, bounce, and clear bricks with soothing effects.",
-          tr: "<strong>Doyurucu kırma.</strong> Nişan al, seken toplarla tuğlaları temizle; rahatlatıcı efektlerle.",
-        },
-        tags: { en: ["Arcade", "Bricks", "Casual"], tr: ["Arcade", "Tuğla", "Gündelik"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.2",
-        installs: "6K+"
-      },
-      {
-        id: "word-riddle",
-        name: "Word Riddle",
-        category: "learning",
-        url: "https://candanumut.github.io/word-riddle/",
-        previewUrl: "https://candanumut.github.io/word-riddle/",
-        description: {
-          en: "<strong>Find the word.</strong> Clever riddles and clean typography keep the mind curious.",
-          tr: "<strong>Kelimeyi bul.</strong> Zeki bulmacalar ve sade tipografi merakı canlı tutar.",
-        },
-        tags: { en: ["Word", "Puzzle", "Brain"], tr: ["Kelime", "Bulmaca", "Beyin"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.4",
-        installs: "4K+"
-      },
-      {
-        id: "mix-or-match",
-        name: "Mix or Match",
-        category: "games",
-        url: "https://candanumut.github.io/mix-or-match/",
-        previewUrl: "https://candanumut.github.io/mix-or-match/",
-        description: {
-          en: "<strong>Flip and pair.</strong> Memory card fun with playful icons and quick rounds.",
-          tr: "<strong>Çevir ve eşleştir.</strong> Neşeli ikonlarla hızlı hafıza kart oyunu.",
-        },
-        tags: { en: ["Memory", "Cards", "Family"], tr: ["Hafıza", "Kart", "Aile"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.1",
-        installs: "4K+"
-      },
-      {
-        id: "typing-speed",
-        name: "Typing Speed Test",
-        category: "learning",
-        url: "https://candanumut.github.io/Typing-Speed-Test/",
-        previewUrl: "https://candanumut.github.io/Typing-Speed-Test/",
-        description: {
-          en: "<strong>Type with ease.</strong> Measure words per minute with clean prompts and instant feedback.",
-          tr: "<strong>Kolayca yaz.</strong> Dakikadaki kelime hızını temiz sorular ve anlık geri bildirimle ölç.",
-        },
-        tags: { en: ["Typing", "Productivity", "Skill"], tr: ["Yazma", "Verimlilik", "Beceri"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.3",
-        installs: "5K+"
-      },
-      {
-        id: "ecommerce-backend",
-        name: "E-commerce Backend UI",
-        category: "tools",
-        url: "https://candanumut.github.io/admin-dashboard/",
-        previewUrl: "https://candanumut.github.io/admin-dashboard/",
-        description: {
-          en: "<strong>Admin-ready dashboard.</strong> Manage products, orders, and analytics in a crisp layout prototype.",
-          tr: "<strong>Yönetime hazır pano.</strong> Ürün, sipariş ve analizleri net bir tasarım prototipinde yönet.",
-        },
-        tags: { en: ["Dashboard", "Admin", "Prototype"], tr: ["Pano", "Yönetim", "Prototip"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.2",
-        installs: "3K+"
-      },
-      {
-        id: "expense-tracker-android",
-        name: "Expense Tracker Android",
-        category: "tools",
-        url: "https://play.google.com/store/apps/details?id=com.income.expense.budgetTracker.pro",
-        previewUrl: "https://play.google.com/store/apps/details?id=com.income.expense.budgetTracker.pro",
-        description: {
-          en: "<strong>Track on the go.</strong> Mobile-first budgeting to log spending wherever you are.",
-          tr: "<strong>Yolda bütçe takibi.</strong> Harcamalarını her yerde kaydetmen için mobil öncelikli bütçe takipçisi.",
-        },
-        tags: { en: ["Budget", "Mobile", "Finance"], tr: ["Bütçe", "Mobil", "Finans"] },
-        platforms: { en: ["Android (Google Play)"] },
-        rating: "4.3",
-        installs: "120K+"
-      },
-      {
-        id: "portfolio-template",
-        name: "DevFolio",
-        category: "tools",
-        url: "https://candanumut.github.io/devfolio/",
-        previewUrl: "https://candanumut.github.io/devfolio/",
-        description: {
-          en: "<strong>Developer portfolio.</strong> A sleek one-page template to showcase projects and contact info.",
-          tr: "<strong>Geliştirici portfolyosu.</strong> Projelerini ve iletişimini sergilemek için şık tek sayfa şablon.",
-        },
-        tags: { en: ["Portfolio", "Template", "Personal"], tr: ["Portfolyo", "Şablon", "Kişisel"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.1",
-        installs: "2K+"
-      },
-      {
-        id: "tetris-game",
-        name: "Tetris",
-        category: "games",
-        url: "https://candanumut.github.io/tetris-game/",
-        previewUrl: "https://candanumut.github.io/tetris-game/",
-        description: {
-          en: "<strong>Pure block stacking.</strong> Classic Tetris with responsive controls and cozy colors.",
-          tr: "<strong>Sade blok yerleştirme.</strong> Tepkisel kontroller ve sıcak renklerle klasik Tetris.",
-        },
-        tags: { en: ["Tetris", "Classic", "Blocks"], tr: ["Tetris", "Klasik", "Blok"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.2",
-        installs: "6K+"
-      },
-      {
-        id: "calculator",
-        name: "Calculator",
-        category: "tools",
-        url: "https://candanumut.github.io/calculator/",
-        previewUrl: "https://candanumut.github.io/calculator/",
-        description: {
-          en: "<strong>Clean calculations.</strong> A crisp calculator for everyday math without clutter.",
-          tr: "<strong>Temiz hesaplar.</strong> Günlük matematik için sade bir hesap makinesi.",
-        },
-        tags: { en: ["Math", "Utility", "Everyday"], tr: ["Matematik", "Araç", "Günlük"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.3",
-        installs: "8K+"
-      },
-      {
-        id: "expense-tracker-2",
-        name: "Expense Tracker Lite",
-        category: "tools",
-        url: "https://candanumut.github.io/expense-tracker-main/",
-        previewUrl: "https://candanumut.github.io/expense-tracker-main/",
-        description: {
-          en: "<strong>Simple budgeting.</strong> Track income and expenses quickly with charts that stay local.",
-          tr: "<strong>Basit bütçe.</strong> Gelir ve giderlerini grafiklerle hızlıca takip et; verilerin yerelde kalır.",
-        },
-        tags: { en: ["Budget", "Finance", "Charts"], tr: ["Bütçe", "Finans", "Grafik"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.1",
-        installs: "4K+"
-      },
-      {
-        id: "expense-tracker-3",
-        name: "Personal Finance",
-        category: "tools",
-        url: "https://candanumut.github.io/expense-tracker-master/",
-        previewUrl: "https://candanumut.github.io/expense-tracker-master/",
-        description: {
-          en: "<strong>Stay on budget.</strong> Categorize spending, watch trends, and build mindful money habits.",
-          tr: "<strong>Bütçede kal.</strong> Harcamalarını kategorize et, eğilimleri izle ve bilinçli para alışkanlıkları oluştur.",
-        },
-        tags: { en: ["Finance", "Budget", "Habits"], tr: ["Finans", "Bütçe", "Alışkanlık"] },
-        platforms: { en: ["Web"], tr: ["Web"] },
-        rating: "4.0",
-        installs: "3K+"
+        platforms: { en: ["Android (Google Play)"], tr: ["Android (Google Play)"] },
       },
     ];
 
-    const searchInput = document.getElementById("searchInput");
-    const searchClear = document.getElementById("searchClear");
-    const searchWrap = document.getElementById("searchWrap");
-    const filters = document.getElementById("filters");
     const appGrid = document.getElementById("appGrid");
-    const featuredRow = document.getElementById("featuredRow");
+    const filtersEl = document.getElementById("filters");
     const resultsCounter = document.getElementById("resultsCounter");
+    const metricApps = document.getElementById("metricApps");
     const emptyState = document.getElementById("emptyState");
-    const heroApp = document.getElementById("heroApp");
+    const searchInput = document.getElementById("searchInput");
+    const searchWrap = document.getElementById("searchWrap");
+    const searchClear = document.getElementById("searchClear");
+    const featuredRow = document.getElementById("featuredRow");
+    const languageToggle = document.getElementById("languageToggle");
+
     let currentCategory = "all";
     let currentSearch = "";
     let currentLang = "en";
 
-    const t = (path) => {
-      return path.split(".").reduce((obj, key) => (obj ? obj[key] : ""), translations[currentLang]) || "";
-    };
+    function t(path) {
+      const keys = path.split(".");
+      return keys.reduce((obj, key) => (obj ? obj[key] : ""), translations[currentLang]) || "";
+    }
 
-    function formatLines(element, text) {
-      element.innerHTML = text;
+    function getLocalizedText(value) {
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        return value[currentLang] || value.en || Object.values(value)[0] || "";
+      }
+      return value || "";
+    }
+
+    function getLocalizedList(value) {
+      if (Array.isArray(value)) return value;
+      if (value && typeof value === "object") {
+        return value[currentLang] || value.en || [];
+      }
+      return [];
     }
 
     function setLanguage(lang) {
       if (!translations[lang]) return;
       currentLang = lang;
-      document.documentElement.setAttribute("lang", lang);
       window.localStorage.setItem("umut-lang", lang);
-      document.querySelectorAll("[data-i18n]").forEach((el) => {
-        formatLines(el, t(el.getAttribute("data-i18n")) || "");
-      });
-      searchInput.placeholder = t("searchPlaceholder");
-      searchClear.title = t("searchClear");
-      document.querySelectorAll(".lang-option").forEach((btn) => btn.classList.toggle("active", btn.dataset.lang === lang));
-      applyTheme(document.documentElement.getAttribute("data-theme") || "dark");
+      document.documentElement.lang = lang;
+      updateLanguageToggle();
+      applyTranslations();
       renderFilters();
       renderApps();
-      renderHeroApp();
       renderFeatured();
     }
 
     function initLanguage() {
       const stored = window.localStorage.getItem("umut-lang");
       currentLang = stored && translations[stored] ? stored : "en";
-      setLanguage(currentLang);
+      document.documentElement.lang = currentLang;
+      updateLanguageToggle();
+      applyTranslations();
     }
 
-    function renderMetrics() {
-      document.getElementById("metricApps").textContent = apps.length;
-      document.getElementById("metricPrivacy").textContent = t("metrics.privacyValue");
-      document.getElementById("metricPlatforms").textContent = t("metrics.platformsValue");
+    function updateLanguageToggle() {
+      languageToggle.querySelectorAll(".lang-option").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.lang === currentLang);
+      });
+    }
+
+    function applyTranslations() {
+      document.querySelector('[data-i18n="heroKicker"]').textContent = t("heroKicker");
+      document.querySelector('[data-i18n="heroTitle"]').textContent = t("heroTitle");
+      document.querySelector('[data-i18n="heroSubtitle"]').textContent = t("heroSubtitle");
+      document.querySelector('[data-i18n="metrics.apps"]').textContent = t("metrics.apps");
+      document.querySelector('[data-i18n="metrics.privacy"]').textContent = t("metrics.privacy");
+      document.querySelector('[data-i18n="metrics.privacyValue"]').textContent = t("metrics.privacyValue");
+      document.querySelector('[data-i18n="metrics.platforms"]').textContent = t("metrics.platforms");
+      document.querySelector('[data-i18n="metrics.platformsValue"]').textContent = t("metrics.platformsValue");
+      document.querySelector('[data-i18n="featuredTitle"]').textContent = t("featuredTitle");
+      document.querySelector('[data-i18n="allAppsTitle"]').textContent = t("allAppsTitle");
+      document.querySelector('[data-i18n="empty.title"]').textContent = t("empty.title");
+      document.querySelector('[data-i18n="empty.subtitle"]').textContent = t("empty.subtitle");
+      document.querySelector('[data-i18n="footer.line1"]').innerHTML = t("footer.line1");
+      document.querySelector('[data-i18n="footer.line2"]').innerHTML = t("footer.line2");
+      document.querySelector(".theme-label").textContent =
+        document.documentElement.getAttribute("data-theme") === "light" ? t("theme.light") : t("theme.dark");
+      searchInput.setAttribute("placeholder", t("searchPlaceholder"));
+      searchClear.setAttribute("aria-label", t("searchClear"));
+    }
+
+    // derive counts by category for display
+    function countByCategory(appsList) {
+      const base = { all: appsList.length };
+      return appsList.reduce((acc, app) => {
+        acc[app.category] = (acc[app.category] || 0) + 1;
+        return acc;
+      }, base);
     }
 
     function renderFilters() {
+      const counts = countByCategory(apps);
+      const categories = ["all", "spiritual", "wellness", "learning", "games", "tools"];
       const labels = translations[currentLang].categories;
-      filters.innerHTML = Object.keys(labels)
-        .map(
-          (cat) => `
-            <button class="filter-chip ${currentCategory === cat ? "active" : ""}" data-category="${cat}" type="button">
-              <span>${labels[cat]}</span>
-            </button>
-          `
-        )
-        .join("");
+      filtersEl.innerHTML = "";
+      categories.forEach((cat) => {
+        const pill = document.createElement("button");
+        pill.type = "button";
+        pill.className = "filter-pill" + (cat === currentCategory ? " active" : "");
+        pill.dataset.category = cat;
+        pill.innerHTML = `
+          <span>${labels[cat]}</span>
+          <span class="count">${counts[cat] || 0}</span>
+        `;
+        filtersEl.appendChild(pill);
+      });
     }
 
-    function renderHeroApp() {
-      const hero = apps.find((a) => a.id === "zikr-checker");
-      if (!hero) return;
-      const desc = hero.description[currentLang] || hero.description.en;
-      heroApp.innerHTML = `
-        <div class="hero-app-main">
-          <div class="hero-app-header">
-            <div class="app-icon">${hero.name.charAt(0)}</div>
-            <div>
-              <p class="hero-app-sub" data-i18n="heroAppSubtitle">${t("heroAppSubtitle")}</p>
-              <h3 class="hero-app-title" data-i18n="heroAppTitle">${t("heroAppTitle")}</h3>
-            </div>
-          </div>
-          <p class="hero-app-desc" data-i18n="heroAppDesc">${t("heroAppDesc")}</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="${hero.url}" target="_blank" rel="noreferrer">
-              <span class="icon">🚀</span>${t("heroAppButtons.open")}
-            </a>
-            <button class="btn btn-ghost js-hero-preview" data-preview-url="${hero.previewUrl}" type="button">
-              <span class="icon">▶</span><span>${t("heroAppButtons.live")}</span>
-            </button>
-          </div>
-          <div class="pill" aria-hidden="true">${hero.tags[currentLang][0]}</div>
+    function createAppCard(app) {
+      const card = document.createElement("article");
+      card.className = "app-card";
+      card.dataset.category = app.category;
+      card.dataset.appId = app.id;
+      const description = getLocalizedText(app.description);
+      const tags = getLocalizedList(app.tags);
+      const platforms = getLocalizedList(app.platforms);
+      const isPlayStore = app.url.includes("play.google.com");
+      card.innerHTML = `
+        <div class="app-header">
+          <h3 class="app-title"><span class="app-icon">${app.name.charAt(0)}</span>${app.name}</h3>
+          <div class="app-category">${translations[currentLang].categories[app.category]}</div>
         </div>
-        <div class="hero-preview" id="heroPreview" aria-live="polite">
-          <div class="preview-loader">${t("preview.loading")}</div>
-          <div class="device-frame">
-            <iframe title="ZikrChecker live preview"></iframe>
+        <p class="app-description">${description}</p>
+        <div class="app-meta">
+          <div class="chip-row">
+            ${tags.map((tag) => `<span class="chip">${tag}</span>`).join("")}
           </div>
+          <div class="platforms">
+            ${platforms.map((p) => `<span class="platform-pill">${p}</span>`).join("")}
+          </div>
+        </div>
+        <div class="app-actions">
+          <a class="btn btn-primary" href="${app.url}" target="_blank" rel="noreferrer">
+            <span class="icon">${isPlayStore ? "↗" : "🚀"}</span>
+            <span>${isPlayStore ? translations[currentLang].buttons.openPlay : translations[currentLang].buttons.open}</span>
+          </a>
+          <button class="btn btn-ghost js-toggle-preview" data-preview-url="${app.previewUrl}" type="button">
+            <span class="icon">▶</span>
+            <span>${translations[currentLang].buttons.live}</span>
+          </button>
+        </div>
+        <div class="app-preview" aria-hidden="true">
+          <div class="preview-hint">
+            <span class="small"><strong>${translations[currentLang].preview.lead}</strong> ${translations[currentLang].preview.body}</span>
+            <span class="small">${translations[currentLang].preview.fallback}</span>
+          </div>
+          <div class="preview-loader">${translations[currentLang].preview.loading}</div>
+          <iframe
+            class="preview-frame"
+            loading="lazy"
+            title="${app.name} preview"
+            referrerpolicy="no-referrer"
+            sandbox="allow-scripts allow-forms allow-pointer-lock allow-same-origin allow-modals"
+          ></iframe>
         </div>
       `;
-    }
-
-    function renderFeatured() {
-      const featuredIds = ["zikr-checker", "unmask", "nova-arena-3d"];
-      featuredRow.innerHTML = featuredIds
-        .map((id) => apps.find((a) => a.id === id))
-        .filter(Boolean)
-        .map((app) => {
-          const isPlayStore = app.url.includes("play.google.com");
-          const desc = app.description[currentLang] || app.description.en;
-          return `
-            <article class="featured-card" data-app-id="${app.id}" tabindex="0">
-              <div class="app-icon small">${app.name.charAt(0)}</div>
-              <div>
-                <h4 class="app-title">${app.name}</h4>
-                <p class="app-sub">${desc.replace(/<[^>]*>/g, "").split(".")[0] || ""}</p>
-              </div>
-              <div class="featured-meta">
-                <span class="pill">${translations[currentLang].categories[app.category]}</span>
-                <span class="rating">★ ${app.rating || "4.7"} · ${app.installs || "5K+"}</span>
-              </div>
-              <div class="app-actions">
-                <a class="btn btn-primary btn-full" href="${app.url}" target="_blank" rel="noreferrer">${
-                  isPlayStore ? translations[currentLang].buttons.openPlay : translations[currentLang].buttons.open
-                }</a>
-              </div>
-            </article>
-          `;
-        })
-        .join("");
+      return card;
     }
 
     function renderApps() {
-      const query = currentSearch.toLowerCase();
-      const filtered = apps.filter((app) => {
-        const matchCategory = currentCategory === "all" || app.category === currentCategory;
-        const text = [app.name, app.description[currentLang] || app.description.en, ...(app.tags[currentLang] || [])]
-          .join(" ")
-          .toLowerCase();
-        const matchSearch = !query || text.includes(query);
-        return matchCategory && matchSearch;
+      const filtered = getFilteredApps();
+      appGrid.innerHTML = "";
+
+      if (!filtered.length) {
+        emptyState.style.display = "block";
+      } else {
+        emptyState.style.display = "none";
+      }
+
+      filtered.forEach((app, idx) => {
+        const card = createAppCard(app);
+        card.style.animationDelay = `${idx * 40}ms`;
+        appGrid.appendChild(card);
       });
 
-      resultsCounter.textContent = `${filtered.length} ${filtered.length === 1 ? translations[currentLang].results.single : translations[currentLang].results.plural}`;
-      emptyState.style.display = filtered.length ? "none" : "block";
-
-      appGrid.innerHTML = filtered
-        .map((app, idx) => {
-          const desc = app.description[currentLang] || app.description.en;
-          const isPlayStore = app.url.includes("play.google.com");
-          const firstSentence = desc.split(".")[0];
-          const rest = desc.replace(firstSentence, "").trim();
-          const tagLine = firstSentence ? `<strong>${firstSentence}.</strong>` : "";
-          return `
-            <article class="app-card" data-app-id="${app.id}" style="transition-delay: ${idx * 35}ms">
-              <div class="app-top">
-                <div class="app-icon small">${app.name.charAt(0)}</div>
-                <div>
-                  <h4 class="app-title">${app.name}</h4>
-                  <p class="app-sub">${tagLine} ${rest}</p>
-                </div>
-              </div>
-              <div class="app-badges">
-                <div class="app-category">${translations[currentLang].categories[app.category]}</div>
-                <div class="rating">★ ${app.rating || "4.6"} · ${app.installs || "5K+"} installs</div>
-              </div>
-              <div class="platforms">
-                ${(app.platforms[currentLang] || app.platforms.en || [])
-                  .map((p) => `<span class="platform-pill">${p}</span>`)
-                  .join("")}
-              </div>
-              <p class="app-desc">${desc}</p>
-              <div class="app-actions">
-                <a class="btn btn-primary" href="${app.url}" target="_blank" rel="noreferrer">
-                  <span class="icon">🚀</span>
-                  <span>${isPlayStore ? translations[currentLang].buttons.openPlay : translations[currentLang].buttons.open}</span>
-                </a>
-                <button class="btn btn-ghost js-toggle-preview" type="button" data-preview-url="${app.previewUrl}">
-                  <span class="icon">▶</span>
-                  <span>${translations[currentLang].buttons.live}</span>
-                </button>
-              </div>
-              <div class="app-preview" aria-hidden="true">
-                <div class="preview-hint">
-                  <span class="small"><strong>${translations[currentLang].preview.lead}</strong> ${translations[currentLang].preview.body}</span>
-                  <span class="small">${translations[currentLang].preview.fallback}</span>
-                </div>
-                <div class="preview-loader">${translations[currentLang].preview.loading}</div>
-                <iframe loading="lazy" title="${app.name} preview"></iframe>
-              </div>
-            </article>
-          `;
-        })
-        .join("");
-
+      const resultsLabel = filtered.length === 1 ? t("results.single") : t("results.plural");
+      resultsCounter.textContent = `${filtered.length} ${resultsLabel}`;
+      metricApps.textContent = apps.length.toString();
       observer.observeAll();
     }
 
-    filters.addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-category]");
-      if (!btn) return;
-      currentCategory = btn.dataset.category;
+    function renderFeatured() {
+      featuredRow.innerHTML = "";
+      const picks = apps.slice(0, 3);
+      picks.forEach((app) => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "featured-card";
+        const description = getLocalizedText(app.description);
+        card.innerHTML = `
+          <div class="featured-meta">
+            <span class="app-icon">${app.name.charAt(0)}</span>
+            <div>
+              <p class="featured-title">${app.name}</p>
+              <div class="app-category">${translations[currentLang].categories[app.category]}</div>
+            </div>
+          </div>
+          <p class="featured-desc">${description.slice(0, 110)}...</p>
+        `;
+        card.addEventListener("click", () => highlightApp(app.id));
+        featuredRow.appendChild(card);
+      });
+    }
+
+    function highlightApp(appId) {
+      const target = document.querySelector(`[data-app-id="${appId}"]`);
+      if (!target) return;
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.classList.add("pulse-highlight");
+      setTimeout(() => target.classList.remove("pulse-highlight"), 1300);
+    }
+
+    function getFilteredApps() {
+      const query = currentSearch.trim().toLowerCase();
+
+      return apps.filter((app) => {
+        if (currentCategory !== "all" && app.category !== currentCategory) return false;
+
+        if (!query) return true;
+
+        const localizedDescription = getLocalizedText(app.description);
+        const localizedTags = getLocalizedList(app.tags);
+        const haystack =
+          (app.name + " " + localizedDescription + " " + localizedTags.join(" "))
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "");
+        const needle = query
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/\p{Diacritic}/gu, "");
+
+        return haystack.includes(needle);
+      });
+    }
+
+    // 4) EVENT WIRING
+    // -------------------------------------------------------
+    filtersEl.addEventListener("click", (e) => {
+      const pill = e.target.closest(".filter-pill");
+      if (!pill) return;
+      const category = pill.dataset.category;
+      if (!category || category === currentCategory) return;
+      currentCategory = category;
       renderFilters();
       renderApps();
     });
@@ -1517,9 +1538,11 @@
     appGrid.addEventListener("click", (e) => {
       const btn = e.target.closest(".js-toggle-preview");
       if (!btn) return;
+
       const card = btn.closest(".app-card");
       const preview = card.querySelector(".app-preview");
       const iframe = preview.querySelector("iframe");
+
       const isActive = preview.classList.contains("active");
       if (isActive) {
         preview.classList.remove("active", "preview-loading");
@@ -1542,31 +1565,13 @@
       }
     });
 
-    heroApp.addEventListener("click", (e) => {
-      const btn = e.target.closest(".js-hero-preview");
-      if (!btn) return;
-      const preview = document.getElementById("heroPreview");
-      const iframe = preview.querySelector("iframe");
-      const isLoading = preview.classList.contains("loading");
-      preview.classList.add("loading");
-      if (!iframe.src) iframe.src = btn.dataset.previewUrl;
-      iframe.onload = () => preview.classList.remove("loading");
-      preview.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-
-    featuredRow.addEventListener("click", (e) => {
-      const card = e.target.closest(".featured-card");
-      if (!card) return;
-      const target = document.querySelector(`[data-app-id="${card.dataset.appId}"]`);
-      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-
-    document.getElementById("languageToggle").addEventListener("click", (e) => {
+    languageToggle.addEventListener("click", (e) => {
       const btn = e.target.closest(".lang-option");
       if (!btn) return;
       setLanguage(btn.dataset.lang);
     });
 
+    // THEME TOGGLE
     const themeToggle = document.getElementById("themeToggle");
     const themeLabel = themeToggle.querySelector(".theme-label");
     const themeIcon = themeToggle.querySelector(".theme-icon");
@@ -1595,30 +1600,27 @@
       const current = document.documentElement.getAttribute("data-theme") || "dark";
       const next = current === "dark" ? "light" : "dark";
       applyTheme(next);
-      themeToggle.classList.add("pulse-highlight");
-      setTimeout(() => themeToggle.classList.remove("pulse-highlight"), 400);
       window.localStorage.setItem("umut-theme", next);
     });
 
+    // Scroll shadow on header
     const header = document.querySelector("header");
     window.addEventListener("scroll", () => {
       header.classList.toggle("scrolled", window.scrollY > 8);
     });
 
+    // Scroll animation observer
     const observer = {
       io: null,
       setup() {
-        this.io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("in-view");
-                this.io.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.12 }
-        );
+        this.io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              this.io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
       },
       observeAll() {
         if (!this.io) this.setup();
@@ -1626,13 +1628,14 @@
       },
     };
 
+    // INITIAL RENDER
     initTheme();
     initLanguage();
-    renderMetrics();
     renderFilters();
     renderApps();
-    renderHeroApp();
     renderFeatured();
+
+    // ensure observer sees first render
     observer.observeAll();
   </script>
 </body>
