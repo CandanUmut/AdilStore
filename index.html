@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <title>Umut Lab · Privacy-First App Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="A small, handcrafted collection of ad-free, privacy-first apps by Umut Candan: games, tools, spiritual & wellbeing companions."
+  />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%2338bdf8'/%3E%3Cpath fill='white' d='M9 18.5c0-4.2 2.7-7.5 7.3-7.5 1.7 0 3 .5 3.9 1l-1.4 2.4c-.6-.3-1.5-.7-2.5-.7-2.4 0-4 1.7-4 4.7V24H9v-5.5z'/%3E%3C/svg%3E" />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+  />
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020617;
+      --panel: rgba(15, 23, 42, 0.98);
+      --panel-soft: rgba(15, 23, 42, 0.9);
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.16);
+      --accent-strong: #0ea5e9;
+      --danger: #f97373;
+      --text: #e5e7eb;
+      --text-soft: #9ca3af;
+      --border: #1f2937;
+      --chip-bg: #0b1120;
+      --radius-lg: 18px;
+      --radius-md: 999px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.6);
+      --blur: 22px;
+      --transition-fast: 0.18s ease-out;
+      --transition-med: 0.25s ease-out;
+    }
+
+    html[data-theme="light"] {
+      --bg: #f4f4f5;
+      --bg-soft: #f9fafb;
+      --panel: #ffffff;
+      --panel-soft: #f9fafb;
+      --accent: #0ea5e9;
+      --accent-soft: rgba(14, 165, 233, 0.12);
+      --accent-strong: #0369a1;
+      --danger: #dc2626;
+      --text: #020617;
+      --text-soft: #4b5563;
+      --border: #e5e7eb;
+      --chip-bg: #eff6ff;
+      --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 50%, #000 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 1200px;
+      padding: 18px clamp(16px, 3vw, 32px) 32px;
+    }
+
+    /* HEADER / HERO */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(var(--blur));
+      background: linear-gradient(
+        to bottom,
+        rgba(2, 6, 23, 0.96),
+        rgba(2, 6, 23, 0.8),
+        transparent
+      );
+      margin-bottom: 12px;
+    }
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: var(--shadow-soft);
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 55%),
+        radial-gradient(circle at top right, rgba(59, 130, 246, 0.15), transparent 60%),
+        var(--panel);
+    }
+
+    .hero-main {
+      flex: 1 1 260px;
+      min-width: 0;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 10px;
+      border-radius: var(--radius-md);
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-soft);
+      margin-bottom: 8px;
+    }
+
+    .hero-kicker span.dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.25);
+    }
+
+    .hero-title {
+      font-size: clamp(22px, 4vw, 28px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 6px;
+    }
+
+    .hero-sub {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-soft);
+      max-width: 480px;
+    }
+
+    .hero-sub strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .hero-side {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+      flex: 0 0 auto;
+      min-width: 190px;
+    }
+
+    .hero-metrics {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .metric {
+      padding: 6px 10px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      font-size: 11px;
+      text-align: right;
+      min-width: 86px;
+    }
+
+    .metric-label {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-soft);
+      margin-bottom: 2px;
+    }
+
+    .metric-value {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-soft);
+      cursor: pointer;
+      font-size: 11px;
+      user-select: none;
+      transition: background var(--transition-fast), transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .theme-toggle:hover {
+      background: rgba(15, 23, 42, 1);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.6);
+    }
+
+    .theme-icon {
+      font-size: 14px;
+    }
+
+    /* CONTROLS */
+
+    .controls-bar {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 4px 4px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .filter-pill {
+      padding: 4px 11px;
+      border-radius: var(--radius-md);
+      font-size: 11px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-soft);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background var(--transition-fast), border-color var(--transition-fast),
+        color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .filter-pill span.count {
+      font-variant-numeric: tabular-nums;
+      opacity: 0.85;
+      font-size: 10px;
+    }
+
+    .filter-pill.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent-strong);
+      transform: translateY(-1px);
+    }
+
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1 1 220px;
+      min-width: 0;
+      justify-content: flex-end;
+    }
+
+    .search-inner {
+      position: relative;
+      flex: 1 1 auto;
+      max-width: 260px;
+    }
+
+    .search-inner input {
+      width: 100%;
+      padding: 7px 26px 7px 27px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text);
+      font-size: 12px;
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
+        background var(--transition-fast), transform var(--transition-fast);
+    }
+
+    html[data-theme="light"] .search-inner input {
+      background: #ffffff;
+    }
+
+    .search-inner input::placeholder {
+      color: var(--text-soft);
+    }
+
+    .search-inner input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.6);
+      transform: translateY(-0.5px);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .results-counter {
+      font-size: 11px;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    /* GRID & CARDS */
+
+    main {
+      margin-top: 10px;
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    @media (min-width: 720px) {
+      .app-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1040px) {
+      .app-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .app-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: radial-gradient(circle at top left, rgba(248, 250, 252, 0.03), transparent 60%),
+        var(--panel-soft);
+      padding: 13px 13px 12px;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.58);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+      transition: transform var(--transition-med), box-shadow var(--transition-med),
+        border-color var(--transition-med), background var(--transition-med);
+    }
+
+    .app-card:hover {
+      transform: translateY(-3px) translateZ(0);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+      border-color: rgba(56, 189, 248, 0.8);
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 60%),
+        var(--panel-soft);
+    }
+
+    .app-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 6px 10px;
+    }
+
+    .app-title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+
+    .app-category {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    .app-description {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--text-soft);
+    }
+
+    .app-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      align-items: flex-start;
+      margin-top: 4px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .chip {
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: var(--chip-bg);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text-soft);
+    }
+
+    .platforms {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      font-size: 10px;
+      text-align: right;
+      color: var(--text-soft);
+    }
+
+    .platform-pill {
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+      white-space: nowrap;
+    }
+
+    .app-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid transparent;
+      cursor: pointer;
+      outline: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background var(--transition-fast), border-color var(--transition-fast),
+        color var(--transition-fast), transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #0b1120;
+      box-shadow: 0 10px 25px rgba(56, 189, 248, 0.6);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1.5px);
+      box-shadow: 0 14px 32px rgba(56, 189, 248, 0.9);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: rgba(148, 163, 184, 0.7);
+      color: var(--text-soft);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 1);
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .btn span.icon {
+      font-size: 13px;
+      line-height: 1;
+    }
+
+    .btn-full {
+      justify-content: center;
+      width: 100%;
+    }
+
+    .app-preview {
+      margin-top: 8px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: #020617;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: max-height 0.3s ease, opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .app-preview.active {
+      opacity: 1;
+      transform: translateY(0);
+      max-height: 560px; /* enough for iframe + hint */
+    }
+
+    .preview-hint {
+      padding: 6px 10px;
+      font-size: 10px;
+      color: var(--text-soft);
+      background: radial-gradient(
+          circle at top left,
+          rgba(56, 189, 248, 0.25),
+          transparent 60%
+        ),
+        #020617;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .preview-hint strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .preview-hint span.small {
+      font-size: 10px;
+    }
+
+    .preview-frame {
+      border: 0;
+      width: 100%;
+      height: 420px;
+      background: #020617;
+    }
+
+    .empty-state {
+      margin: 24px auto 0;
+      max-width: 380px;
+      padding: 16px 16px 14px;
+      text-align: center;
+      border-radius: 16px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.95), #020617);
+      color: var(--text-soft);
+      font-size: 13px;
+    }
+
+    .empty-state strong {
+      color: var(--text);
+    }
+
+    .empty-state code {
+      font-size: 11px;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+    }
+
+    footer {
+      margin-top: 24px;
+      padding: 10px 4px 0;
+      font-size: 11px;
+      color: var(--text-soft);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(15, 23, 42, 0.9);
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        align-items: flex-start;
+      }
+      .hero-side {
+        align-items: flex-start;
+      }
+      .hero-sub {
+        max-width: none;
+      }
+      .search-wrap {
+        justify-content: flex-start;
+      }
+      .search-inner {
+        max-width: none;
+      }
+      .app-actions {
+        flex-wrap: wrap;
+      }
+      .app-actions .btn {
+        flex: 1 1 48%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <div class="hero">
+        <div class="hero-main">
+          <div class="hero-kicker">
+            <span class="dot"></span>
+            <span>Ad-Free · Privacy-First · Built with love</span>
+          </div>
+          <h1 class="hero-title">Umut Lab · App Showcase</h1>
+          <p class="hero-sub">
+            A small ecosystem of handcrafted tools, games, and spiritual companions —
+            all designed to help you
+            <strong>think deeper, live cleaner, and have more fun</strong> without ads,
+            tracking, or data harvesting.
+          </p>
+        </div>
+        <div class="hero-side">
+          <div class="hero-metrics">
+            <div class="metric">
+              <div class="metric-label">Apps</div>
+              <div class="metric-value" id="metricApps">0</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Platforms</div>
+              <div class="metric-value">Web · Android</div>
+            </div>
+          </div>
+          <button id="themeToggle" class="theme-toggle" type="button">
+            <span class="theme-icon">🌙</span>
+            <span class="theme-label">Dark mode</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="controls-bar">
+        <div class="filters" id="filters"></div>
+        <div class="search-wrap">
+          <div class="search-inner">
+            <span class="search-icon">🔍</span>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Search apps by name, tag, or purpose…"
+              aria-label="Search apps"
+            />
+          </div>
+          <div class="results-counter" id="resultsCounter">0 apps</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section aria-label="App gallery">
+        <div id="appGrid" class="app-grid"></div>
+        <div id="emptyState" class="empty-state" style="display:none;">
+          <strong>No apps match this filter.</strong><br />
+          Try clearing the search or switching category — or later,
+          just add a new app at the bottom of
+          <code>index.html</code> in the <code>apps</code> array.
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>All apps by <strong>Umut Candan</strong>. No ads, no trackers, no games with your data.</div>
+      <div>
+        Add more apps by editing the <code>apps</code> array in this page · Hosted on
+        <a href="https://pages.github.com/" target="_blank" rel="noreferrer">GitHub Pages</a>.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // 1) DATA MODEL — add / edit apps here
+    // -------------------------------------------------------
+    const apps = [
+      {
+        id: "unmask",
+        name: "Unmask · Purity & Power Companion",
+        category: "spiritual",
+        url: "https://candanumut.github.io/Unmasking_sexual_engineered/",
+        previewUrl: "https://candanumut.github.io/Unmasking_sexual_engineered/",
+        description:
+          "Faith-friendly NoFap / reboot companion that helps you see how sexual conditioning is engineered, protect your brain and heart from porn, and rebuild a life of clarity, dignity, and worship. All plans, streaks, and notes stay fully local in your browser.",
+        tags: ["NoFap", "Faith", "Self-control", "Education"],
+        platforms: ["Web"],
+      },
+      {
+        id: "nova-arena-3d",
+        name: "Nova Arena 3D · Rogue Survivor",
+        category: "games",
+        url: "https://candanumut.github.io/newbrotato/",
+        previewUrl: "https://candanumut.github.io/newbrotato/",
+        description:
+          "Top-down rogue-survivor in a Perlin-generated world of forests, rocks, lakes, and enemies. Dash, jump, experiment with different upgrades, and try to survive as long as possible in a living terrain that actually feels like ground.",
+        tags: ["Action", "Roguelite", "3D", "Prototype"],
+        platforms: ["Web"],
+      },
+      {
+        id: "scale-universe",
+        name: "Scale of the Universe · Tefekkür Tool",
+        category: "learning",
+        url: "https://candanumut.github.io/Scaleuniverse/",
+        previewUrl: "https://candanumut.github.io/Scaleuniverse/",
+        description:
+          "An interactive visual journey from subatomic particles all the way to the edge of the observable universe. Designed for tefekkür and humility: scroll through the scales, jump between atoms, cells, Earth, and galaxies, and feel how small (and special) human life really is.",
+        tags: ["Education", "Cosmos", "Reflection", "Interactive"],
+        platforms: ["Web"],
+      },
+      {
+        id: "ready-to-die",
+        name: "Hereafter Readiness Assessment",
+        category: "spiritual",
+        url: "https://candanumut.github.io/Readytodie/",
+        previewUrl: "https://candanumut.github.io/Readytodie/",
+        description:
+          "A Qur’an & Sunnah–inspired self-accounting tool. Reflect on faith, worship, character, rights of others, knowledge, tawba and sincerity. Generates an approximate ‘Ahirete hazırlık’ score to show direction — not a fatwa, just a gentle nudge to realign your life.",
+        tags: ["Faith", "Self-reflection", "Accountability"],
+        platforms: ["Web"],
+      },
+      {
+        id: "how-old",
+        name: "Body & Mind Age Assessment",
+        category: "wellness",
+        url: "https://candanumut.github.io/Howold/",
+        previewUrl: "https://candanumut.github.io/Howold/",
+        description:
+          "Science-inspired questionnaire to estimate your ‘body age’ and ‘mind age’ based on sleep, movement, nutrition, stress, habits, social life, and meaning. Not a medical test — just a mirror to see where lifestyle is keeping you young and where it’s quietly aging you.",
+        tags: ["Health", "Psychology", "Habits", "Self-awareness"],
+        platforms: ["Web"],
+      },
+      {
+        id: "takva-race",
+        name: "TakvaRace · Sprint Toward Goodness",
+        category: "games",
+        url: "https://candanumut.github.io/adilstore-webapps/com.takvarace.takvarace/1.0.0/",
+        previewUrl: "https://candanumut.github.io/adilstore-webapps/com.takvarace.takvarace/1.0.0/",
+        description:
+          "A small arcade experiment from the Takva universe. Dash through a minimalist track while symbolically racing toward khayr and away from distractions. Built as a playful reminder that life is a race where direction matters more than raw speed.",
+        tags: ["Arcade", "Prototype", "Takva"],
+        platforms: ["Web", "Android (APK build)"],
+      },
+      {
+        id: "dreamsleep",
+        name: "DreamSleep · Gentle Night Companion",
+        category: "wellness",
+        url: "https://candanumut.github.io/adilstore-webapps/com.dreamsleep.dreamsleep/1.0.0/",
+        previewUrl: "https://candanumut.github.io/adilstore-webapps/com.dreamsleep.dreamsleep/1.0.0/",
+        description:
+          "A calm sleep helper focused on better nights and kinder mornings. Mix soothing sounds and intentional routines, and use it together with your own sleep habits and dua to slowly rebuild a healthier relationship with rest.",
+        tags: ["Sleep", "Relaxation", "Routine"],
+        platforms: ["Web build", "Android"],
+      },
+      {
+        id: "pdf-reader",
+        name: "Minimalist PDF Reader",
+        category: "tools",
+        url: "https://candanumut.github.io/adilstore-webapps/com.example.pdfreader/1.0.1/",
+        previewUrl: "https://candanumut.github.io/adilstore-webapps/com.example.pdfreader/1.0.1/",
+        description:
+          "Lightweight, distraction-free PDF reader. No ads, no analytics, no nonsense — just open your files and read. Built for people who want to escape bloated readers and keep documents simple and local.",
+        tags: ["Productivity", "Reader", "Offline-friendly"],
+        platforms: ["Web build", "Android"],
+      },
+      {
+        id: "zikr-checker",
+        name: "ZikrChecker · Daily Remembrance Tracker",
+        category: "spiritual",
+        url: "https://candanumut.github.io/adilstore-webapps/com.example.zikrchecker/1.0.9/",
+        previewUrl: "https://candanumut.github.io/adilstore-webapps/com.example.zikrchecker/1.0.9/",
+        description:
+          "A simple, focused dashboard to keep track of daily spiritual actions: istighfar, salawat, Qur’an reading, gratitude, and good deeds. Designed to build istiqamah gently — small consistent steps instead of guilt and burnout.",
+        tags: ["Dhikr", "Habits", "Dashboard"],
+        platforms: ["Web build", "Android"],
+      },
+      {
+        id: "healing-sounds",
+        name: "Healing Sounds · Frequency & Sound Baths",
+        category: "wellness",
+        url: "https://play.google.com/store/apps/details?id=com.healing.healingsound.healingsounds",
+        previewUrl:
+          "https://play.google.com/store/apps/details?id=com.healing.healingsound.healingsounds",
+        description:
+          "A collection of calming soundscapes, nature ambience, and frequency-based tracks to support focus, relaxation, and meditation. Use it to wind down, create a soft background while you work, or deepen reflection and prayer.",
+        tags: ["Sound therapy", "Meditation", "Relaxation"],
+        platforms: ["Android (Google Play)"],
+      },
+      {
+        id: "awakening",
+        name: "Awakening · Mindful Wake-Up",
+        category: "wellness",
+        url: "https://play.google.com/store/apps/details?id=com.wakeup.wakeup.awakening",
+        previewUrl:
+          "https://play.google.com/store/apps/details?id=com.wakeup.wakeup.awakening",
+        description:
+          "A meditation-first wake-up app. Instead of starting the day with chaos and social feeds, Awakening invites you to breathe, remember your values, and step into the morning with clarity and gratitude — with no tracking behind the scenes.",
+        tags: ["Meditation", "Morning routine", "Mindfulness"],
+        platforms: ["Android (Google Play)"],
+      },
+      {
+        id: "hopy-tower-3",
+        name: "Hopy Tower 3 · Vertical Challenge",
+        category: "games",
+        url: "https://play.google.com/store/apps/details?id=com.hopy_tower3.hopy.hopy_tower3",
+        previewUrl:
+          "https://play.google.com/store/apps/details?id=com.hopy_tower3.hopy.hopy_tower3",
+        description:
+          "Fast, vertical arcade game where you climb a colorful tower, time your jumps, and try not to fall. Built for short, satisfying sessions when you just want a quick break without getting sucked into an endless feed.",
+        tags: ["Arcade", "Casual", "Mobile"],
+        platforms: ["Android (Google Play)"],
+      },
+    ];
+
+    // 2) CATEGORY FILTERS
+    // -------------------------------------------------------
+    const categoryLabels = {
+      all: "All apps",
+      spiritual: "Spiritual & Ihsan",
+      wellness: "Wellbeing & Mind",
+      learning: "Learning & Reflection",
+      games: "Games & Play",
+      tools: "Tools & Utilities",
+    };
+
+    // derive counts by category for display
+    function countByCategory(appsList) {
+      const base = { all: appsList.length };
+      return appsList.reduce((acc, app) => {
+        acc[app.category] = (acc[app.category] || 0) + 1;
+        return acc;
+      }, base);
+    }
+
+    // 3) RENDERING LOGIC
+    // -------------------------------------------------------
+    const appGrid = document.getElementById("appGrid");
+    const filtersEl = document.getElementById("filters");
+    const resultsCounter = document.getElementById("resultsCounter");
+    const metricApps = document.getElementById("metricApps");
+    const emptyState = document.getElementById("emptyState");
+    const searchInput = document.getElementById("searchInput");
+
+    let currentCategory = "all";
+    let currentSearch = "";
+
+    function getFilteredApps() {
+      const query = currentSearch.trim().toLowerCase();
+
+      return apps.filter((app) => {
+        if (currentCategory !== "all" && app.category !== currentCategory) return false;
+
+        if (!query) return true;
+
+        const haystack =
+          (app.name + " " + app.description + " " + (app.tags || []).join(" "))
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "");
+        const needle = query
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/\p{Diacritic}/gu, "");
+
+        return haystack.includes(needle);
+      });
+    }
+
+    function renderFilters() {
+      const counts = countByCategory(apps);
+      const categories = ["all", "spiritual", "wellness", "learning", "games", "tools"];
+
+      filtersEl.innerHTML = "";
+      categories.forEach((cat) => {
+        const pill = document.createElement("button");
+        pill.type = "button";
+        pill.className = "filter-pill" + (cat === currentCategory ? " active" : "");
+        pill.dataset.category = cat;
+        pill.innerHTML = `
+          <span>${categoryLabels[cat]}</span>
+          <span class="count">${counts[cat] || 0}</span>
+        `;
+        filtersEl.appendChild(pill);
+      });
+    }
+
+    function createAppCard(app) {
+      const card = document.createElement("article");
+      card.className = "app-card";
+      card.dataset.category = app.category;
+      card.dataset.id = app.id;
+
+      const platformsHtml = (app.platforms || [])
+        .map((p) => `<span class="platform-pill">${p}</span>`)
+        .join("");
+
+      const tagsHtml = (app.tags || [])
+        .map((t) => `<span class="chip">${t}</span>`)
+        .join("");
+
+      card.innerHTML = `
+        <div class="app-header">
+          <h2 class="app-title">${app.name}</h2>
+          <span class="app-category">${categoryLabels[app.category] || "App"}</span>
+        </div>
+        <p class="app-description">${app.description}</p>
+        <div class="app-meta">
+          <div class="chip-row">
+            ${tagsHtml}
+          </div>
+          <div class="platforms">
+            <span>Platform${(app.platforms || []).length > 1 ? "s" : ""}</span>
+            ${platformsHtml}
+          </div>
+        </div>
+        <div class="app-actions">
+          <a
+            href="${app.url}"
+            class="btn btn-primary"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span class="icon">↗</span>
+            <span>${app.url.includes("play.google.com") ? "Open on Google Play" : "Open app"}</span>
+          </a>
+          <button
+            type="button"
+            class="btn btn-ghost js-toggle-preview"
+            data-preview-url="${app.previewUrl || app.url}"
+          >
+            <span class="icon">▶</span>
+            <span>Live preview</span>
+          </button>
+        </div>
+        <div class="app-preview" aria-hidden="true">
+          <div class="preview-hint">
+            <span class="small">
+              <strong>Inline preview:</strong>
+              this loads the real app in an iframe so you can try it without leaving this page.
+            </span>
+            <span class="small">
+              Some stores may block embedding — if it stays blank, use the main button instead.
+            </span>
+          </div>
+          <iframe
+            class="preview-frame"
+            loading="lazy"
+            title="${app.name} preview"
+            referrerpolicy="no-referrer"
+            sandbox="allow-scripts allow-forms allow-pointer-lock allow-same-origin allow-modals"
+          ></iframe>
+        </div>
+      `;
+      return card;
+    }
+
+    function renderApps() {
+      const filtered = getFilteredApps();
+      appGrid.innerHTML = "";
+
+      if (!filtered.length) {
+        emptyState.style.display = "block";
+      } else {
+        emptyState.style.display = "none";
+      }
+
+      filtered.forEach((app) => {
+        const card = createAppCard(app);
+        appGrid.appendChild(card);
+      });
+
+      resultsCounter.textContent =
+        filtered.length + (filtered.length === 1 ? " app" : " apps");
+      metricApps.textContent = apps.length.toString();
+    }
+
+    // 4) EVENT WIRING
+    // -------------------------------------------------------
+    filtersEl.addEventListener("click", (e) => {
+      const pill = e.target.closest(".filter-pill");
+      if (!pill) return;
+      const category = pill.dataset.category;
+      if (!category || category === currentCategory) return;
+      currentCategory = category;
+      renderFilters();
+      renderApps();
+    });
+
+    searchInput.addEventListener("input", (e) => {
+      currentSearch = e.target.value || "";
+      renderApps();
+    });
+
+    appGrid.addEventListener("click", (e) => {
+      const btn = e.target.closest(".js-toggle-preview");
+      if (!btn) return;
+
+      const card = btn.closest(".app-card");
+      const preview = card.querySelector(".app-preview");
+      const iframe = preview.querySelector("iframe");
+
+      const isActive = preview.classList.contains("active");
+      if (isActive) {
+        preview.classList.remove("active");
+        preview.setAttribute("aria-hidden", "true");
+        btn.querySelector("span.icon").textContent = "▶";
+        btn.querySelector("span:last-child").textContent = "Live preview";
+      } else {
+        if (!iframe.src) {
+          iframe.src = btn.dataset.previewUrl || "";
+        }
+        preview.classList.add("active");
+        preview.setAttribute("aria-hidden", "false");
+        btn.querySelector("span.icon").textContent = "⏹";
+        btn.querySelector("span:last-child").textContent = "Hide preview";
+      }
+    });
+
+    // THEME TOGGLE
+    const themeToggle = document.getElementById("themeToggle");
+    const themeLabel = themeToggle.querySelector(".theme-label");
+    const themeIcon = themeToggle.querySelector(".theme-icon");
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      if (theme === "light") {
+        themeLabel.textContent = "Light mode";
+        themeIcon.textContent = "☀️";
+      } else {
+        themeLabel.textContent = "Dark mode";
+        themeIcon.textContent = "🌙";
+      }
+    }
+
+    function initTheme() {
+      const stored = window.localStorage.getItem("umut-theme");
+      if (stored === "light" || stored === "dark") {
+        applyTheme(stored);
+      } else {
+        applyTheme("dark");
+      }
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme") || "dark";
+      const next = current === "dark" ? "light" : "dark";
+      applyTheme(next);
+      window.localStorage.setItem("umut-theme", next);
+    });
+
+    // INITIAL RENDER
+    initTheme();
+    renderFilters();
+    renderApps();
+  </script>
+</body>
+</html>
