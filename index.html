@@ -35,6 +35,7 @@
       --blur: 22px;
       --transition-fast: 0.18s ease-out;
       --transition-med: 0.3s ease;
+      --nav-height: 66px;
     }
 
     html[data-theme="light"] {
@@ -100,27 +101,29 @@
     header {
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 22;
       backdrop-filter: blur(var(--blur));
       background: linear-gradient(
         to bottom,
+        rgba(2, 6, 23, 0.96),
         rgba(2, 6, 23, 0.9),
-        rgba(2, 6, 23, 0.72),
-        transparent
+        rgba(2, 6, 23, 0.6)
       );
-      margin-bottom: 14px;
-      transition: box-shadow var(--transition-fast);
+      transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.16);
     }
 
     header.scrolled {
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      border-color: rgba(148, 163, 184, 0.3);
     }
 
     .top-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 12px 6px;
+      padding: 12px 10px 10px;
+      min-height: var(--nav-height);
     }
 
     .brand {
@@ -217,6 +220,7 @@
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 16px 20px;
       align-items: center;
+      margin: 16px 0 12px;
       padding: 18px 20px;
       border-radius: var(--radius-lg);
       border: 1px solid rgba(148, 163, 184, 0.3);
@@ -331,20 +335,20 @@
 
     /* CONTROLS */
     .controls-bar {
-      margin-top: 16px;
+      margin-top: 10px;
       display: flex;
       flex-wrap: wrap;
       gap: 12px 16px;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 10px 6px;
+      padding: 12px 12px 8px;
       border-radius: var(--radius-lg);
       border: 1px solid var(--border);
       background: var(--panel-strong);
       box-shadow: 0 12px 28px rgba(15, 23, 42, 0.3);
       position: sticky;
-      top: 70px;
-      z-index: 10;
+      top: calc(var(--nav-height) - 6px);
+      z-index: 18;
     }
 
     .filters {
@@ -848,6 +852,10 @@
     }
 
     @media (max-width: 720px) {
+      :root {
+        --nav-height: 58px;
+      }
+
       .hero {
         grid-template-columns: 1fr;
       }
@@ -857,7 +865,8 @@
       }
 
       .controls-bar {
-        top: 60px;
+        top: calc(var(--nav-height) - 2px);
+        padding: 12px 10px 8px;
       }
 
       .featured-row {
@@ -894,45 +903,45 @@
           </button>
         </div>
       </div>
+    </header>
 
-      <section class="hero fade-in-up" style="animation-delay: 0.12s">
-        <div class="hero-main">
-          <div class="hero-kicker"><span class="dot"></span><span data-i18n="heroKicker">Ad-Free · Privacy-First · Built with love</span></div>
-          <h1 class="hero-title" data-i18n="heroTitle">Umut Lab · App Showcase</h1>
-          <p class="hero-sub" data-i18n="heroSubtitle">
-            A small ecosystem of handcrafted tools, games, and spiritual companions built to respect your time, privacy, and dignity.
-          </p>
-        </div>
-        <div class="hero-side">
-          <div class="hero-metrics">
-            <div class="metric">
-              <div class="metric-label" data-i18n="metrics.apps">Apps live</div>
-              <div class="metric-value" id="metricApps">0</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label" data-i18n="metrics.privacy">Privacy first</div>
-              <div class="metric-value" data-i18n="metrics.privacyValue">No ads · No trackers</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label" data-i18n="metrics.platforms">Platforms</div>
-              <div class="metric-value" data-i18n="metrics.platformsValue">Web & Android</div>
-            </div>
+    <section class="hero fade-in-up" style="animation-delay: 0.12s">
+      <div class="hero-main">
+        <div class="hero-kicker"><span class="dot"></span><span data-i18n="heroKicker">Ad-Free · Privacy-First · Built with love</span></div>
+        <h1 class="hero-title" data-i18n="heroTitle">Umut Lab · App Showcase</h1>
+        <p class="hero-sub" data-i18n="heroSubtitle">
+          A small ecosystem of handcrafted tools, games, and spiritual companions built to respect your time, privacy, and dignity.
+        </p>
+      </div>
+      <div class="hero-side">
+        <div class="hero-metrics">
+          <div class="metric">
+            <div class="metric-label" data-i18n="metrics.apps">Apps live</div>
+            <div class="metric-value" id="metricApps">0</div>
           </div>
-        </div>
-      </section>
-
-      <div class="controls-bar fade-in-up" style="animation-delay: 0.18s">
-        <div class="filters" id="filters" aria-label="Category filters"></div>
-        <div class="search-wrap">
-          <div class="search-inner" id="searchWrap">
-            <span class="search-icon">🔍</span>
-            <input id="searchInput" type="search" placeholder="Search apps, tags, feelings…" aria-label="Search apps" />
-            <button class="search-clear" id="searchClear" type="button" aria-label="Clear search">×</button>
+          <div class="metric">
+            <div class="metric-label" data-i18n="metrics.privacy">Privacy first</div>
+            <div class="metric-value" data-i18n="metrics.privacyValue">No ads · No trackers</div>
           </div>
-          <div class="results-counter" id="resultsCounter">0 apps</div>
+          <div class="metric">
+            <div class="metric-label" data-i18n="metrics.platforms">Platforms</div>
+            <div class="metric-value" data-i18n="metrics.platformsValue">Web & Android</div>
+          </div>
         </div>
       </div>
-    </header>
+    </section>
+
+    <div class="controls-bar fade-in-up" style="animation-delay: 0.18s">
+      <div class="filters" id="filters" aria-label="Category filters"></div>
+      <div class="search-wrap">
+        <div class="search-inner" id="searchWrap">
+          <span class="search-icon">🔍</span>
+          <input id="searchInput" type="search" placeholder="Search apps, tags, feelings…" aria-label="Search apps" />
+          <button class="search-clear" id="searchClear" type="button" aria-label="Clear search">×</button>
+        </div>
+        <div class="results-counter" id="resultsCounter">0 apps</div>
+      </div>
+    </div>
 
     <section class="section-heading" aria-label="Featured apps">
       <h3 data-i18n="featuredTitle">Featured</h3>
@@ -1069,10 +1078,15 @@
         category: "spiritual",
         url: "https://candanumut.github.io/Unmasking_sexual_engineered/",
         previewUrl: "https://candanumut.github.io/Unmasking_sexual_engineered/",
-        description:
-          "Faith-friendly NoFap / reboot companion that helps you see how sexual conditioning is engineered, protect your brain and heart from porn, and rebuild a life of clarity, dignity, and worship. All plans, streaks, and notes stay fully local in your browser.",
-        tags: ["NoFap", "Faith", "Self-control", "Education"],
-        platforms: ["Web"],
+        description: {
+          en: "Faith-friendly NoFap / reboot companion that helps you see how sexual conditioning is engineered, protect your brain and heart from porn, and rebuild a life of clarity, dignity, and worship. All plans, streaks, and notes stay fully local in your browser.",
+          tr: "Pornografinin nasıl mühendislik edildiğini gösteren, beynini ve kalbini korumana yardımcı olan iman dostu bir reboot rehberi. Bağımlılık döngüsünden çıkıp berraklık, haysiyet ve ibadet dolu bir hayata dönmen için planlar, seriler ve notlar tamamen cihazında kalır.",
+        },
+        tags: {
+          en: ["NoFap", "Faith", "Self-control", "Education"],
+          tr: ["NoFap", "İman", "Öz-denetim", "Eğitim"],
+        },
+        platforms: { en: ["Web"], tr: ["Web"] },
       },
       {
         id: "nova-arena-3d",
@@ -1080,10 +1094,15 @@
         category: "games",
         url: "https://candanumut.github.io/newbrotato/",
         previewUrl: "https://candanumut.github.io/newbrotato/",
-        description:
-          "Top-down rogue-survivor in a Perlin-generated world of forests, rocks, lakes, and enemies. Dash, jump, experiment with different upgrades, and try to survive as long as possible in a living terrain that actually feels like ground.",
-        tags: ["Action", "Roguelite", "3D", "Prototype"],
-        platforms: ["Web"],
+        description: {
+          en: "Top-down rogue-survivor in a Perlin-generated world of forests, rocks, lakes, and enemies. Dash, jump, experiment with different upgrades, and try to survive as long as possible in a living terrain that actually feels like ground.",
+          tr: "Ormanlar, kayalar, göller ve düşmanlarla dolu Perlin üretimli bir dünyada yukarıdan görünüşlü rogue-survivor. Fırlayıp zıpla, farklı yükseltmeleri dene ve gerçekten zemin gibi hissedilen yaşayan bir arazide olabildiğince uzun süre hayatta kal.",
+        },
+        tags: {
+          en: ["Action", "Roguelite", "3D", "Prototype"],
+          tr: ["Aksiyon", "Roguelite", "3D", "Prototip"],
+        },
+        platforms: { en: ["Web"], tr: ["Web"] },
       },
       {
         id: "scale-universe",
@@ -1091,10 +1110,15 @@
         category: "learning",
         url: "https://candanumut.github.io/Scaleuniverse/",
         previewUrl: "https://candanumut.github.io/Scaleuniverse/",
-        description:
-          "An interactive visual journey from subatomic particles all the way to the edge of the observable universe. Designed for tefekkür and humility: scroll through the scales, jump between atoms, cells, Earth, and galaxies, and feel how small (and special) human life really is.",
-        tags: ["Education", "Cosmos", "Reflection", "Interactive"],
-        platforms: ["Web"],
+        description: {
+          en: "An interactive visual journey from subatomic particles all the way to the edge of the observable universe. Designed for tefekkür and humility: scroll through the scales, jump between atoms, cells, Earth, and galaxies, and feel how small (and special) human life really is.",
+          tr: "Atom altı parçacıklardan gözlemlenebilir evrenin sınırına uzanan etkileşimli bir görsel yolculuk. Tefekkür ve tevazu için tasarlandı: ölçekler arasında kay, atomlardan hücrelere, Dünya'dan galaksilere atla ve insan hayatının ne kadar küçük (ve özel) olduğunu hisset.",
+        },
+        tags: {
+          en: ["Education", "Cosmos", "Reflection", "Interactive"],
+          tr: ["Eğitim", "Kozmos", "Tefekkür", "Etkileşim"],
+        },
+        platforms: { en: ["Web"], tr: ["Web"] },
       },
       {
         id: "ready-to-die",
@@ -1102,10 +1126,15 @@
         category: "spiritual",
         url: "https://candanumut.github.io/Readytodie/",
         previewUrl: "https://candanumut.github.io/Readytodie/",
-        description:
-          "A Qur’an & Sunnah–inspired self-accounting tool. Reflect on faith, worship, character, rights of others, knowledge, tawba and sincerity. Generates an approximate ‘Ahirete hazırlık’ score to show direction — not a fatwa, just a gentle nudge to realign your life.",
-        tags: ["Faith", "Self-reflection", "Accountability"],
-        platforms: ["Web"],
+        description: {
+          en: "A Qur’an & Sunnah–inspired self-accounting tool. Reflect on faith, worship, character, rights of others, knowledge, tawba and sincerity. Generates an approximate ‘Ahirete hazırlık’ score to show direction — not a fatwa, just a gentle nudge to realign your life.",
+          tr: "Kur’an ve Sünnet'ten ilham alan bir muhasebe aracı. İman, ibadet, ahlak, kul hakları, ilim, tevbe ve ihlas üzerine düşün. Hayata yön vermek için yaklaşık bir ‘Ahirete hazırlık’ puanı üretir; fetva değildir, sadece yumuşak bir hatırlatma.",
+        },
+        tags: {
+          en: ["Faith", "Self-reflection", "Accountability"],
+          tr: ["İman", "Öz muhasebe", "Sorumluluk"],
+        },
+        platforms: { en: ["Web"], tr: ["Web"] },
       },
       {
         id: "how-old",
@@ -1113,10 +1142,15 @@
         category: "wellness",
         url: "https://candanumut.github.io/Howold/",
         previewUrl: "https://candanumut.github.io/Howold/",
-        description:
-          "Science-inspired questionnaire to estimate your ‘body age’ and ‘mind age’ based on sleep, movement, nutrition, stress, habits, social life, and meaning. Not a medical test — just a mirror to see where lifestyle is keeping you young and where it’s quietly aging you.",
-        tags: ["Health", "Psychology", "Habits", "Self-awareness"],
-        platforms: ["Web"],
+        description: {
+          en: "Science-inspired questionnaire to estimate your ‘body age’ and ‘mind age’ based on sleep, movement, nutrition, stress, habits, social life, and meaning. Not a medical test — just a mirror to see where lifestyle is keeping you young and where it’s quietly aging you.",
+          tr: "Uyku, hareket, beslenme, stres, alışkanlıklar, sosyal hayat ve anlam üzerinden ‘beden yaşı’ ve ‘zihin yaşı’ tahmini yapan bilim esintili bir anket. Tıbbi bir test değil; yaşam tarzının seni nerede genç tuttuğunu, nerede sessizce yaşlandırdığını gösteren bir ayna.",
+        },
+        tags: {
+          en: ["Health", "Psychology", "Habits", "Self-awareness"],
+          tr: ["Sağlık", "Psikoloji", "Alışkanlık", "Farkındalık"],
+        },
+        platforms: { en: ["Web"], tr: ["Web"] },
       },
       {
         id: "takva-race",
@@ -1124,10 +1158,18 @@
         category: "games",
         url: "https://candanumut.github.io/adilstore-webapps/com.takvarace.takvarace/1.0.0/",
         previewUrl: "https://candanumut.github.io/adilstore-webapps/com.takvarace.takvarace/1.0.0/",
-        description:
-          "A small arcade experiment from the Takva universe. Dash through a minimalist track while symbolically racing toward khayr and away from distractions. Built as a playful reminder that life is a race where direction matters more than raw speed.",
-        tags: ["Arcade", "Prototype", "Takva"],
-        platforms: ["Web", "Android (APK build)"],
+        description: {
+          en: "A small arcade experiment from the Takva universe. Dash through a minimalist track while symbolically racing toward khayr and away from distractions. Built as a playful reminder that life is a race where direction matters more than raw speed.",
+          tr: "Takva evreninden küçük bir arcade denemesi. Minimalist parkurda hızla ilerlerken hayra doğru, dikkat dağıtıcılardan uzağa sembolik bir yarış koş. Hayatın, hızdan çok yönün önemli olduğu bir yarış olduğunu hatırlatmak için tasarlandı.",
+        },
+        tags: {
+          en: ["Arcade", "Prototype", "Takva"],
+          tr: ["Arcade", "Prototip", "Takva"],
+        },
+        platforms: {
+          en: ["Web", "Android (APK build)"],
+          tr: ["Web", "Android (APK sürümü)"],
+        },
       },
       {
         id: "dreamsleep",
@@ -1135,10 +1177,15 @@
         category: "wellness",
         url: "https://candanumut.github.io/adilstore-webapps/com.dreamsleep.dreamsleep/1.0.0/",
         previewUrl: "https://candanumut.github.io/adilstore-webapps/com.dreamsleep.dreamsleep/1.0.0/",
-        description:
-          "A calm sleep helper focused on better nights and kinder mornings. Mix soothing sounds and intentional routines, and use it together with your own sleep habits and dua to slowly rebuild a healthier relationship with rest.",
-        tags: ["Sleep", "Relaxation", "Routine"],
-        platforms: ["Web build", "Android"],
+        description: {
+          en: "A calm sleep helper focused on better nights and kinder mornings. Mix soothing sounds and intentional routines, and use it together with your own sleep habits and dua to slowly rebuild a healthier relationship with rest.",
+          tr: "Daha iyi geceler ve daha yumuşak sabahlar için sakin bir uyku yardımcısı. Sakinleştirici sesleri ve niyetli rutinleri karıştır, kendi uyku alışkanlıkların ve dualarınla birlikte kullanarak dinlenmeyle daha sağlıklı bir ilişkiyi yavaşça kur.",
+        },
+        tags: {
+          en: ["Sleep", "Relaxation", "Routine"],
+          tr: ["Uyku", "Rahatlama", "Rutin"],
+        },
+        platforms: { en: ["Web build", "Android"], tr: ["Web sürümü", "Android"] },
       },
       {
         id: "pdf-reader",
@@ -1146,10 +1193,15 @@
         category: "tools",
         url: "https://candanumut.github.io/adilstore-webapps/com.example.pdfreader/1.0.1/",
         previewUrl: "https://candanumut.github.io/adilstore-webapps/com.example.pdfreader/1.0.1/",
-        description:
-          "Lightweight, distraction-free PDF reader. No ads, no analytics, no nonsense — just open your files and read. Built for people who want to escape bloated readers and keep documents simple and local.",
-        tags: ["Productivity", "Reader", "Offline-friendly"],
-        platforms: ["Web build", "Android"],
+        description: {
+          en: "Lightweight, distraction-free PDF reader. No ads, no analytics, no nonsense — just open your files and read. Built for people who want to escape bloated readers and keep documents simple and local.",
+          tr: "Hafif ve dikkat dağıtmayan bir PDF okuyucu. Reklam yok, analitik yok, gereksiz özellik yok — dosyalarını açıp oku. Şişkin okuyuculardan kaçıp belgelerini basit ve yerelde tutmak isteyenler için yapıldı.",
+        },
+        tags: {
+          en: ["Productivity", "Reader", "Offline-friendly"],
+          tr: ["Verimlilik", "Okuyucu", "Çevrimdışı dostu"],
+        },
+        platforms: { en: ["Web build", "Android"], tr: ["Web sürümü", "Android"] },
       },
       {
         id: "zikr-checker",
@@ -1157,10 +1209,15 @@
         category: "spiritual",
         url: "https://candanumut.github.io/adilstore-webapps/com.example.zikrchecker/1.0.9/",
         previewUrl: "https://candanumut.github.io/adilstore-webapps/com.example.zikrchecker/1.0.9/",
-        description:
-          "A simple, focused dashboard to keep track of daily spiritual actions: istighfar, salawat, Qur’an reading, gratitude, and good deeds. Designed to build istiqamah gently — small consistent steps instead of guilt and burnout.",
-        tags: ["Dhikr", "Habits", "Dashboard"],
-        platforms: ["Web build", "Android"],
+        description: {
+          en: "A simple, focused dashboard to keep track of daily spiritual actions: istighfar, salawat, Qur’an reading, gratitude, and good deeds. Designed to build istiqamah gently — small consistent steps instead of guilt and burnout.",
+          tr: "Günlük manevi amelleri takip etmek için sade bir pano: istiğfar, salavat, Kur’an okuma, şükür ve hayırlı işler. İstikameti nazikçe inşa etmek için tasarlandı — suçluluk ve tükenmişlik yerine küçük ama tutarlı adımlar.",
+        },
+        tags: {
+          en: ["Dhikr", "Habits", "Dashboard"],
+          tr: ["Zikir", "Alışkanlık", "Pano"],
+        },
+        platforms: { en: ["Web build", "Android"], tr: ["Web sürümü", "Android"] },
       },
       {
         id: "healing-sounds",
@@ -1169,10 +1226,15 @@
         url: "https://play.google.com/store/apps/details?id=com.healing.healingsound.healingsounds",
         previewUrl:
           "https://play.google.com/store/apps/details?id=com.healing.healingsound.healingsounds",
-        description:
-          "A collection of calming soundscapes, nature ambience, and frequency-based tracks to support focus, relaxation, and meditation. Use it to wind down, create a soft background while you work, or deepen reflection and prayer.",
-        tags: ["Sound therapy", "Meditation", "Relaxation"],
-        platforms: ["Android (Google Play)"],
+        description: {
+          en: "A collection of calming soundscapes, nature ambience, and frequency-based tracks to support focus, relaxation, and meditation. Use it to wind down, create a soft background while you work, or deepen reflection and prayer.",
+          tr: "Odaklanma, rahatlama ve meditasyonu desteklemek için sakinleştirici soundscape'ler, doğa ambiyansları ve frekans temelli parçalar. Günün yorgunluğunu atmak, çalışırken yumuşak bir arka plan oluşturmak veya tefekkür ve duayı derinleştirmek için kullan.",
+        },
+        tags: {
+          en: ["Sound therapy", "Meditation", "Relaxation"],
+          tr: ["Ses terapisi", "Meditasyon", "Rahatlama"],
+        },
+        platforms: { en: ["Android (Google Play)"], tr: ["Android (Google Play)"] },
       },
       {
         id: "awakening",
@@ -1181,10 +1243,15 @@
         url: "https://play.google.com/store/apps/details?id=com.wakeup.wakeup.awakening",
         previewUrl:
           "https://play.google.com/store/apps/details?id=com.wakeup.wakeup.awakening",
-        description:
-          "A meditation-first wake-up app. Instead of starting the day with chaos and social feeds, Awakening invites you to breathe, remember your values, and step into the morning with clarity and gratitude — with no tracking behind the scenes.",
-        tags: ["Meditation", "Morning routine", "Mindfulness"],
-        platforms: ["Android (Google Play)"],
+        description: {
+          en: "A meditation-first wake-up app. Instead of starting the day with chaos and social feeds, Awakening invites you to breathe, remember your values, and step into the morning with clarity and gratitude — with no tracking behind the scenes.",
+          tr: "Güne meditasyonla başlaman için bir alarm uygulaması. Sabahı kaos ve sosyal akışlarla açmak yerine derin nefes almaya, değerlerini hatırlamaya ve şükürle berrak bir güne adım atmaya davet eder — arkada takip kodu olmadan.",
+        },
+        tags: {
+          en: ["Meditation", "Morning routine", "Mindfulness"],
+          tr: ["Meditasyon", "Sabah rutini", "Farkındalık"],
+        },
+        platforms: { en: ["Android (Google Play)"], tr: ["Android (Google Play)"] },
       },
       {
         id: "hopy-tower-3",
@@ -1193,10 +1260,15 @@
         url: "https://play.google.com/store/apps/details?id=com.hopy_tower3.hopy.hopy_tower3",
         previewUrl:
           "https://play.google.com/store/apps/details?id=com.hopy_tower3.hopy.hopy_tower3",
-        description:
-          "Fast, vertical arcade game where you climb a colorful tower, time your jumps, and try not to fall. Built for short, satisfying sessions when you just want a quick break without getting sucked into an endless feed.",
-        tags: ["Arcade", "Casual", "Mobile"],
-        platforms: ["Android (Google Play)"],
+        description: {
+          en: "Fast, vertical arcade game where you climb a colorful tower, time your jumps, and try not to fall. Built for short, satisfying sessions when you just want a quick break without getting sucked into an endless feed.",
+          tr: "Renkli bir kuleyi tırmandığın, zıplamalarını zamanladığın ve düşmemeye çalıştığın hızlı bir dikey arcade oyunu. Sonsuz bir akışa kapılmadan kısa ve tatmin edici oyun seansları için yapıldı.",
+        },
+        tags: {
+          en: ["Arcade", "Casual", "Mobile"],
+          tr: ["Arcade", "Gündelik", "Mobil"],
+        },
+        platforms: { en: ["Android (Google Play)"], tr: ["Android (Google Play)"] },
       },
     ];
 
@@ -1220,6 +1292,21 @@
       return keys.reduce((obj, key) => (obj ? obj[key] : ""), translations[currentLang]) || "";
     }
 
+    function getLocalizedText(value) {
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        return value[currentLang] || value.en || Object.values(value)[0] || "";
+      }
+      return value || "";
+    }
+
+    function getLocalizedList(value) {
+      if (Array.isArray(value)) return value;
+      if (value && typeof value === "object") {
+        return value[currentLang] || value.en || [];
+      }
+      return [];
+    }
+
     function setLanguage(lang) {
       if (!translations[lang]) return;
       currentLang = lang;
@@ -1229,6 +1316,7 @@
       applyTranslations();
       renderFilters();
       renderApps();
+      renderFeatured();
     }
 
     function initLanguage() {
@@ -1298,19 +1386,22 @@
       card.className = "app-card";
       card.dataset.category = app.category;
       card.dataset.appId = app.id;
+      const description = getLocalizedText(app.description);
+      const tags = getLocalizedList(app.tags);
+      const platforms = getLocalizedList(app.platforms);
       const isPlayStore = app.url.includes("play.google.com");
       card.innerHTML = `
         <div class="app-header">
           <h3 class="app-title"><span class="app-icon">${app.name.charAt(0)}</span>${app.name}</h3>
           <div class="app-category">${translations[currentLang].categories[app.category]}</div>
         </div>
-        <p class="app-description">${app.description}</p>
+        <p class="app-description">${description}</p>
         <div class="app-meta">
           <div class="chip-row">
-            ${(app.tags || []).map((tag) => `<span class="chip">${tag}</span>`).join("")}
+            ${tags.map((tag) => `<span class="chip">${tag}</span>`).join("")}
           </div>
           <div class="platforms">
-            ${(app.platforms || []).map((p) => `<span class="platform-pill">${p}</span>`).join("")}
+            ${platforms.map((p) => `<span class="platform-pill">${p}</span>`).join("")}
           </div>
         </div>
         <div class="app-actions">
@@ -1370,6 +1461,7 @@
         const card = document.createElement("button");
         card.type = "button";
         card.className = "featured-card";
+        const description = getLocalizedText(app.description);
         card.innerHTML = `
           <div class="featured-meta">
             <span class="app-icon">${app.name.charAt(0)}</span>
@@ -1378,7 +1470,7 @@
               <div class="app-category">${translations[currentLang].categories[app.category]}</div>
             </div>
           </div>
-          <p class="featured-desc">${app.description.slice(0, 110)}...</p>
+          <p class="featured-desc">${description.slice(0, 110)}...</p>
         `;
         card.addEventListener("click", () => highlightApp(app.id));
         featuredRow.appendChild(card);
@@ -1401,8 +1493,10 @@
 
         if (!query) return true;
 
+        const localizedDescription = getLocalizedText(app.description);
+        const localizedTags = getLocalizedList(app.tags);
         const haystack =
-          (app.name + " " + app.description + " " + (app.tags || []).join(" "))
+          (app.name + " " + localizedDescription + " " + localizedTags.join(" "))
             .toLowerCase()
             .normalize("NFD")
             .replace(/\p{Diacritic}/gu, "");
@@ -1475,7 +1569,6 @@
       const btn = e.target.closest(".lang-option");
       if (!btn) return;
       setLanguage(btn.dataset.lang);
-      renderFeatured();
     });
 
     // THEME TOGGLE
