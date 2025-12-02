@@ -36,23 +36,29 @@
       --transition-fast: 0.18s ease-out;
       --transition-med: 0.3s ease;
       --nav-height: 66px;
+      --page-gradient: radial-gradient(circle at 10% 10%, rgba(14, 165, 233, 0.18), transparent 35%),
+        radial-gradient(circle at 80% 0%, rgba(236, 72, 153, 0.16), transparent 32%),
+        linear-gradient(135deg, rgba(8, 47, 73, 0.9), rgba(2, 6, 23, 0.95));
     }
 
     html[data-theme="light"] {
       --bg: #f8fafc;
       --bg-soft: #f3f4f6;
       --panel: #ffffff;
-      --panel-soft: #f8fafc;
-      --panel-strong: #f5f7fa;
+      --panel-soft: #f8fbff;
+      --panel-strong: #eef2f7;
       --accent: #0ea5e9;
-      --accent-soft: rgba(14, 165, 233, 0.12);
+      --accent-soft: rgba(14, 165, 233, 0.14);
       --accent-strong: #0369a1;
       --danger: #dc2626;
       --text: #0f172a;
       --text-soft: #475569;
-      --border: #e5e7eb;
+      --border: #d9e2ec;
       --chip-bg: #e0f2fe;
-      --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.12);
+      --shadow-soft: 0 16px 34px rgba(12, 74, 110, 0.18);
+      --page-gradient: radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.12), transparent 32%),
+        radial-gradient(circle at 75% 0%, rgba(59, 130, 246, 0.12), transparent 34%),
+        linear-gradient(135deg, #f8fafc 0%, #f1f5f9 40%, #e2e8f0 100%);
     }
 
     * {
@@ -67,9 +73,7 @@
       margin: 0;
       min-height: 100vh;
       font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at 10% 10%, rgba(14, 165, 233, 0.18), transparent 35%),
-        radial-gradient(circle at 80% 0%, rgba(236, 72, 153, 0.16), transparent 32%),
-        linear-gradient(135deg, rgba(8, 47, 73, 0.9), rgba(2, 6, 23, 0.95));
+      background: var(--page-gradient);
       color: var(--text);
       -webkit-font-smoothing: antialiased;
       display: flex;
@@ -217,11 +221,11 @@
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.9fr);
       gap: 16px 20px;
-      align-items: center;
+      align-items: start;
       margin: 16px 0 12px;
-      padding: 18px 20px;
+      padding: 20px 22px;
       border-radius: var(--radius-lg);
       border: 1px solid rgba(148, 163, 184, 0.3);
       box-shadow: var(--shadow-soft);
@@ -231,11 +235,17 @@
       overflow: hidden;
     }
 
+    html[data-theme="light"] .hero {
+      background: linear-gradient(135deg, rgba(226, 232, 240, 0.9), rgba(255, 255, 255, 0.96));
+      border-color: rgba(148, 163, 184, 0.5);
+      box-shadow: 0 16px 34px rgba(12, 74, 110, 0.14);
+    }
+
     .hero::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1), transparent 42%);
+      background: radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.09), transparent 42%);
       pointer-events: none;
     }
 
@@ -260,12 +270,35 @@
       text-transform: uppercase;
     }
 
+    html[data-theme="light"] .hero-kicker {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgba(148, 163, 184, 0.55);
+    }
+
     .hero-kicker span.dot {
       width: 9px;
       height: 9px;
       border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 0 8px rgba(34, 197, 94, 0.22);
+      background: linear-gradient(135deg, #22c55e, #0ea5e9);
+      box-shadow: 0 0 0 8px rgba(34, 197, 94, 0.2);
+    }
+
+    .hero-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--text);
+      font-size: 12px;
+      margin-top: 12px;
+    }
+
+    html[data-theme="light"] .hero-note {
+      background: rgba(14, 165, 233, 0.16);
+      border-color: rgba(14, 165, 233, 0.28);
     }
 
     .hero-title {
@@ -283,9 +316,95 @@
       max-width: 540px;
     }
 
+    .hero-app-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      border-radius: 18px;
+      padding: 14px 14px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: linear-gradient(150deg, rgba(56, 189, 248, 0.12), rgba(99, 102, 241, 0.14)),
+        var(--panel);
+      box-shadow: 0 18px 32px rgba(0, 0, 0, 0.28);
+      display: grid;
+      gap: 10px;
+    }
+
+    html[data-theme="light"] .hero-app-card {
+      background: linear-gradient(150deg, rgba(14, 165, 233, 0.12), rgba(99, 102, 241, 0.08)),
+        var(--panel);
+      border-color: rgba(148, 163, 184, 0.55);
+      box-shadow: 0 16px 30px rgba(12, 74, 110, 0.15);
+    }
+
+    .hero-app-header {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px 12px;
+      align-items: center;
+    }
+
+    .hero-app-header h2 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .hero-app-desc {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .hero-app-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text);
+      font-size: 11px;
+    }
+
+    html[data-theme="light"] .pill {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .app-icon.lg {
+      width: 48px;
+      height: 48px;
+      font-size: 18px;
+      box-shadow: 0 12px 28px rgba(56, 189, 248, 0.32);
+    }
+
+    html[data-theme="light"] .app-icon {
+      background: linear-gradient(135deg, #0ea5e9, #e0f2fe);
+      color: #0b1120;
+    }
+
     .hero-sub strong {
       color: var(--text);
       font-weight: 600;
+    }
+
+    .small {
+      font-size: 11px;
+      color: var(--text-soft);
+      line-height: 1.5;
     }
 
     .hero-side {
@@ -582,6 +701,12 @@
       transform: translateY(12px);
     }
 
+    html[data-theme="light"] .app-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.96));
+      border-color: rgba(148, 163, 184, 0.45);
+      box-shadow: 0 14px 32px rgba(12, 74, 110, 0.18);
+    }
+
     .app-card.in-view {
       opacity: 1;
       transform: translateY(0);
@@ -769,6 +894,11 @@
       transition: max-height 0.35s ease, opacity 0.3s ease, transform 0.3s ease;
     }
 
+    html[data-theme="light"] .app-preview {
+      background: #f8fafc;
+      border-color: rgba(148, 163, 184, 0.45);
+    }
+
     .app-preview.active {
       opacity: 1;
       transform: translateY(0);
@@ -785,11 +915,20 @@
       gap: 4px;
     }
 
+    html[data-theme="light"] .preview-hint {
+      background: #e8edf5;
+      border-color: rgba(148, 163, 184, 0.55);
+    }
+
     .preview-frame {
       width: 100%;
       min-height: 360px;
       border: none;
       background: #000;
+    }
+
+    .hero-preview .preview-frame {
+      min-height: 420px;
     }
 
     .preview-loader {
@@ -798,6 +937,10 @@
       color: var(--text-soft);
       background: rgba(15, 23, 42, 0.9);
       display: none;
+    }
+
+    html[data-theme="light"] .preview-loader {
+      background: #eef2f7;
     }
 
     .preview-loading .preview-loader {
@@ -907,20 +1050,22 @@
 
     <section class="hero fade-in-up" style="animation-delay: 0.12s">
       <div class="hero-main">
-        <div class="hero-kicker"><span class="dot"></span><span data-i18n="heroKicker">Ad-Free · Privacy-First · Built with love</span></div>
-        <h1 class="hero-title" data-i18n="heroTitle">Umut Lab · App Showcase</h1>
+        <div class="hero-kicker"><span class="dot"></span><span data-i18n="heroKicker">Privacy-first · Heart-friendly</span></div>
+        <h1 class="hero-title" data-i18n="heroTitle">AdilStore · Respectful apps</h1>
         <p class="hero-sub" data-i18n="heroSubtitle">
-          A small ecosystem of handcrafted tools, games, and spiritual companions built to respect your time, privacy, and dignity.
+          A warm collection of handcrafted tools, mindful games, and spiritual companions that protect your focus, privacy, and dignity.
         </p>
+        <div class="hero-note" data-i18n="heroNote">Gentle, family-friendly experiences built with intention.</div>
       </div>
       <div class="hero-side">
+        <div class="hero-app-card" id="heroAppCard" aria-live="polite"></div>
         <div class="hero-metrics">
           <div class="metric">
             <div class="metric-label" data-i18n="metrics.apps">Apps live</div>
             <div class="metric-value" id="metricApps">0</div>
           </div>
           <div class="metric">
-            <div class="metric-label" data-i18n="metrics.privacy">Privacy first</div>
+            <div class="metric-label" data-i18n="metrics.privacy">Privacy & kindness</div>
             <div class="metric-value" data-i18n="metrics.privacyValue">No ads · No trackers</div>
           </div>
           <div class="metric">
@@ -936,7 +1081,7 @@
       <div class="search-wrap">
         <div class="search-inner" id="searchWrap">
           <span class="search-icon">🔍</span>
-          <input id="searchInput" type="search" placeholder="Search apps, tags, feelings…" aria-label="Search apps" />
+          <input id="searchInput" type="search" placeholder="Search apps, tags, or hopes…" aria-label="Search apps" />
           <button class="search-clear" id="searchClear" type="button" aria-label="Clear search">×</button>
         </div>
         <div class="results-counter" id="resultsCounter">0 apps</div>
@@ -972,23 +1117,25 @@
     // i18n: translations and language state
     const translations = {
       en: {
-        heroKicker: "Ad-Free · Privacy-First · Built with love",
-        heroTitle: "Umut Lab · App Showcase",
+        heroKicker: "Privacy-first · Heart-friendly",
+        heroTitle: "AdilStore · Respectful apps",
         heroSubtitle:
-          "A small ecosystem of handcrafted tools, games, and spiritual companions built to respect your time, privacy, and dignity.",
+          "A warm collection of handcrafted tools, mindful games, and spiritual companions that protect your focus, privacy, and dignity.",
+        heroNote: "Gentle, family-friendly experiences built with intention.",
+        heroAppTagline: "Featured today: steady dhikr, steady heart",
         categories: {
           all: "All apps",
-          spiritual: "Spiritual & Ihsan",
-          wellness: "Wellbeing & Mind",
-          learning: "Learning & Reflection",
-          games: "Games & Play",
-          tools: "Tools & Utilities",
+          spiritual: "Spiritual growth",
+          wellness: "Wellbeing & mind",
+          learning: "Learning & reflection",
+          games: "Games & play",
+          tools: "Tools & utilities",
         },
-        searchPlaceholder: "Search apps, tags, feelings…",
+        searchPlaceholder: "Search apps, tags, or hopes…",
         results: { single: "app", plural: "apps" },
         metrics: {
           apps: "Apps live",
-          privacy: "Privacy first",
+          privacy: "Privacy & kindness",
           privacyValue: "No ads · No trackers",
           platforms: "Platforms",
           platformsValue: "Web & Android",
@@ -1001,18 +1148,18 @@
         },
         preview: {
           lead: "Inline preview:",
-          body: "this loads the real app in an iframe so you can try it without leaving this page.",
-          fallback: "Some stores may block embedding — if it stays blank, use the main button instead.",
+          body: "Try the real app here without leaving the page.",
+          fallback: "Some stores block embedding — if it stays blank, please use the main button.",
           loading: "Loading live preview…",
         },
         empty: {
           title: "No apps match your search.",
-          subtitle: "Try another category or reset filters.",
+          subtitle: "Try a caring keyword or reset the filters.",
         },
         footer: {
-          line1: "All apps by <strong>Umut Candan</strong>. No ads, no trackers, no games with your data.",
+          line1: "All apps by <strong>Umut Candan</strong>. No ads, no trackers, and a respect-first build.",
           line2:
-            "Add more apps by editing the <code>apps</code> array in this page · Hosted on <a href=\"https://pages.github.com/\" target=\"_blank\" rel=\"noreferrer\">GitHub Pages</a>.",
+            "Add more apps by editing the <code>apps</code> array on this page · Hosted on <a href=\"https://pages.github.com/\" target=\"_blank\" rel=\"noreferrer\">GitHub Pages</a>.",
         },
         featuredTitle: "Featured",
         allAppsTitle: "All apps",
@@ -1020,23 +1167,25 @@
         theme: { light: "Light mode", dark: "Dark mode" },
       },
       tr: {
-        heroKicker: "Reklamsız · Mahremiyet Öncelikli · Sevgiyle inşa edildi",
-        heroTitle: "Umut Lab · Uygulama Vitrini",
+        heroKicker: "Mahremiyet dostu · Kalbe iyi gelen",
+        heroTitle: "AdilStore · Saygılı uygulamalar",
         heroSubtitle:
-          "Zamanına, mahremiyetine ve onuruna saygı duyan el yapımı araçlar, oyunlar ve manevi yoldaşlardan oluşan küçük bir ekosistem.",
+          "Zamanına, mahremiyetine ve onuruna saygı duyan; özenle yapılmış araçlar, oyunlar ve manevi yoldaşlardan oluşan sıcak bir koleksiyon.",
+        heroNote: "Niyetle yapılmış, aile dostu ve yumuşak deneyimler.",
+        heroAppTagline: "Bugünün yıldızı: dengeli zikir, dingin kalp",
         categories: {
           all: "Tüm uygulamalar",
-          spiritual: "Maneviyat & İhsan",
-          wellness: "İyilik Hali & Zihin",
-          learning: "Öğrenme & Tefekkür",
-          games: "Oyun & Eğlence",
-          tools: "Araçlar & Yardımcılar",
+          spiritual: "Maneviyat ve ihsan",
+          wellness: "İyilik hali ve zihin",
+          learning: "Öğrenme ve tefekkür",
+          games: "Oyun ve eğlence",
+          tools: "Araçlar ve yardımcılar",
         },
-        searchPlaceholder: "Uygulama, etiket veya his ara…",
+        searchPlaceholder: "Uygulama, etiket veya umut ara…",
         results: { single: "uygulama", plural: "uygulama" },
         metrics: {
           apps: "Aktif uygulama",
-          privacy: "Gizlilik öncelikli",
+          privacy: "Mahremiyet ve nezaket",
           privacyValue: "Reklam yok · Takipçi yok",
           platforms: "Platformlar",
           platformsValue: "Web ve Android",
@@ -1049,13 +1198,13 @@
         },
         preview: {
           lead: "Satır içi önizleme:",
-          body: "Bu sayfadan çıkmadan uygulamanın gerçek halini iframe içinde yükler.",
-          fallback: "Bazı mağazalar yerleştirmeyi engelleyebilir — boş kalırsa ana butonu kullanın.",
+          body: "Sayfadan ayrılmadan gerçek uygulamayı burada deneyin.",
+          fallback: "Bazı mağazalar yerleştirmeyi engeller — boş kalırsa ana butonu kullanın.",
           loading: "Canlı önizleme yükleniyor…",
         },
         empty: {
           title: "Aramanızla eşleşen uygulama yok.",
-          subtitle: "Farklı bir kategori deneyin veya filtreleri sıfırlayın.",
+          subtitle: "Daha yumuşak bir anahtar kelime deneyin veya filtreleri sıfırlayın.",
         },
         footer: {
           line1: "Tüm uygulamalar <strong>Umut Candan</strong> tarafından. Reklam yok, takipçi yok, verinle oyun yok.",
@@ -1079,8 +1228,8 @@
         url: "https://candanumut.github.io/Unmasking_sexual_engineered/",
         previewUrl: "https://candanumut.github.io/Unmasking_sexual_engineered/",
         description: {
-          en: "Faith-friendly NoFap / reboot companion that helps you see how sexual conditioning is engineered, protect your brain and heart from porn, and rebuild a life of clarity, dignity, and worship. All plans, streaks, and notes stay fully local in your browser.",
-          tr: "Pornografinin nasıl mühendislik edildiğini gösteren, beynini ve kalbini korumana yardımcı olan iman dostu bir reboot rehberi. Bağımlılık döngüsünden çıkıp berraklık, haysiyet ve ibadet dolu bir hayata dönmen için planlar, seriler ve notlar tamamen cihazında kalır.",
+          en: "Faith-friendly NoFap / reboot companion that shows how engineered sexual conditioning works, helps protect your brain and heart from harmful sexual content, and rebuilds a life of clarity, dignity, and worship. All plans, streaks, and notes stay fully local in your browser.",
+          tr: "Mühendislik edilmiş cinsel koşullandırmanın nasıl işlediğini gösteren, zihnini ve kalbini zararlı cinsel içerikten korumana yardım eden iman dostu bir reboot rehberi. Bağımlılık döngüsünden çıkıp berraklık, haysiyet ve ibadet dolu bir hayata dönmen için planlar, seriler ve notlar tamamen cihazında kalır.",
         },
         tags: {
           en: ["NoFap", "Faith", "Self-control", "Education"],
@@ -1282,6 +1431,7 @@
     const searchClear = document.getElementById("searchClear");
     const featuredRow = document.getElementById("featuredRow");
     const languageToggle = document.getElementById("languageToggle");
+    const heroAppCard = document.getElementById("heroAppCard");
 
     let currentCategory = "all";
     let currentSearch = "";
@@ -1307,6 +1457,32 @@
       return [];
     }
 
+    function togglePreview(preview, btn, iframe, previewUrl = "") {
+      if (!preview || !btn || !iframe) return;
+      const isActive = preview.classList.contains("active");
+
+      if (isActive) {
+        preview.classList.remove("active", "preview-loading");
+        preview.setAttribute("aria-hidden", "true");
+        btn.querySelector("span.icon").textContent = "▶";
+        btn.querySelector("span:last-child").textContent = translations[currentLang].buttons.live;
+        return;
+      }
+
+      preview.classList.add("active", "preview-loading");
+      if (!iframe.src) {
+        iframe.src = previewUrl || btn.dataset.previewUrl || "";
+      }
+      const handleLoad = () => {
+        preview.classList.remove("preview-loading");
+        iframe.removeEventListener("load", handleLoad);
+      };
+      iframe.addEventListener("load", handleLoad);
+      preview.setAttribute("aria-hidden", "false");
+      btn.querySelector("span.icon").textContent = "⏹";
+      btn.querySelector("span:last-child").textContent = translations[currentLang].buttons.hide;
+    }
+
     function setLanguage(lang) {
       if (!translations[lang]) return;
       currentLang = lang;
@@ -1317,6 +1493,7 @@
       renderFilters();
       renderApps();
       renderFeatured();
+      renderHeroApp();
     }
 
     function initLanguage() {
@@ -1337,6 +1514,8 @@
       document.querySelector('[data-i18n="heroKicker"]').textContent = t("heroKicker");
       document.querySelector('[data-i18n="heroTitle"]').textContent = t("heroTitle");
       document.querySelector('[data-i18n="heroSubtitle"]').textContent = t("heroSubtitle");
+      const heroNote = document.querySelector('[data-i18n="heroNote"]');
+      if (heroNote) heroNote.textContent = t("heroNote");
       document.querySelector('[data-i18n="metrics.apps"]').textContent = t("metrics.apps");
       document.querySelector('[data-i18n="metrics.privacy"]').textContent = t("metrics.privacy");
       document.querySelector('[data-i18n="metrics.privacyValue"]').textContent = t("metrics.privacyValue");
@@ -1361,6 +1540,74 @@
         acc[app.category] = (acc[app.category] || 0) + 1;
         return acc;
       }, base);
+    }
+
+    function getHeroApp() {
+      return (
+        apps.find((app) => app.id === "zikr-checker") ||
+        apps.find((app) => app.name.toLowerCase().includes("zikr"))
+      );
+    }
+
+    function renderHeroApp() {
+      if (!heroAppCard) return;
+      const heroApp = getHeroApp();
+      if (!heroApp) {
+        heroAppCard.innerHTML = "";
+        return;
+      }
+
+      const description = getLocalizedText(heroApp.description) || "";
+      const shortDescription = description.length > 220 ? `${description.slice(0, 220)}…` : description;
+      const tags = getLocalizedList(heroApp.tags).slice(0, 3);
+      const platforms = getLocalizedList(heroApp.platforms).slice(0, 2);
+      const isPlayStore = heroApp.url.includes("play.google.com");
+
+      heroAppCard.innerHTML = `
+        <div class="hero-app-header">
+          <div class="app-icon lg">${heroApp.name.charAt(0)}</div>
+          <div>
+            <div class="eyebrow">${t("heroAppTagline")}</div>
+            <h2>${heroApp.name}</h2>
+            <p class="hero-app-desc">${shortDescription}</p>
+          </div>
+        </div>
+        <div class="hero-app-meta">
+          <span class="pill">${translations[currentLang].categories[heroApp.category]}</span>
+          ${tags.map((tag) => `<span class="pill">${tag}</span>`).join("")}
+          ${platforms.map((p) => `<span class="pill">${p}</span>`).join("")}
+        </div>
+        <div class="app-actions">
+          <a class="btn btn-primary" href="${heroApp.url}" target="_blank" rel="noreferrer">
+            <span class="icon">${isPlayStore ? "↗" : "🚀"}</span>
+            <span>${isPlayStore ? translations[currentLang].buttons.openPlay : translations[currentLang].buttons.open}</span>
+          </a>
+          <button class="btn btn-ghost js-hero-preview" data-preview-url="${heroApp.previewUrl}" type="button">
+            <span class="icon">▶</span>
+            <span>${translations[currentLang].buttons.live}</span>
+          </button>
+        </div>
+        <div class="app-preview hero-preview" aria-hidden="true">
+          <div class="preview-hint">
+            <span class="small"><strong>${translations[currentLang].preview.lead}</strong> ${translations[currentLang].preview.body}</span>
+            <span class="small">${translations[currentLang].preview.fallback}</span>
+          </div>
+          <div class="preview-loader">${translations[currentLang].preview.loading}</div>
+          <iframe
+            class="preview-frame"
+            loading="lazy"
+            title="${heroApp.name} preview"
+            referrerpolicy="no-referrer"
+            sandbox="allow-scripts allow-forms allow-pointer-lock allow-same-origin allow-modals"
+          ></iframe>
+        </div>
+      `;
+
+      const previewBtn = heroAppCard.querySelector(".js-hero-preview");
+      const preview = heroAppCard.querySelector(".app-preview");
+      const iframe = heroAppCard.querySelector("iframe");
+
+      previewBtn.addEventListener("click", () => togglePreview(preview, previewBtn, iframe, heroApp.previewUrl));
     }
 
     function renderFilters() {
@@ -1542,27 +1789,7 @@
       const card = btn.closest(".app-card");
       const preview = card.querySelector(".app-preview");
       const iframe = preview.querySelector("iframe");
-
-      const isActive = preview.classList.contains("active");
-      if (isActive) {
-        preview.classList.remove("active", "preview-loading");
-        preview.setAttribute("aria-hidden", "true");
-        btn.querySelector("span.icon").textContent = "▶";
-        btn.querySelector("span:last-child").textContent = translations[currentLang].buttons.live;
-      } else {
-        preview.classList.add("active", "preview-loading");
-        if (!iframe.src) {
-          iframe.src = btn.dataset.previewUrl || "";
-        }
-        const handleLoad = () => {
-          preview.classList.remove("preview-loading");
-          iframe.removeEventListener("load", handleLoad);
-        };
-        iframe.addEventListener("load", handleLoad);
-        preview.setAttribute("aria-hidden", "false");
-        btn.querySelector("span.icon").textContent = "⏹";
-        btn.querySelector("span:last-child").textContent = translations[currentLang].buttons.hide;
-      }
+      togglePreview(preview, btn, iframe, btn.dataset.previewUrl);
     });
 
     languageToggle.addEventListener("click", (e) => {
@@ -1634,6 +1861,7 @@
     renderFilters();
     renderApps();
     renderFeatured();
+    renderHeroApp();
 
     // ensure observer sees first render
     observer.observeAll();
