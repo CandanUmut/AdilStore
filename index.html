@@ -8,7 +8,7 @@
     name="description"
     content="A small, handcrafted collection of ad-free, privacy-first apps by Umut Candan: games, tools, spiritual & wellbeing companions."
   />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%2338bdf8'/%3E%3Cpath fill='white' d='M9 18.5c0-4.2 2.7-7.5 7.3-7.5 1.7 0 3 .5 3.9 1l-1.4 2.4c-.6-.3-1.5-.7-2.5-.7-2.4 0-4 1.7-4 4.7V24H9v-5.5z'/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%230ea5e9'/%3E%3Cpath fill='white' d='M9 18.5c0-4.2 2.7-7.5 7.3-7.5 1.7 0 3 .5 3.9 1l-1.4 2.4c-.6-.3-1.5-.7-2.5-.7-2.4 0-4 1.7-4 4.7V24H9v-5.5z'/%3E%3C/svg%3E" />
   <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
@@ -18,8 +18,9 @@
     :root {
       --bg: #020617;
       --bg-soft: #020617;
-      --panel: rgba(15, 23, 42, 0.98);
-      --panel-soft: rgba(15, 23, 42, 0.9);
+      --panel: rgba(15, 23, 42, 0.92);
+      --panel-soft: rgba(15, 23, 42, 0.88);
+      --panel-strong: rgba(15, 23, 42, 0.97);
       --accent: #38bdf8;
       --accent-soft: rgba(56, 189, 248, 0.16);
       --accent-strong: #0ea5e9;
@@ -33,22 +34,23 @@
       --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.6);
       --blur: 22px;
       --transition-fast: 0.18s ease-out;
-      --transition-med: 0.25s ease-out;
+      --transition-med: 0.3s ease;
     }
 
     html[data-theme="light"] {
-      --bg: #f4f4f5;
-      --bg-soft: #f9fafb;
+      --bg: #f8fafc;
+      --bg-soft: #f3f4f6;
       --panel: #ffffff;
-      --panel-soft: #f9fafb;
+      --panel-soft: #f8fafc;
+      --panel-strong: #f5f7fa;
       --accent: #0ea5e9;
       --accent-soft: rgba(14, 165, 233, 0.12);
       --accent-strong: #0369a1;
       --danger: #dc2626;
-      --text: #020617;
-      --text-soft: #4b5563;
+      --text: #0f172a;
+      --text-soft: #475569;
       --border: #e5e7eb;
-      --chip-bg: #eff6ff;
+      --chip-bg: #e0f2fe;
       --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.12);
     }
 
@@ -56,25 +58,45 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
       font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at top, #0f172a 0, #020617 50%, #000 100%);
+      background: radial-gradient(circle at 10% 10%, rgba(14, 165, 233, 0.18), transparent 35%),
+        radial-gradient(circle at 80% 0%, rgba(236, 72, 153, 0.16), transparent 32%),
+        linear-gradient(135deg, rgba(8, 47, 73, 0.9), rgba(2, 6, 23, 0.95));
       color: var(--text);
       -webkit-font-smoothing: antialiased;
       display: flex;
       justify-content: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .ambient-grid {
+      position: fixed;
+      inset: -120px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0, transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(94, 234, 212, 0.08) 0, transparent 35%),
+        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.08) 0, transparent 35%);
+      filter: blur(90px);
+      z-index: 0;
+      pointer-events: none;
     }
 
     .app-shell {
+      position: relative;
+      z-index: 1;
       width: 100%;
-      max-width: 1200px;
-      padding: 18px clamp(16px, 3vw, 32px) 32px;
+      max-width: 1260px;
+      padding: 18px clamp(16px, 3vw, 32px) 36px;
     }
 
     /* HEADER / HERO */
-
     header {
       position: sticky;
       top: 0;
@@ -82,122 +104,91 @@
       backdrop-filter: blur(var(--blur));
       background: linear-gradient(
         to bottom,
-        rgba(2, 6, 23, 0.96),
-        rgba(2, 6, 23, 0.8),
+        rgba(2, 6, 23, 0.9),
+        rgba(2, 6, 23, 0.72),
         transparent
       );
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+      transition: box-shadow var(--transition-fast);
     }
 
-    .hero {
+    header.scrolled {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .top-bar {
       display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
       align-items: center;
       justify-content: space-between;
-      padding: 16px 18px;
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      box-shadow: var(--shadow-soft);
-      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 55%),
-        radial-gradient(circle at top right, rgba(59, 130, 246, 0.15), transparent 60%),
-        var(--panel);
+      padding: 10px 12px 6px;
     }
 
-    .hero-main {
-      flex: 1 1 260px;
-      min-width: 0;
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-size: 16px;
+      color: var(--text);
     }
 
-    .hero-kicker {
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      display: grid;
+      place-items: center;
+      color: #0b1120;
+      font-weight: 800;
+      box-shadow: 0 12px 28px rgba(56, 189, 248, 0.45);
+    }
+
+    .header-actions {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 3px 10px;
-      border-radius: var(--radius-md);
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-soft);
-      margin-bottom: 8px;
     }
 
-    .hero-kicker span.dot {
-      width: 8px;
-      height: 8px;
+    .lang-toggle {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px;
       border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.25);
+      border: 1px solid var(--border);
+      background: var(--panel-soft);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      gap: 4px;
     }
 
-    .hero-title {
-      font-size: clamp(22px, 4vw, 28px);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin: 0 0 6px;
-    }
-
-    .hero-sub {
-      margin: 0;
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--text-soft);
-      max-width: 480px;
-    }
-
-    .hero-sub strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .hero-side {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 10px;
-      flex: 0 0 auto;
-      min-width: 190px;
-    }
-
-    .hero-metrics {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .metric {
+    .lang-option {
+      border: none;
       padding: 6px 10px;
-      border-radius: 12px;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(148, 163, 184, 0.45);
+      border-radius: 999px;
       font-size: 11px;
-      text-align: right;
-      min-width: 86px;
-    }
-
-    .metric-label {
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
+      cursor: pointer;
       color: var(--text-soft);
-      margin-bottom: 2px;
+      background: transparent;
+      transition: color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
     }
 
-    .metric-value {
+    .lang-option.active {
+      background: var(--accent-soft);
+      color: var(--accent-strong);
       font-weight: 600;
-      color: var(--text);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(56, 189, 248, 0.35);
     }
 
     .theme-toggle {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 9px;
+      padding: 6px 12px;
       border-radius: 999px;
       border: 1px solid rgba(148, 163, 184, 0.55);
-      background: rgba(15, 23, 42, 0.9);
+      background: var(--panel-soft);
       color: var(--text-soft);
       cursor: pointer;
       font-size: 11px;
@@ -206,53 +197,184 @@
         box-shadow var(--transition-fast);
     }
 
-    .theme-toggle:hover {
-      background: rgba(15, 23, 42, 1);
+    .theme-toggle:hover,
+    .lang-toggle:hover {
+      background: var(--panel);
       transform: translateY(-1px);
-      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.6);
+    }
+
+    .theme-toggle:active,
+    .lang-toggle:active {
+      transform: scale(0.98);
     }
 
     .theme-icon {
       font-size: 14px;
     }
 
-    /* CONTROLS */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px 20px;
+      align-items: center;
+      padding: 18px 20px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: var(--shadow-soft);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(99, 102, 241, 0.1)),
+        var(--panel);
+      position: relative;
+      overflow: hidden;
+    }
 
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1), transparent 42%);
+      pointer-events: none;
+    }
+
+    .hero-main {
+      position: relative;
+      z-index: 1;
+      min-width: 0;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      border-radius: var(--radius-md);
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--text-soft);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker span.dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 8px rgba(34, 197, 94, 0.22);
+    }
+
+    .hero-title {
+      font-size: clamp(26px, 4vw, 32px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 0 0 8px;
+    }
+
+    .hero-sub {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--text-soft);
+      max-width: 540px;
+    }
+
+    .hero-sub strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .hero-side {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+      min-width: 220px;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      width: 100%;
+      max-width: 380px;
+    }
+
+    .metric {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: var(--panel-strong);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      font-size: 12px;
+      display: grid;
+      gap: 6px;
+      align-content: center;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.4);
+    }
+
+    .metric-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-soft);
+    }
+
+    .metric-value {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 16px;
+    }
+
+    /* CONTROLS */
     .controls-bar {
       margin-top: 16px;
       display: flex;
       flex-wrap: wrap;
-      gap: 10px 14px;
+      gap: 12px 16px;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 4px 4px;
+      padding: 12px 10px 6px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: var(--panel-strong);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.3);
+      position: sticky;
+      top: 70px;
+      z-index: 10;
     }
 
     .filters {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 8px;
     }
 
     .filter-pill {
-      padding: 4px 11px;
+      padding: 6px 12px;
       border-radius: var(--radius-md);
       font-size: 11px;
       border: 1px solid var(--border);
-      background: rgba(15, 23, 42, 0.9);
+      background: rgba(15, 23, 42, 0.82);
       color: var(--text-soft);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       transition: background var(--transition-fast), border-color var(--transition-fast),
         color var(--transition-fast), transform var(--transition-fast);
     }
 
     .filter-pill span.count {
       font-variant-numeric: tabular-nums;
-      opacity: 0.85;
+      opacity: 0.9;
       font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
     }
 
     .filter-pill.active {
@@ -260,13 +382,14 @@
       border-color: var(--accent);
       color: var(--accent-strong);
       transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(56, 189, 248, 0.25);
     }
 
     .search-wrap {
       display: flex;
       align-items: center;
-      gap: 8px;
-      flex: 1 1 220px;
+      gap: 10px;
+      flex: 1 1 260px;
       min-width: 0;
       justify-content: flex-end;
     }
@@ -274,12 +397,12 @@
     .search-inner {
       position: relative;
       flex: 1 1 auto;
-      max-width: 260px;
+      max-width: 300px;
     }
 
     .search-inner input {
       width: 100%;
-      padding: 7px 26px 7px 27px;
+      padding: 10px 36px 10px 32px;
       border-radius: 999px;
       border: 1px solid var(--border);
       background: rgba(15, 23, 42, 0.95);
@@ -298,20 +421,48 @@
       color: var(--text-soft);
     }
 
-    .search-inner input:focus {
+    .search-inner input:focus,
+    .search-inner.has-text input {
       border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.6);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
       transform: translateY(-0.5px);
     }
 
     .search-icon {
       position: absolute;
-      left: 10px;
+      left: 12px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 13px;
+      font-size: 14px;
       opacity: 0.7;
       pointer-events: none;
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-soft);
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity var(--transition-fast), visibility var(--transition-fast), background var(--transition-fast);
+    }
+
+    .search-inner.has-text .search-clear {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .search-clear:hover {
+      background: var(--accent-soft);
+      color: var(--accent-strong);
     }
 
     .results-counter {
@@ -320,17 +471,81 @@
       white-space: nowrap;
     }
 
-    /* GRID & CARDS */
+    /* FEATURED */
+    .section-heading {
+      margin: 24px 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
 
+    .section-heading h3 {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .featured-row {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(220px, 1fr);
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scroll-snap-type: x mandatory;
+    }
+
+    .featured-card {
+      position: relative;
+      border-radius: 16px;
+      padding: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: linear-gradient(145deg, rgba(56, 189, 248, 0.16), rgba(99, 102, 241, 0.12)), var(--panel-soft);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+      display: grid;
+      gap: 10px;
+      scroll-snap-align: start;
+      min-height: 140px;
+      cursor: pointer;
+      transition: transform var(--transition-med), box-shadow var(--transition-med), border-color var(--transition-med);
+    }
+
+    .featured-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 36px rgba(56, 189, 248, 0.45);
+      border-color: var(--accent);
+    }
+
+    .featured-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .featured-title {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .featured-desc {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    /* GRID & CARDS */
     main {
-      margin-top: 10px;
+      margin-top: 14px;
     }
 
     .app-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
       gap: 14px;
-      margin-top: 4px;
+      margin-top: 6px;
     }
 
     @media (min-width: 720px) {
@@ -339,7 +554,7 @@
       }
     }
 
-    @media (min-width: 1040px) {
+    @media (min-width: 1100px) {
       .app-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
@@ -349,9 +564,9 @@
       position: relative;
       border-radius: var(--radius-lg);
       border: 1px solid rgba(148, 163, 184, 0.4);
-      background: radial-gradient(circle at top left, rgba(248, 250, 252, 0.03), transparent 60%),
+      background: radial-gradient(circle at 20% 0%, rgba(248, 250, 252, 0.05), transparent 55%),
         var(--panel-soft);
-      padding: 13px 13px 12px;
+      padding: 14px 14px 13px;
       box-shadow: 0 14px 30px rgba(15, 23, 42, 0.58);
       display: flex;
       flex-direction: column;
@@ -359,13 +574,21 @@
       overflow: hidden;
       transition: transform var(--transition-med), box-shadow var(--transition-med),
         border-color var(--transition-med), background var(--transition-med);
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    .app-card.in-view {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 60ms;
     }
 
     .app-card:hover {
       transform: translateY(-3px) translateZ(0);
       box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
       border-color: rgba(56, 189, 248, 0.8);
-      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 60%),
+      background: radial-gradient(circle at 20% 0%, rgba(56, 189, 248, 0.18), transparent 60%),
         var(--panel-soft);
     }
 
@@ -378,16 +601,32 @@
 
     .app-title {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: -0.01em;
       margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .app-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.9), rgba(99, 102, 241, 0.95));
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #0b1120;
+      box-shadow: 0 10px 26px rgba(56, 189, 248, 0.45);
+      flex-shrink: 0;
     }
 
     .app-category {
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      padding: 3px 8px;
+      padding: 4px 9px;
       border-radius: 999px;
       background: rgba(15, 23, 42, 0.85);
       border: 1px solid rgba(148, 163, 184, 0.7);
@@ -413,12 +652,12 @@
     .chip-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
+      gap: 6px;
     }
 
     .chip {
       font-size: 10px;
-      padding: 3px 7px;
+      padding: 4px 8px;
       border-radius: 999px;
       background: var(--chip-bg);
       border: 1px solid rgba(148, 163, 184, 0.5);
@@ -436,7 +675,7 @@
     }
 
     .platform-pill {
-      padding: 3px 7px;
+      padding: 4px 8px;
       border-radius: 999px;
       border: 1px solid rgba(148, 163, 184, 0.5);
       background: rgba(15, 23, 42, 0.9);
@@ -445,15 +684,16 @@
 
     .app-actions {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       margin-top: 6px;
+      flex-wrap: wrap;
     }
 
     .btn {
       border-radius: 999px;
-      padding: 6px 10px;
+      padding: 8px 12px;
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 600;
       border: 1px solid transparent;
       cursor: pointer;
       outline: none;
@@ -501,6 +741,15 @@
       width: 100%;
     }
 
+    .pulse-highlight {
+      animation: pulse 1.2s ease;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
+      100% { box-shadow: 0 0 0 18px rgba(56, 189, 248, 0); }
+    }
+
     .app-preview {
       margin-top: 8px;
       border-radius: 14px;
@@ -513,186 +762,197 @@
       max-height: 0;
       opacity: 0;
       transform: translateY(-4px);
-      transition: max-height 0.3s ease, opacity 0.25s ease, transform 0.25s ease;
+      transition: max-height 0.35s ease, opacity 0.3s ease, transform 0.3s ease;
     }
 
     .app-preview.active {
       opacity: 1;
       transform: translateY(0);
-      max-height: 560px; /* enough for iframe + hint */
+      max-height: 560px;
     }
 
     .preview-hint {
-      padding: 6px 10px;
-      font-size: 10px;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.92);
+      font-size: 11px;
       color: var(--text-soft);
-      background: radial-gradient(
-          circle at top left,
-          rgba(56, 189, 248, 0.25),
-          transparent 60%
-        ),
-        #020617;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.9);
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .preview-hint strong {
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .preview-hint span.small {
-      font-size: 10px;
+      display: grid;
+      gap: 4px;
     }
 
     .preview-frame {
-      border: 0;
       width: 100%;
-      height: 420px;
-      background: #020617;
+      min-height: 360px;
+      border: none;
+      background: #000;
+    }
+
+    .preview-loader {
+      padding: 10px 12px;
+      font-size: 11px;
+      color: var(--text-soft);
+      background: rgba(15, 23, 42, 0.9);
+      display: none;
+    }
+
+    .preview-loading .preview-loader {
+      display: block;
     }
 
     .empty-state {
-      margin: 24px auto 0;
-      max-width: 380px;
-      padding: 16px 16px 14px;
+      display: none;
       text-align: center;
-      border-radius: 16px;
-      border: 1px dashed rgba(148, 163, 184, 0.7);
-      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.95), #020617);
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      border: 1px dashed var(--border);
       color: var(--text-soft);
-      font-size: 13px;
-    }
-
-    .empty-state strong {
-      color: var(--text);
-    }
-
-    .empty-state code {
-      font-size: 11px;
-      background: rgba(15, 23, 42, 0.9);
-      padding: 2px 6px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: var(--panel-soft);
+      margin-top: 10px;
     }
 
     footer {
       margin-top: 24px;
-      padding: 10px 4px 0;
-      font-size: 11px;
+      padding: 16px 10px 8px;
+      font-size: 12px;
       color: var(--text-soft);
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-      border-top: 1px solid rgba(15, 23, 42, 0.9);
+      border-top: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 14px 14px 0 0;
+      line-height: 1.6;
     }
 
     footer a {
       color: var(--accent);
-      text-decoration: none;
     }
 
-    footer a:hover {
-      text-decoration: underline;
+    /* Animations & accessibility */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.6s ease forwards;
     }
 
-    @media (max-width: 640px) {
-      .hero {
-        align-items: flex-start;
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
       }
+    }
+
+    @media (max-width: 720px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
       .hero-side {
         align-items: flex-start;
       }
-      .hero-sub {
-        max-width: none;
+
+      .controls-bar {
+        top: 60px;
       }
-      .search-wrap {
-        justify-content: flex-start;
+
+      .featured-row {
+        grid-auto-columns: minmax(200px, 70vw);
       }
-      .search-inner {
-        max-width: none;
-      }
+
       .app-actions {
-        flex-wrap: wrap;
+        flex-direction: column;
       }
-      .app-actions .btn {
-        flex: 1 1 48%;
-        justify-content: center;
+
+      .platforms {
+        align-items: flex-start;
       }
     }
   </style>
 </head>
 <body>
+  <div class="ambient-grid" aria-hidden="true"></div>
   <div class="app-shell">
     <header>
-      <div class="hero">
-        <div class="hero-main">
-          <div class="hero-kicker">
-            <span class="dot"></span>
-            <span>Ad-Free · Privacy-First · Built with love</span>
-          </div>
-          <h1 class="hero-title">Umut Lab · App Showcase</h1>
-          <p class="hero-sub">
-            A small ecosystem of handcrafted tools, games, and spiritual companions —
-            all designed to help you
-            <strong>think deeper, live cleaner, and have more fun</strong> without ads,
-            tracking, or data harvesting.
-          </p>
+      <div class="top-bar fade-in-up" style="animation-delay: 0.05s">
+        <div class="brand" aria-label="Umut Lab">
+          <div class="brand-mark">U</div>
+          <span>Umut Lab</span>
         </div>
-        <div class="hero-side">
-          <div class="hero-metrics">
-            <div class="metric">
-              <div class="metric-label">Apps</div>
-              <div class="metric-value" id="metricApps">0</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">Platforms</div>
-              <div class="metric-value">Web · Android</div>
-            </div>
+        <div class="header-actions">
+          <div class="lang-toggle" id="languageToggle" role="group" aria-label="Language toggle">
+            <button class="lang-option active" data-lang="en" type="button">EN</button>
+            <button class="lang-option" data-lang="tr" type="button">TR</button>
           </div>
-          <button id="themeToggle" class="theme-toggle" type="button">
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
             <span class="theme-icon">🌙</span>
             <span class="theme-label">Dark mode</span>
           </button>
         </div>
       </div>
 
-      <div class="controls-bar">
-        <div class="filters" id="filters"></div>
+      <section class="hero fade-in-up" style="animation-delay: 0.12s">
+        <div class="hero-main">
+          <div class="hero-kicker"><span class="dot"></span><span data-i18n="heroKicker">Ad-Free · Privacy-First · Built with love</span></div>
+          <h1 class="hero-title" data-i18n="heroTitle">Umut Lab · App Showcase</h1>
+          <p class="hero-sub" data-i18n="heroSubtitle">
+            A small ecosystem of handcrafted tools, games, and spiritual companions built to respect your time, privacy, and dignity.
+          </p>
+        </div>
+        <div class="hero-side">
+          <div class="hero-metrics">
+            <div class="metric">
+              <div class="metric-label" data-i18n="metrics.apps">Apps live</div>
+              <div class="metric-value" id="metricApps">0</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label" data-i18n="metrics.privacy">Privacy first</div>
+              <div class="metric-value" data-i18n="metrics.privacyValue">No ads · No trackers</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label" data-i18n="metrics.platforms">Platforms</div>
+              <div class="metric-value" data-i18n="metrics.platformsValue">Web & Android</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="controls-bar fade-in-up" style="animation-delay: 0.18s">
+        <div class="filters" id="filters" aria-label="Category filters"></div>
         <div class="search-wrap">
-          <div class="search-inner">
+          <div class="search-inner" id="searchWrap">
             <span class="search-icon">🔍</span>
-            <input
-              id="searchInput"
-              type="search"
-              placeholder="Search apps by name, tag, or purpose…"
-              aria-label="Search apps"
-            />
+            <input id="searchInput" type="search" placeholder="Search apps, tags, feelings…" aria-label="Search apps" />
+            <button class="search-clear" id="searchClear" type="button" aria-label="Clear search">×</button>
           </div>
           <div class="results-counter" id="resultsCounter">0 apps</div>
         </div>
       </div>
     </header>
 
-    <main>
-      <section aria-label="App gallery">
-        <div id="appGrid" class="app-grid"></div>
-        <div id="emptyState" class="empty-state" style="display:none;">
-          <strong>No apps match this filter.</strong><br />
-          Try clearing the search or switching category — or later,
-          just add a new app at the bottom of
-          <code>index.html</code> in the <code>apps</code> array.
-        </div>
-      </section>
+    <section class="section-heading" aria-label="Featured apps">
+      <h3 data-i18n="featuredTitle">Featured</h3>
+    </section>
+    <div class="featured-row" id="featuredRow"></div>
+
+    <main aria-label="App grid">
+      <div class="section-heading" aria-label="All apps">
+        <h3 data-i18n="allAppsTitle">All apps</h3>
+      </div>
+      <div class="app-grid" id="appGrid"></div>
+      <div class="empty-state" id="emptyState">
+        <div data-i18n="empty.title">No apps match your search.</div>
+        <div class="small" data-i18n="empty.subtitle">Try another category or reset filters.</div>
+      </div>
     </main>
 
     <footer>
-      <div>All apps by <strong>Umut Candan</strong>. No ads, no trackers, no games with your data.</div>
-      <div>
+      <div data-i18n="footer.line1">All apps by <strong>Umut Candan</strong>. No ads, no trackers, no games with your data.</div>
+      <div data-i18n="footer.line2">
         Add more apps by editing the <code>apps</code> array in this page · Hosted on
         <a href="https://pages.github.com/" target="_blank" rel="noreferrer">GitHub Pages</a>.
       </div>
@@ -700,6 +960,106 @@
   </div>
 
   <script>
+    // i18n: translations and language state
+    const translations = {
+      en: {
+        heroKicker: "Ad-Free · Privacy-First · Built with love",
+        heroTitle: "Umut Lab · App Showcase",
+        heroSubtitle:
+          "A small ecosystem of handcrafted tools, games, and spiritual companions built to respect your time, privacy, and dignity.",
+        categories: {
+          all: "All apps",
+          spiritual: "Spiritual & Ihsan",
+          wellness: "Wellbeing & Mind",
+          learning: "Learning & Reflection",
+          games: "Games & Play",
+          tools: "Tools & Utilities",
+        },
+        searchPlaceholder: "Search apps, tags, feelings…",
+        results: { single: "app", plural: "apps" },
+        metrics: {
+          apps: "Apps live",
+          privacy: "Privacy first",
+          privacyValue: "No ads · No trackers",
+          platforms: "Platforms",
+          platformsValue: "Web & Android",
+        },
+        buttons: {
+          open: "Open app",
+          openPlay: "Open on Google Play",
+          live: "Live preview",
+          hide: "Hide preview",
+        },
+        preview: {
+          lead: "Inline preview:",
+          body: "this loads the real app in an iframe so you can try it without leaving this page.",
+          fallback: "Some stores may block embedding — if it stays blank, use the main button instead.",
+          loading: "Loading live preview…",
+        },
+        empty: {
+          title: "No apps match your search.",
+          subtitle: "Try another category or reset filters.",
+        },
+        footer: {
+          line1: "All apps by <strong>Umut Candan</strong>. No ads, no trackers, no games with your data.",
+          line2:
+            "Add more apps by editing the <code>apps</code> array in this page · Hosted on <a href=\"https://pages.github.com/\" target=\"_blank\" rel=\"noreferrer\">GitHub Pages</a>.",
+        },
+        featuredTitle: "Featured",
+        allAppsTitle: "All apps",
+        searchClear: "Clear search",
+        theme: { light: "Light mode", dark: "Dark mode" },
+      },
+      tr: {
+        heroKicker: "Reklamsız · Mahremiyet Öncelikli · Sevgiyle inşa edildi",
+        heroTitle: "Umut Lab · Uygulama Vitrini",
+        heroSubtitle:
+          "Zamanına, mahremiyetine ve onuruna saygı duyan el yapımı araçlar, oyunlar ve manevi yoldaşlardan oluşan küçük bir ekosistem.",
+        categories: {
+          all: "Tüm uygulamalar",
+          spiritual: "Maneviyat & İhsan",
+          wellness: "İyilik Hali & Zihin",
+          learning: "Öğrenme & Tefekkür",
+          games: "Oyun & Eğlence",
+          tools: "Araçlar & Yardımcılar",
+        },
+        searchPlaceholder: "Uygulama, etiket veya his ara…",
+        results: { single: "uygulama", plural: "uygulama" },
+        metrics: {
+          apps: "Aktif uygulama",
+          privacy: "Gizlilik öncelikli",
+          privacyValue: "Reklam yok · Takipçi yok",
+          platforms: "Platformlar",
+          platformsValue: "Web ve Android",
+        },
+        buttons: {
+          open: "Uygulamayı aç",
+          openPlay: "Google Play'de aç",
+          live: "Canlı önizleme",
+          hide: "Önizlemeyi gizle",
+        },
+        preview: {
+          lead: "Satır içi önizleme:",
+          body: "Bu sayfadan çıkmadan uygulamanın gerçek halini iframe içinde yükler.",
+          fallback: "Bazı mağazalar yerleştirmeyi engelleyebilir — boş kalırsa ana butonu kullanın.",
+          loading: "Canlı önizleme yükleniyor…",
+        },
+        empty: {
+          title: "Aramanızla eşleşen uygulama yok.",
+          subtitle: "Farklı bir kategori deneyin veya filtreleri sıfırlayın.",
+        },
+        footer: {
+          line1: "Tüm uygulamalar <strong>Umut Candan</strong> tarafından. Reklam yok, takipçi yok, verinle oyun yok.",
+          line2:
+            "Yeni uygulamalar eklemek için bu sayfadaki <code>apps</code> dizisini düzenleyin · <a href=\"https://pages.github.com/\" target=\"_blank\" rel=\"noreferrer\">GitHub Pages</a> üzerinde barındırılır.",
+        },
+        featuredTitle: "Öne çıkanlar",
+        allAppsTitle: "Tüm uygulamalar",
+        searchClear: "Aramayı temizle",
+        theme: { light: "Açık mod", dark: "Koyu mod" },
+      },
+    };
+
     // 1) DATA MODEL — add / edit apps here
     // -------------------------------------------------------
     const apps = [
@@ -840,16 +1200,71 @@
       },
     ];
 
-    // 2) CATEGORY FILTERS
-    // -------------------------------------------------------
-    const categoryLabels = {
-      all: "All apps",
-      spiritual: "Spiritual & Ihsan",
-      wellness: "Wellbeing & Mind",
-      learning: "Learning & Reflection",
-      games: "Games & Play",
-      tools: "Tools & Utilities",
-    };
+    const appGrid = document.getElementById("appGrid");
+    const filtersEl = document.getElementById("filters");
+    const resultsCounter = document.getElementById("resultsCounter");
+    const metricApps = document.getElementById("metricApps");
+    const emptyState = document.getElementById("emptyState");
+    const searchInput = document.getElementById("searchInput");
+    const searchWrap = document.getElementById("searchWrap");
+    const searchClear = document.getElementById("searchClear");
+    const featuredRow = document.getElementById("featuredRow");
+    const languageToggle = document.getElementById("languageToggle");
+
+    let currentCategory = "all";
+    let currentSearch = "";
+    let currentLang = "en";
+
+    function t(path) {
+      const keys = path.split(".");
+      return keys.reduce((obj, key) => (obj ? obj[key] : ""), translations[currentLang]) || "";
+    }
+
+    function setLanguage(lang) {
+      if (!translations[lang]) return;
+      currentLang = lang;
+      window.localStorage.setItem("umut-lang", lang);
+      document.documentElement.lang = lang;
+      updateLanguageToggle();
+      applyTranslations();
+      renderFilters();
+      renderApps();
+    }
+
+    function initLanguage() {
+      const stored = window.localStorage.getItem("umut-lang");
+      currentLang = stored && translations[stored] ? stored : "en";
+      document.documentElement.lang = currentLang;
+      updateLanguageToggle();
+      applyTranslations();
+    }
+
+    function updateLanguageToggle() {
+      languageToggle.querySelectorAll(".lang-option").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.lang === currentLang);
+      });
+    }
+
+    function applyTranslations() {
+      document.querySelector('[data-i18n="heroKicker"]').textContent = t("heroKicker");
+      document.querySelector('[data-i18n="heroTitle"]').textContent = t("heroTitle");
+      document.querySelector('[data-i18n="heroSubtitle"]').textContent = t("heroSubtitle");
+      document.querySelector('[data-i18n="metrics.apps"]').textContent = t("metrics.apps");
+      document.querySelector('[data-i18n="metrics.privacy"]').textContent = t("metrics.privacy");
+      document.querySelector('[data-i18n="metrics.privacyValue"]').textContent = t("metrics.privacyValue");
+      document.querySelector('[data-i18n="metrics.platforms"]').textContent = t("metrics.platforms");
+      document.querySelector('[data-i18n="metrics.platformsValue"]').textContent = t("metrics.platformsValue");
+      document.querySelector('[data-i18n="featuredTitle"]').textContent = t("featuredTitle");
+      document.querySelector('[data-i18n="allAppsTitle"]').textContent = t("allAppsTitle");
+      document.querySelector('[data-i18n="empty.title"]').textContent = t("empty.title");
+      document.querySelector('[data-i18n="empty.subtitle"]').textContent = t("empty.subtitle");
+      document.querySelector('[data-i18n="footer.line1"]').innerHTML = t("footer.line1");
+      document.querySelector('[data-i18n="footer.line2"]').innerHTML = t("footer.line2");
+      document.querySelector(".theme-label").textContent =
+        document.documentElement.getAttribute("data-theme") === "light" ? t("theme.light") : t("theme.dark");
+      searchInput.setAttribute("placeholder", t("searchPlaceholder"));
+      searchClear.setAttribute("aria-label", t("searchClear"));
+    }
 
     // derive counts by category for display
     function countByCategory(appsList) {
@@ -860,17 +1275,123 @@
       }, base);
     }
 
-    // 3) RENDERING LOGIC
-    // -------------------------------------------------------
-    const appGrid = document.getElementById("appGrid");
-    const filtersEl = document.getElementById("filters");
-    const resultsCounter = document.getElementById("resultsCounter");
-    const metricApps = document.getElementById("metricApps");
-    const emptyState = document.getElementById("emptyState");
-    const searchInput = document.getElementById("searchInput");
+    function renderFilters() {
+      const counts = countByCategory(apps);
+      const categories = ["all", "spiritual", "wellness", "learning", "games", "tools"];
+      const labels = translations[currentLang].categories;
+      filtersEl.innerHTML = "";
+      categories.forEach((cat) => {
+        const pill = document.createElement("button");
+        pill.type = "button";
+        pill.className = "filter-pill" + (cat === currentCategory ? " active" : "");
+        pill.dataset.category = cat;
+        pill.innerHTML = `
+          <span>${labels[cat]}</span>
+          <span class="count">${counts[cat] || 0}</span>
+        `;
+        filtersEl.appendChild(pill);
+      });
+    }
 
-    let currentCategory = "all";
-    let currentSearch = "";
+    function createAppCard(app) {
+      const card = document.createElement("article");
+      card.className = "app-card";
+      card.dataset.category = app.category;
+      card.dataset.appId = app.id;
+      const isPlayStore = app.url.includes("play.google.com");
+      card.innerHTML = `
+        <div class="app-header">
+          <h3 class="app-title"><span class="app-icon">${app.name.charAt(0)}</span>${app.name}</h3>
+          <div class="app-category">${translations[currentLang].categories[app.category]}</div>
+        </div>
+        <p class="app-description">${app.description}</p>
+        <div class="app-meta">
+          <div class="chip-row">
+            ${(app.tags || []).map((tag) => `<span class="chip">${tag}</span>`).join("")}
+          </div>
+          <div class="platforms">
+            ${(app.platforms || []).map((p) => `<span class="platform-pill">${p}</span>`).join("")}
+          </div>
+        </div>
+        <div class="app-actions">
+          <a class="btn btn-primary" href="${app.url}" target="_blank" rel="noreferrer">
+            <span class="icon">${isPlayStore ? "↗" : "🚀"}</span>
+            <span>${isPlayStore ? translations[currentLang].buttons.openPlay : translations[currentLang].buttons.open}</span>
+          </a>
+          <button class="btn btn-ghost js-toggle-preview" data-preview-url="${app.previewUrl}" type="button">
+            <span class="icon">▶</span>
+            <span>${translations[currentLang].buttons.live}</span>
+          </button>
+        </div>
+        <div class="app-preview" aria-hidden="true">
+          <div class="preview-hint">
+            <span class="small"><strong>${translations[currentLang].preview.lead}</strong> ${translations[currentLang].preview.body}</span>
+            <span class="small">${translations[currentLang].preview.fallback}</span>
+          </div>
+          <div class="preview-loader">${translations[currentLang].preview.loading}</div>
+          <iframe
+            class="preview-frame"
+            loading="lazy"
+            title="${app.name} preview"
+            referrerpolicy="no-referrer"
+            sandbox="allow-scripts allow-forms allow-pointer-lock allow-same-origin allow-modals"
+          ></iframe>
+        </div>
+      `;
+      return card;
+    }
+
+    function renderApps() {
+      const filtered = getFilteredApps();
+      appGrid.innerHTML = "";
+
+      if (!filtered.length) {
+        emptyState.style.display = "block";
+      } else {
+        emptyState.style.display = "none";
+      }
+
+      filtered.forEach((app, idx) => {
+        const card = createAppCard(app);
+        card.style.animationDelay = `${idx * 40}ms`;
+        appGrid.appendChild(card);
+      });
+
+      const resultsLabel = filtered.length === 1 ? t("results.single") : t("results.plural");
+      resultsCounter.textContent = `${filtered.length} ${resultsLabel}`;
+      metricApps.textContent = apps.length.toString();
+      observer.observeAll();
+    }
+
+    function renderFeatured() {
+      featuredRow.innerHTML = "";
+      const picks = apps.slice(0, 3);
+      picks.forEach((app) => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "featured-card";
+        card.innerHTML = `
+          <div class="featured-meta">
+            <span class="app-icon">${app.name.charAt(0)}</span>
+            <div>
+              <p class="featured-title">${app.name}</p>
+              <div class="app-category">${translations[currentLang].categories[app.category]}</div>
+            </div>
+          </div>
+          <p class="featured-desc">${app.description.slice(0, 110)}...</p>
+        `;
+        card.addEventListener("click", () => highlightApp(app.id));
+        featuredRow.appendChild(card);
+      });
+    }
+
+    function highlightApp(appId) {
+      const target = document.querySelector(`[data-app-id="${appId}"]`);
+      if (!target) return;
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.classList.add("pulse-highlight");
+      setTimeout(() => target.classList.remove("pulse-highlight"), 1300);
+    }
 
     function getFilteredApps() {
       const query = currentSearch.trim().toLowerCase();
@@ -894,114 +1415,6 @@
       });
     }
 
-    function renderFilters() {
-      const counts = countByCategory(apps);
-      const categories = ["all", "spiritual", "wellness", "learning", "games", "tools"];
-
-      filtersEl.innerHTML = "";
-      categories.forEach((cat) => {
-        const pill = document.createElement("button");
-        pill.type = "button";
-        pill.className = "filter-pill" + (cat === currentCategory ? " active" : "");
-        pill.dataset.category = cat;
-        pill.innerHTML = `
-          <span>${categoryLabels[cat]}</span>
-          <span class="count">${counts[cat] || 0}</span>
-        `;
-        filtersEl.appendChild(pill);
-      });
-    }
-
-    function createAppCard(app) {
-      const card = document.createElement("article");
-      card.className = "app-card";
-      card.dataset.category = app.category;
-      card.dataset.id = app.id;
-
-      const platformsHtml = (app.platforms || [])
-        .map((p) => `<span class="platform-pill">${p}</span>`)
-        .join("");
-
-      const tagsHtml = (app.tags || [])
-        .map((t) => `<span class="chip">${t}</span>`)
-        .join("");
-
-      card.innerHTML = `
-        <div class="app-header">
-          <h2 class="app-title">${app.name}</h2>
-          <span class="app-category">${categoryLabels[app.category] || "App"}</span>
-        </div>
-        <p class="app-description">${app.description}</p>
-        <div class="app-meta">
-          <div class="chip-row">
-            ${tagsHtml}
-          </div>
-          <div class="platforms">
-            <span>Platform${(app.platforms || []).length > 1 ? "s" : ""}</span>
-            ${platformsHtml}
-          </div>
-        </div>
-        <div class="app-actions">
-          <a
-            href="${app.url}"
-            class="btn btn-primary"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span class="icon">↗</span>
-            <span>${app.url.includes("play.google.com") ? "Open on Google Play" : "Open app"}</span>
-          </a>
-          <button
-            type="button"
-            class="btn btn-ghost js-toggle-preview"
-            data-preview-url="${app.previewUrl || app.url}"
-          >
-            <span class="icon">▶</span>
-            <span>Live preview</span>
-          </button>
-        </div>
-        <div class="app-preview" aria-hidden="true">
-          <div class="preview-hint">
-            <span class="small">
-              <strong>Inline preview:</strong>
-              this loads the real app in an iframe so you can try it without leaving this page.
-            </span>
-            <span class="small">
-              Some stores may block embedding — if it stays blank, use the main button instead.
-            </span>
-          </div>
-          <iframe
-            class="preview-frame"
-            loading="lazy"
-            title="${app.name} preview"
-            referrerpolicy="no-referrer"
-            sandbox="allow-scripts allow-forms allow-pointer-lock allow-same-origin allow-modals"
-          ></iframe>
-        </div>
-      `;
-      return card;
-    }
-
-    function renderApps() {
-      const filtered = getFilteredApps();
-      appGrid.innerHTML = "";
-
-      if (!filtered.length) {
-        emptyState.style.display = "block";
-      } else {
-        emptyState.style.display = "none";
-      }
-
-      filtered.forEach((app) => {
-        const card = createAppCard(app);
-        appGrid.appendChild(card);
-      });
-
-      resultsCounter.textContent =
-        filtered.length + (filtered.length === 1 ? " app" : " apps");
-      metricApps.textContent = apps.length.toString();
-    }
-
     // 4) EVENT WIRING
     // -------------------------------------------------------
     filtersEl.addEventListener("click", (e) => {
@@ -1016,7 +1429,16 @@
 
     searchInput.addEventListener("input", (e) => {
       currentSearch = e.target.value || "";
+      searchWrap.classList.toggle("has-text", !!currentSearch);
       renderApps();
+    });
+
+    searchClear.addEventListener("click", () => {
+      searchInput.value = "";
+      currentSearch = "";
+      searchWrap.classList.remove("has-text");
+      renderApps();
+      searchInput.focus();
     });
 
     appGrid.addEventListener("click", (e) => {
@@ -1029,19 +1451,31 @@
 
       const isActive = preview.classList.contains("active");
       if (isActive) {
-        preview.classList.remove("active");
+        preview.classList.remove("active", "preview-loading");
         preview.setAttribute("aria-hidden", "true");
         btn.querySelector("span.icon").textContent = "▶";
-        btn.querySelector("span:last-child").textContent = "Live preview";
+        btn.querySelector("span:last-child").textContent = translations[currentLang].buttons.live;
       } else {
+        preview.classList.add("active", "preview-loading");
         if (!iframe.src) {
           iframe.src = btn.dataset.previewUrl || "";
         }
-        preview.classList.add("active");
+        const handleLoad = () => {
+          preview.classList.remove("preview-loading");
+          iframe.removeEventListener("load", handleLoad);
+        };
+        iframe.addEventListener("load", handleLoad);
         preview.setAttribute("aria-hidden", "false");
         btn.querySelector("span.icon").textContent = "⏹";
-        btn.querySelector("span:last-child").textContent = "Hide preview";
+        btn.querySelector("span:last-child").textContent = translations[currentLang].buttons.hide;
       }
+    });
+
+    languageToggle.addEventListener("click", (e) => {
+      const btn = e.target.closest(".lang-option");
+      if (!btn) return;
+      setLanguage(btn.dataset.lang);
+      renderFeatured();
     });
 
     // THEME TOGGLE
@@ -1052,10 +1486,10 @@
     function applyTheme(theme) {
       document.documentElement.setAttribute("data-theme", theme);
       if (theme === "light") {
-        themeLabel.textContent = "Light mode";
+        themeLabel.textContent = t("theme.light");
         themeIcon.textContent = "☀️";
       } else {
-        themeLabel.textContent = "Dark mode";
+        themeLabel.textContent = t("theme.dark");
         themeIcon.textContent = "🌙";
       }
     }
@@ -1076,10 +1510,40 @@
       window.localStorage.setItem("umut-theme", next);
     });
 
+    // Scroll shadow on header
+    const header = document.querySelector("header");
+    window.addEventListener("scroll", () => {
+      header.classList.toggle("scrolled", window.scrollY > 8);
+    });
+
+    // Scroll animation observer
+    const observer = {
+      io: null,
+      setup() {
+        this.io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              this.io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+      },
+      observeAll() {
+        if (!this.io) this.setup();
+        document.querySelectorAll(".app-card").forEach((card) => this.io.observe(card));
+      },
+    };
+
     // INITIAL RENDER
     initTheme();
+    initLanguage();
     renderFilters();
     renderApps();
+    renderFeatured();
+
+    // ensure observer sees first render
+    observer.observeAll();
   </script>
 </body>
 </html>
