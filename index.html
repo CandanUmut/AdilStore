@@ -1122,7 +1122,7 @@
         heroSubtitle:
           "A warm collection of handcrafted tools, mindful games, and spiritual companions that protect your focus, privacy, and dignity.",
         heroNote: "Gentle, family-friendly experiences built with intention.",
-        heroAppTagline: "Featured today: steady dhikr, steady heart",
+        heroAppTagline: "Featured today: a fresh daily pick",
         categories: {
           all: "All apps",
           spiritual: "Spiritual growth",
@@ -1172,7 +1172,7 @@
         heroSubtitle:
           "Zamanına, mahremiyetine ve onuruna saygı duyan; özenle yapılmış araçlar, oyunlar ve manevi yoldaşlardan oluşan sıcak bir koleksiyon.",
         heroNote: "Niyetle yapılmış, aile dostu ve yumuşak deneyimler.",
-        heroAppTagline: "Bugünün yıldızı: dengeli zikir, dingin kalp",
+        heroAppTagline: "Bugünün yıldızı: her gün değişen öneri",
         categories: {
           all: "Tüm uygulamalar",
           spiritual: "Maneviyat ve ihsan",
@@ -1298,6 +1298,38 @@
         tags: {
           en: ["Health", "Psychology", "Habits", "Self-awareness"],
           tr: ["Sağlık", "Psikoloji", "Alışkanlık", "Farkındalık"],
+        },
+        platforms: { en: ["Web"], tr: ["Web"] },
+      },
+      {
+        id: "manevi-farkindalik",
+        name: "Manevî Farkındalık Rehberi",
+        category: "spiritual",
+        url: "https://candanumut.github.io/hakikat_ucgeni/",
+        previewUrl: "https://candanumut.github.io/hakikat_ucgeni/",
+        description: {
+          en: "Spiritual Awareness Companion that reminds you of the games of Shaytan, Nafs, and Dunya from a Qur’anic lens. Daily checklists, breathing exercises, notes, and protection tips help you take steady, meaningful steps each day.",
+          tr: "Kur’an perspektifinden şeytan, nefis ve dünyanın oyunlarını hatırlatan Manevî Farkındalık Rehberi. Günlük check-list’ler, nefes egzersizi, notlar ve korunma önerileriyle her gün küçük ama istikrarlı adımlar atmana yardım eder.",
+        },
+        tags: {
+          en: ["Dhikr", "Mindfulness", "Checklist", "Protection"],
+          tr: ["Zikir", "Farkındalık", "Kontrol listesi", "Korunma"],
+        },
+        platforms: { en: ["Web"], tr: ["Web"] },
+      },
+      {
+        id: "pru-universe-simulator",
+        name: "PRU Universe Simulator · Cosmos Sandbox",
+        category: "learning",
+        url: "https://candanumut.github.io/pru_simulation_engine/",
+        previewUrl: "https://candanumut.github.io/pru_simulation_engine/",
+        description: {
+          en: "A 3D scientific visualization tool that lets you build star systems, watch galaxies form, and observe black holes through the Precomputed Relational Universe (PRU) model. Adjust variables live and explore mass density, curvature, and solar system motion.",
+          tr: "Precomputed Relational Universe (PRU) modeliyle yıldız sistemleri kurmanı, galaksi oluşumunu izlemeni ve kara delik etkilerini gözlemlemeni sağlayan 3B bilimsel görselleştirme aracı. Değişkenleri anlık düzenle, kütle yoğunluğu ve eğrilik alanlarını keşfet, Güneş Sistemi hareketlerini incele.",
+        },
+        tags: {
+          en: ["Simulation", "Cosmology", "3D", "Interactive"],
+          tr: ["Simülasyon", "Kozmoloji", "3D", "Etkileşim"],
         },
         platforms: { en: ["Web"], tr: ["Web"] },
       },
@@ -1542,11 +1574,21 @@
       }, base);
     }
 
+    function getDayOfYear(date = new Date()) {
+      const start = new Date(date.getFullYear(), 0, 0);
+      const diff =
+        date - start +
+        (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000;
+      return Math.floor(diff / (1000 * 60 * 60 * 24));
+    }
+
     function getHeroApp() {
-      return (
-        apps.find((app) => app.id === "zikr-checker") ||
-        apps.find((app) => app.name.toLowerCase().includes("zikr"))
-      );
+      if (!apps.length) return null;
+      const eligible = apps.filter((app) => Boolean(app.url));
+      if (!eligible.length) return null;
+
+      const dayIndex = getDayOfYear() % eligible.length;
+      return eligible[dayIndex];
     }
 
     function renderHeroApp() {
