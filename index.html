@@ -2,19 +2,22 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-   <title>AdilStore · Open, Fair App Store</title>
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="adilstore-icon.png" />
-  <link rel="shortcut icon" href="adilstore-icon.png" />
-
-  <!-- Optional for iOS home screen -->
-  <link rel="apple-touch-icon" href="adilstore-icon.png" />
+  <title>AdilStore · Privacy-First App Store</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="AdilStore · Open, Fair App Store"
-  
+    content="A small, handcrafted collection of ad-free, privacy-first apps by Umut Candan: games, tools, spiritual & wellbeing companions."
+  />
+
+  <!-- AdilStore favicon & app icons -->
+  <link rel="icon" type="image/png" href="adilstore-icon.png" />
+  <link rel="shortcut icon" href="adilstore-icon.png" />
+  <link rel="apple-touch-icon" href="adilstore-icon.png" />
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+  /
 
   <style>
     :root {
@@ -1265,7 +1268,7 @@
       <div class="top-bar fade-in-up" style="animation-delay: 0.05s">
         <div class="brand" aria-label="Umut Lab">
           <div class="brand-mark">U</div>
-          <span>Adil Store</span>
+          <span>Umut Lab</span>
         </div>
         <div class="header-actions">
           <div class="lang-toggle" id="languageToggle" role="group" aria-label="Language toggle">
@@ -2144,11 +2147,10 @@
 
     function getIconHtml(app) {
       if (app.icon_filename) {
-        return `<img src="icons/${app.icon_filename}" alt="${app.name} icon" class="app-icon-img" />`;
+        return `<img src="./icons/${app.icon_filename}" alt="${app.name} icon" class="app-icon-img" />`;
       }
       return app.name.charAt(0);
     }
-
 
     function supportsPreview(app) {
       const url = app.previewUrl || app.url || "";
