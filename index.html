@@ -831,6 +831,122 @@
       flex-wrap: wrap;
     }
 
+    .rating-block {
+      margin-top: 8px;
+      border-top: 1px solid rgba(148, 163, 184, 0.25);
+      padding-top: 6px;
+    }
+
+    .rating-summary-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .rating-stars {
+      display: flex;
+      gap: 2px;
+      font-size: 12px;
+    }
+
+    .star {
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .star.full {
+      color: #fbbf24;
+    }
+
+    .star.half {
+      color: #facc15;
+      opacity: 0.8;
+    }
+
+    .star.empty {
+      color: rgba(148, 163, 184, 0.7);
+    }
+
+    .rating-summary-text {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .rating-form {
+      display: grid;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .rating-form-row {
+      display: flex;
+      gap: 4px;
+    }
+
+    .rating-form input.rating-nickname,
+    .rating-form textarea.rating-comment {
+      flex: 1;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.98);
+      color: var(--text);
+      padding: 4px 6px;
+      font-size: 11px;
+    }
+
+    html[data-theme="light"] .rating-form input.rating-nickname,
+    html[data-theme="light"] .rating-form textarea.rating-comment {
+      background: #ffffff;
+    }
+
+    .rating-form textarea.rating-comment {
+      resize: vertical;
+      min-height: 40px;
+    }
+
+    .rating-submit-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-xs {
+      padding-inline: 8px;
+      padding-block: 4px;
+      font-size: 11px;
+      border-radius: 999px;
+    }
+
+    .rating-message {
+      font-size: 10px;
+      color: var(--text-soft);
+    }
+
+    .rating-message.success {
+      color: #22c55e;
+    }
+
+    .rating-message.error {
+      color: #f97373;
+    }
+
+    .rating-latest {
+      display: grid;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    .rating-comment-item {
+      font-size: 10px;
+      color: var(--text-soft);
+    }
+
+    .rating-comment-author {
+      font-weight: 500;
+    }
+
     .btn {
       border-radius: 999px;
       padding: 8px 12px;
@@ -881,6 +997,25 @@
     .btn-full {
       justify-content: center;
       width: 100%;
+    }
+
+    .star-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0 1px;
+      font-size: 13px;
+      line-height: 1;
+      color: rgba(148, 163, 184, 0.8);
+    }
+
+    .star-btn.active {
+      color: #fbbf24;
+    }
+
+    .star-btn:focus-visible {
+      outline: 1px solid var(--accent);
+      border-radius: 4px;
     }
 
     .pulse-highlight {
@@ -1244,6 +1379,13 @@
           <span data-i18n="submit.extraNotes">Extra notes (open source links, licenses, etc.)</span>
           <textarea name="extra_notes" rows="3"></textarea>
         </label>
+        <label class="form-full">
+          <span data-i18n="submit.icon">App icon (optional)</span>
+          <input type="file" name="icon_file" accept="image/*" />
+          <span class="small" data-i18n="submit.iconHint">
+            Max ~1MB, square image looks best.
+          </span>
+        </label>
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">
             <span class="icon">📤</span>
@@ -1316,6 +1458,8 @@
           contactEmail: "Contact email",
           description: "Short description (why is it good for AdilStore?)",
           extraNotes: "Extra notes (open source links, licenses, etc.)",
+          icon: "App icon (optional)",
+          iconHint: "Max ~1MB, square images look best.",
           button: "Send submission",
         },
         empty: {
@@ -1382,6 +1526,8 @@
           contactEmail: "İletişim e-posta",
           description: "Kısa açıklama (AdilStore için neden uygun?)",
           extraNotes: "Ek notlar (açık kaynak linkleri, lisanslar vb.)",
+          icon: "Uygulama ikonu (isteğe bağlı)",
+          iconHint: "En fazla ~1MB, kare görseller en iyi sonucu verir.",
           button: "Başvuruyu gönder",
         },
         empty: {
@@ -1940,6 +2086,8 @@
     ];
 
     let apps = [...FALLBACK_APPS];
+    let hasSupabaseBackend = false;
+    let appRatings = {};
 
     const CATEGORY_ORDER = [
       "all",
@@ -2006,9 +2154,43 @@
       return true;
     }
 
+    function renderStars(avg) {
+      if (!avg || avg <= 0) {
+        return "★★★★★"
+          .split("")
+          .map(() => `<span class="star empty">☆</span>`)
+          .join("");
+      }
+      const full = Math.floor(avg);
+      const hasHalf = avg - full >= 0.5;
+      const total = 5;
+      let html = "";
+      for (let i = 1; i <= total; i++) {
+        if (i <= full) {
+          html += `<span class="star full">★</span>`;
+        } else if (i === full + 1 && hasHalf) {
+          html += `<span class="star half">★</span>`;
+        } else {
+          html += `<span class="star empty">☆</span>`;
+        }
+      }
+      return html;
+    }
+
+    function getRatingSummaryText(info) {
+      if (!info || !info.count) {
+        return currentLang === "tr" ? "Henüz puan yok" : "No ratings yet";
+      }
+      const countText = currentLang === "tr" ? `${info.count} oy` : `${info.count} rating${info.count > 1 ? "s" : ""}`;
+      const avgText = info.avg ? info.avg.toFixed(1) : "";
+      return avgText ? `${avgText} · ${countText}` : countText;
+    }
+
     async function loadAppsFromSupabase() {
       if (!SUPABASE_URL || SUPABASE_URL === "https://" || !SUPABASE_ANON_KEY) {
         apps = [...FALLBACK_APPS];
+        hasSupabaseBackend = false;
+        await loadRatingsFromSupabase();
         renderFilters();
         renderApps();
         renderFeatured();
@@ -2026,6 +2208,7 @@
 
       if (error || !data || !data.length) {
         apps = [...FALLBACK_APPS];
+        hasSupabaseBackend = false;
       } else {
         apps = data.map((row) => ({
           id: row.id,
@@ -2050,12 +2233,63 @@
           is_featured: !!row.is_featured,
           is_external: row.is_external,
         }));
+        hasSupabaseBackend = true;
       }
 
+      await loadRatingsFromSupabase();
       renderFilters();
       renderApps();
       renderFeatured();
       renderHeroApp();
+    }
+
+    async function loadRatingsFromSupabase() {
+      if (!hasSupabaseBackend) {
+        appRatings = {};
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("adil_app_ratings")
+        .select("app_id, score, nickname, comment, created_at")
+        .order("created_at", { ascending: false });
+
+      if (error || !data) {
+        console.error("Failed to load ratings", error);
+        appRatings = {};
+        return;
+      }
+
+      const map = {};
+      for (const row of data) {
+        const appId = row.app_id;
+        if (!map[appId]) {
+          map[appId] = {
+            sum: 0,
+            count: 0,
+            latest: [],
+          };
+        }
+        map[appId].sum += row.score;
+        map[appId].count += 1;
+        if (row.comment && map[appId].latest.length < 3) {
+          map[appId].latest.push({
+            nickname: row.nickname,
+            comment: row.comment,
+            created_at: row.created_at,
+          });
+        }
+      }
+
+      appRatings = {};
+      for (const [appId, info] of Object.entries(map)) {
+        const avg = info.count ? info.sum / info.count : null;
+        appRatings[appId] = {
+          avg,
+          count: info.count,
+          latest: info.latest,
+        };
+      }
     }
 
     const submissionForm = document.getElementById("submissionForm");
@@ -2074,6 +2308,7 @@
         }
 
         const formData = new FormData(submissionForm);
+        const iconFile = /** @type {File} */ (formData.get("icon_file"));
         const payload = {
           app_name: formData.get("app_name")?.toString().trim(),
           app_url: formData.get("app_url")?.toString().trim(),
@@ -2085,6 +2320,23 @@
 
         submitMessage.textContent = currentLang === "tr" ? "Gönderiliyor…" : "Sending...";
         submitMessage.className = "submit-message";
+
+        if (iconFile && iconFile.size > 0) {
+          const ext = iconFile.name.includes(".") ? iconFile.name.split(".").pop() : "png";
+          const randomPart = Math.random().toString(36).slice(2);
+          const storagePath = `submissions/${Date.now()}-${randomPart}.${ext}`;
+          const { error: uploadError } = await supabase.storage
+            .from("adil-icons")
+            .upload(storagePath, iconFile, {
+              contentType: iconFile.type || "image/png",
+              upsert: false,
+            });
+          if (uploadError) {
+            console.error(uploadError);
+          } else {
+            payload.icon_path = storagePath;
+          }
+        }
 
         const { error } = await supabase.from("adil_app_submissions").insert(payload);
         if (error) {
@@ -2252,6 +2504,7 @@
       const isPlayStore = heroApp.url.includes("play.google.com");
       const iconHtml = getIconHtml(heroApp);
       const canPreview = supportsPreview(heroApp);
+      const ratingInfo = appRatings[heroApp.id];
 
       heroAppCard.innerHTML = `
         <div class="hero-app-header">
@@ -2279,6 +2532,64 @@
               </button>`
             : ""}
         </div>
+        ${hasSupabaseBackend && heroApp.id
+          ? `
+              <div class="rating-block" data-app-id="${heroApp.id}">
+                <div class="rating-summary-row">
+                  <div class="rating-stars" aria-hidden="true">
+                    ${renderStars(ratingInfo?.avg)}
+                  </div>
+                  <div class="rating-summary-text">
+                    ${getRatingSummaryText(ratingInfo)}
+                  </div>
+                </div>
+                <div class="rating-form">
+                  <div class="rating-form-row">
+                    <input
+                      type="text"
+                      class="rating-nickname"
+                      placeholder="${currentLang === "tr" ? "İsim (isteğe bağlı)" : "Name (optional)"}" />
+                  </div>
+                  <div class="rating-form-row">
+                    <textarea
+                      class="rating-comment"
+                      rows="2"
+                      placeholder="${currentLang === "tr" ? "Kısa yorum (isteğe bağlı)" : "Short comment (optional)"}"></textarea>
+                  </div>
+                  <div class="rating-submit-row">
+                    <div class="rating-stars rating-stars-input" aria-label="${currentLang === "tr" ? "Puan ver" : "Give a rating"}">
+                      ${[1, 2, 3, 4, 5]
+                        .map(
+                          (score) =>
+                            `<button type="button" class="star-btn js-rate-star" data-score="${score}">★</button>`
+                        )
+                        .join("")}
+                    </div>
+                    <button type="button" class="btn btn-ghost btn-xs js-submit-rating">
+                      ${currentLang === "tr" ? "Gönder" : "Submit"}
+                    </button>
+                    <div class="rating-message"></div>
+                  </div>
+                </div>
+                <div class="rating-latest">
+                  ${
+                    ratingInfo && ratingInfo.latest && ratingInfo.latest.length
+                      ? ratingInfo.latest
+                          .map(
+                            (item) => `
+                              <div class="rating-comment-item">
+                                <span class="rating-comment-author">${item.nickname ? item.nickname : currentLang === "tr" ? "Anonim" : "Anonymous"}:</span>
+                                <span> ${item.comment}</span>
+                              </div>
+                            `
+                          )
+                          .join("")
+                      : ""
+                  }
+                </div>
+              </div>
+            `
+          : ""}
         ${canPreview
           ? `<div class="app-preview hero-preview" aria-hidden="true">
               <div class="preview-hint">
@@ -2338,6 +2649,7 @@
       const iconHtml = getIconHtml(app);
       const canPreview = supportsPreview(app);
       const previewUrl = app.previewUrl || app.url;
+      const ratingInfo = appRatings[app.id];
       card.innerHTML = `
         <div class="app-header">
           <h3 class="app-title"><span class="app-icon">${iconHtml}</span>${app.name}</h3>
@@ -2365,6 +2677,64 @@
               </button>`
             : ""}
         </div>
+        ${hasSupabaseBackend && app.id
+          ? `
+              <div class="rating-block" data-app-id="${app.id}">
+                <div class="rating-summary-row">
+                  <div class="rating-stars" aria-hidden="true">
+                    ${renderStars(ratingInfo?.avg)}
+                  </div>
+                  <div class="rating-summary-text">
+                    ${getRatingSummaryText(ratingInfo)}
+                  </div>
+                </div>
+                <div class="rating-form">
+                  <div class="rating-form-row">
+                    <input
+                      type="text"
+                      class="rating-nickname"
+                      placeholder="${currentLang === "tr" ? "İsim (isteğe bağlı)" : "Name (optional)"}" />
+                  </div>
+                  <div class="rating-form-row">
+                    <textarea
+                      class="rating-comment"
+                      rows="2"
+                      placeholder="${currentLang === "tr" ? "Kısa yorum (isteğe bağlı)" : "Short comment (optional)"}"></textarea>
+                  </div>
+                  <div class="rating-submit-row">
+                    <div class="rating-stars rating-stars-input" aria-label="${currentLang === "tr" ? "Puan ver" : "Give a rating"}">
+                      ${[1, 2, 3, 4, 5]
+                        .map(
+                          (score) =>
+                            `<button type="button" class="star-btn js-rate-star" data-score="${score}">★</button>`
+                        )
+                        .join("")}
+                    </div>
+                    <button type="button" class="btn btn-ghost btn-xs js-submit-rating">
+                      ${currentLang === "tr" ? "Gönder" : "Submit"}
+                    </button>
+                    <div class="rating-message"></div>
+                  </div>
+                </div>
+                <div class="rating-latest">
+                  ${
+                    ratingInfo && ratingInfo.latest && ratingInfo.latest.length
+                      ? ratingInfo.latest
+                          .map(
+                            (item) => `
+                              <div class="rating-comment-item">
+                                <span class="rating-comment-author">${item.nickname ? item.nickname : currentLang === "tr" ? "Anonim" : "Anonymous"}:</span>
+                                <span> ${item.comment}</span>
+                              </div>
+                            `
+                          )
+                          .join("")
+                      : ""
+                  }
+                </div>
+              </div>
+            `
+          : ""}
         ${canPreview
           ? `<div class="app-preview" aria-hidden="true">
               <div class="preview-hint">
@@ -2461,6 +2831,110 @@
           .replace(/\p{Diacritic}/gu, "");
 
         return haystack.includes(needle);
+      });
+    }
+
+    function setupRatingHandlers() {
+      const grids = [
+        document.querySelector(".app-grid"),
+        document.getElementById("heroAppCard"),
+        document.getElementById("featuredRow"),
+      ].filter(Boolean);
+
+      grids.forEach((root) => {
+        root.addEventListener("click", async (event) => {
+          const target = event.target;
+          if (!(target instanceof HTMLElement)) return;
+
+          const ratingBlock = target.closest(".rating-block");
+          if (!ratingBlock) return;
+          const appId = ratingBlock.getAttribute("data-app-id");
+          if (!appId || !hasSupabaseBackend) return;
+
+          const messageEl = ratingBlock.querySelector(".rating-message");
+
+          if (target.classList.contains("js-rate-star")) {
+            event.preventDefault();
+            const score = Number(target.getAttribute("data-score") || "0");
+            const starButtons = ratingBlock.querySelectorAll(".js-rate-star");
+            starButtons.forEach((btn) => {
+              const btnScore = Number(btn.getAttribute("data-score") || "0");
+              btn.classList.toggle("active", btnScore <= score);
+            });
+            ratingBlock.setAttribute("data-selected-score", String(score));
+            return;
+          }
+
+          if (target.classList.contains("js-submit-rating")) {
+            event.preventDefault();
+            const selectedScore = Number(
+              ratingBlock.getAttribute("data-selected-score") || "0"
+            );
+            if (!selectedScore || selectedScore < 1 || selectedScore > 5) {
+              if (messageEl) {
+                messageEl.textContent = currentLang === "tr"
+                  ? "Lütfen 1 ile 5 arasında bir puan seç."
+                  : "Please select a rating between 1 and 5.";
+                messageEl.className = "rating-message error";
+              }
+              return;
+            }
+
+            const nicknameInput = ratingBlock.querySelector(".rating-nickname");
+            const commentInput = ratingBlock.querySelector(".rating-comment");
+            const nickname = nicknameInput && nicknameInput.value
+              ? nicknameInput.value.trim()
+              : null;
+            const comment = commentInput && commentInput.value
+              ? commentInput.value.trim()
+              : null;
+
+            if (messageEl) {
+              messageEl.textContent = currentLang === "tr"
+                ? "Gönderiliyor..."
+                : "Submitting...";
+              messageEl.className = "rating-message";
+            }
+
+            const { error } = await supabase
+              .from("adil_app_ratings")
+              .insert({
+                app_id: appId,
+                score: selectedScore,
+                nickname,
+                comment,
+              });
+
+            if (error) {
+              console.error("Failed to insert rating", error);
+              if (messageEl) {
+                messageEl.textContent = currentLang === "tr"
+                  ? "Bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+                  : "Something went wrong. Please try again later.";
+                messageEl.className = "rating-message error";
+              }
+              return;
+            }
+
+            if (nicknameInput) nicknameInput.value = "";
+            if (commentInput) commentInput.value = "";
+            ratingBlock.removeAttribute("data-selected-score");
+            const starButtons = ratingBlock.querySelectorAll(".js-rate-star");
+            starButtons.forEach((btn) => btn.classList.remove("active"));
+
+            if (messageEl) {
+              messageEl.textContent = currentLang === "tr"
+                ? "Teşekkürler! Değerlendirmen eklendi."
+                : "Thank you! Your rating has been added.";
+              messageEl.className = "rating-message success";
+            }
+
+            await loadRatingsFromSupabase();
+            renderApps();
+            renderFeatured();
+            renderHeroApp();
+          }
+        });
       });
     }
 
@@ -2569,6 +3043,7 @@
     initTheme();
     initLanguage();
     observer.setup();
+    setupRatingHandlers();
     loadAppsFromSupabase();
   </script>
 </body>
