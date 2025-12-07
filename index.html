@@ -751,6 +751,14 @@
       flex-shrink: 0;
     }
 
+    .app-icon-img {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      display: block;
+      object-fit: cover;
+    }
+
     .app-category {
       font-size: 10px;
       text-transform: uppercase;
@@ -767,6 +775,11 @@
       margin: 0;
       font-size: 12px;
       line-height: 1.55;
+      color: var(--text-soft);
+    }
+
+    .app-extra-line {
+      margin-top: 4px;
       color: var(--text-soft);
     }
 
@@ -958,6 +971,84 @@
       margin-top: 10px;
     }
 
+    .submit-section {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      background: var(--panel-strong);
+      padding: 16px 14px 18px;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.6);
+      margin-top: 8px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .submit-form {
+      display: grid;
+      gap: 10px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .form-full {
+      display: block;
+    }
+
+    .submit-form label {
+      display: grid;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .submit-form input,
+    .submit-form textarea,
+    .submit-form select {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text);
+      padding: 8px 10px;
+      font-size: 12px;
+      outline: none;
+    }
+
+    html[data-theme="light"] .submit-form input,
+    html[data-theme="light"] .submit-form textarea,
+    html[data-theme="light"] .submit-form select {
+      background: #ffffff;
+    }
+
+    .submit-form input:focus,
+    .submit-form textarea:focus,
+    .submit-form select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+    }
+
+    .form-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .submit-message {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .submit-message.success {
+      color: #22c55e;
+    }
+
+    .submit-message.error {
+      color: #f97373;
+    }
+
     footer {
       margin-top: 24px;
       padding: 16px 10px 8px;
@@ -1022,6 +1113,10 @@
 
       .platforms {
         align-items: flex-start;
+      }
+
+      .submit-section {
+        padding: 14px 10px 16px;
       }
     }
   </style>
@@ -1104,16 +1199,73 @@
       </div>
     </main>
 
+    <section class="section-heading" aria-label="Submit your app">
+      <h3 data-i18n="submit.title">Submit your app</h3>
+    </section>
+    <section class="submit-section" id="submitSection">
+      <p class="small" data-i18n="submit.subtitle">
+        Share a respectful, ad-free, privacy-friendly app. We review every submission by hand.
+      </p>
+      <form id="submissionForm" class="submit-form">
+        <div class="form-row">
+          <label>
+            <span data-i18n="submit.appName">App name</span>
+            <input type="text" name="app_name" required />
+          </label>
+          <label>
+            <span data-i18n="submit.appUrl">App URL</span>
+            <input type="url" name="app_url" required />
+          </label>
+        </div>
+        <div class="form-row">
+          <label>
+            <span data-i18n="submit.category">Category</span>
+            <select name="category">
+              <option value="">--</option>
+              <option value="spiritual" data-i18n="categories.spiritual">Spiritual</option>
+              <option value="wellness" data-i18n="categories.wellness">Wellness</option>
+              <option value="learning" data-i18n="categories.learning">Learning</option>
+              <option value="games" data-i18n="categories.games">Games</option>
+              <option value="tools" data-i18n="categories.tools">Tools</option>
+              <option value="environment" data-i18n="categories.environment">Environment</option>
+              <option value="self-assessment" data-i18n="categories.self-assessment">Self-assessment</option>
+            </select>
+          </label>
+          <label>
+            <span data-i18n="submit.contactEmail">Contact email</span>
+            <input type="email" name="contact_email" required />
+          </label>
+        </div>
+        <label class="form-full">
+          <span data-i18n="submit.description">Short description (why is it good for AdilStore?)</span>
+          <textarea name="description" rows="3"></textarea>
+        </label>
+        <label class="form-full">
+          <span data-i18n="submit.extraNotes">Extra notes (open source links, licenses, etc.)</span>
+          <textarea name="extra_notes" rows="3"></textarea>
+        </label>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <span class="icon">📤</span>
+            <span data-i18n="submit.button">Send submission</span>
+          </button>
+          <div class="submit-message" id="submitMessage" aria-live="polite"></div>
+        </div>
+      </form>
+    </section>
+
     <footer>
       <div data-i18n="footer.line1">All apps by <strong>Umut Candan</strong>. No ads, no trackers, no games with your data.</div>
       <div data-i18n="footer.line2">
-        Add more apps by editing the <code>apps</code> array in this page · Hosted on
+        Add more apps by editing the <code>FALLBACK_APPS</code> array in this page · Hosted on
         <a href="https://pages.github.com/" target="_blank" rel="noreferrer">GitHub Pages</a>.
       </div>
     </footer>
   </div>
 
-  <script>
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
     // i18n: translations and language state
     const translations = {
       en: {
@@ -1130,6 +1282,8 @@
           learning: "Learning & reflection",
           games: "Games & play",
           tools: "Tools & utilities",
+          environment: "Environment & care",
+          "self-assessment": "Self-assessment",
         },
         searchPlaceholder: "Search apps, tags, or hopes…",
         results: { single: "app", plural: "apps" },
@@ -1145,6 +1299,7 @@
           openPlay: "Open on Google Play",
           live: "Live preview",
           hide: "Hide preview",
+          unavailable: "Preview unavailable",
         },
         preview: {
           lead: "Inline preview:",
@@ -1152,14 +1307,26 @@
           fallback: "Some stores block embedding — if it stays blank, please use the main button.",
           loading: "Loading live preview…",
         },
+        submit: {
+          title: "Submit your app",
+          subtitle: "Share a respectful, ad-free, privacy-friendly app. We review every submission by hand.",
+          appName: "App name",
+          appUrl: "App URL",
+          category: "Category",
+          contactEmail: "Contact email",
+          description: "Short description (why is it good for AdilStore?)",
+          extraNotes: "Extra notes (open source links, licenses, etc.)",
+          button: "Send submission",
+        },
         empty: {
           title: "No apps match your search.",
           subtitle: "Try a caring keyword or reset the filters.",
         },
+        storePromise: "Ad-free · Privacy-first",
         footer: {
           line1: "All apps by <strong>Umut Candan</strong>. No ads, no trackers, and a respect-first build.",
           line2:
-            "Add more apps by editing the <code>apps</code> array on this page · Hosted on <a href=\"https://pages.github.com/\" target=\"_blank\" rel=\"noreferrer\">GitHub Pages</a>.",
+            "Add more apps by editing the <code>FALLBACK_APPS</code> array on this page · Hosted on <a href=\"https://pages.github.com/\" target=\"_blank\" rel=\"noreferrer\">GitHub Pages</a>.",
         },
         featuredTitle: "Featured",
         allAppsTitle: "All apps",
@@ -1180,6 +1347,8 @@
           learning: "Öğrenme ve tefekkür",
           games: "Oyun ve eğlence",
           tools: "Araçlar ve yardımcılar",
+          environment: "Çevre ve hassasiyet",
+          "self-assessment": "Öz değerlendirme",
         },
         searchPlaceholder: "Uygulama, etiket veya umut ara…",
         results: { single: "uygulama", plural: "uygulama" },
@@ -1195,6 +1364,7 @@
           openPlay: "Google Play'de aç",
           live: "Canlı önizleme",
           hide: "Önizlemeyi gizle",
+          unavailable: "Önizleme kullanılamıyor",
         },
         preview: {
           lead: "Satır içi önizleme:",
@@ -1202,14 +1372,27 @@
           fallback: "Bazı mağazalar yerleştirmeyi engeller — boş kalırsa ana butonu kullanın.",
           loading: "Canlı önizleme yükleniyor…",
         },
+        submit: {
+          title: "Uygulamanı gönder",
+          subtitle:
+            "Saygılı, reklamsız ve mahremiyet dostu bir uygulamayı bizimle paylaş. Tüm başvuruları tek tek inceliyoruz.",
+          appName: "Uygulama adı",
+          appUrl: "Uygulama adresi (URL)",
+          category: "Kategori",
+          contactEmail: "İletişim e-posta",
+          description: "Kısa açıklama (AdilStore için neden uygun?)",
+          extraNotes: "Ek notlar (açık kaynak linkleri, lisanslar vb.)",
+          button: "Başvuruyu gönder",
+        },
         empty: {
           title: "Aramanızla eşleşen uygulama yok.",
           subtitle: "Daha yumuşak bir anahtar kelime deneyin veya filtreleri sıfırlayın.",
         },
+        storePromise: "Reklamsız · Mahremiyet öncelikli",
         footer: {
           line1: "Tüm uygulamalar <strong>Umut Candan</strong> tarafından. Reklam yok, takipçi yok, verinle oyun yok.",
           line2:
-            "Yeni uygulamalar eklemek için bu sayfadaki <code>apps</code> dizisini düzenleyin · <a href=\"https://pages.github.com/\" target=\"_blank\" rel=\"noreferrer\">GitHub Pages</a> üzerinde barındırılır.",
+            "Yeni uygulamalar eklemek için bu sayfadaki <code>FALLBACK_APPS</code> dizisini düzenleyin · <a href=\"https://pages.github.com/\" target=\"_blank\" rel=\"noreferrer\">GitHub Pages</a> üzerinde barındırılır.",
         },
         featuredTitle: "Öne çıkanlar",
         allAppsTitle: "Tüm uygulamalar",
@@ -1220,13 +1403,14 @@
 
     // 1) DATA MODEL — add / edit apps here
     // -------------------------------------------------------
-    const apps = [
+    const FALLBACK_APPS = [
       {
         id: "unmask",
         name: "Unmask · Purity & Power Companion",
         category: "spiritual",
         url: "https://candanumut.github.io/Unmasking_sexual_engineered/",
         previewUrl: "https://candanumut.github.io/Unmasking_sexual_engineered/",
+        icon_filename: "spiritual-unmask.png",
         description: {
           en: "Faith-friendly NoFap / reboot companion that shows how engineered sexual conditioning works, helps protect your brain and heart from harmful sexual content, and rebuilds a life of clarity, dignity, and worship. All plans, streaks, and notes stay fully local in your browser.",
           tr: "Mühendislik edilmiş cinsel koşullandırmanın nasıl işlediğini gösteren, zihnini ve kalbini zararlı cinsel içerikten korumana yardım eden iman dostu bir reboot rehberi. Bağımlılık döngüsünden çıkıp berraklık, haysiyet ve ibadet dolu bir hayata dönmen için planlar, seriler ve notlar tamamen cihazında kalır.",
@@ -1243,6 +1427,7 @@
         category: "games",
         url: "https://candanumut.github.io/newbrotato/",
         previewUrl: "https://candanumut.github.io/newbrotato/",
+        icon_filename: "games-nova-arena-3d.png",
         description: {
           en: "Top-down rogue-survivor in a Perlin-generated world of forests, rocks, lakes, and enemies. Dash, jump, experiment with different upgrades, and try to survive as long as possible in a living terrain that actually feels like ground.",
           tr: "Ormanlar, kayalar, göller ve düşmanlarla dolu Perlin üretimli bir dünyada yukarıdan görünüşlü rogue-survivor. Fırlayıp zıpla, farklı yükseltmeleri dene ve gerçekten zemin gibi hissedilen yaşayan bir arazide olabildiğince uzun süre hayatta kal.",
@@ -1259,6 +1444,7 @@
         category: "games",
         url: "https://candanumut.github.io/roulette",
         previewUrl: "https://candanumut.github.io/roulette",
+        icon_filename: "games-roulette-rooms.png",
         description: {
           en: "Online Russian roulette party game with smooth animations. Spin up a room in seconds, share the link with friends, follow the built-in instructions, and track rounds on a shared scoreboard. Purely for fun — gambling is not allowed.",
           tr: "Akıcı animasyonlara sahip çevrimiçi Rus ruleti parti oyunu. Saniyeler içinde oda aç, bağlantıyı arkadaşlarınla paylaş, yerleşik talimatları izle ve ortak skor tablosunda turları takip et. Tamamen eğlence için, kumar yok.",
@@ -1275,6 +1461,7 @@
         category: "games",
         url: "https://candanumut.github.io/Highorlow/",
         previewUrl: "https://candanumut.github.io/Highorlow/",
+        icon_filename: "games-high-or-low.png",
         description: {
           en: "Real-time card showdown where you and friends guess whether the next card will be higher, lower, or the same. Create a private room in seconds, watch turns update instantly, and enjoy a cozy multiplayer party game with no installs.",
           tr: "Bir sonraki kartın yüksek mi düşük mü aynı mı olacağını arkadaşlarınla anlık olarak tahmin et. Saniyeler içinde özel oda kur, turların anında güncellendiğini izle ve kurulum gerektirmeyen sıcak bir çok oyunculu parti oyununun tadını çıkar.",
@@ -1291,6 +1478,7 @@
         category: "games",
         url: "https://candanumut.github.io/Mathbomb/",
         previewUrl: "https://candanumut.github.io/Mathbomb/",
+        icon_filename: "games-mathbomb.png",
         description: {
           en: "Fast-paced online math duel. Answer the countdown question correctly to throw the bomb to the friend you choose; miss and it might explode in your hands. Build rooms, pick opponents, and sharpen mental math while laughing together.",
           tr: "Hızlı tempolu çevrimiçi matematik düellosu. Sayaçlı soruyu doğru cevaplayarak bombayı seçtiğin arkadaşa fırlat; kaçırırsan elinde patlayabilir. Oda kur, rakip seç ve birlikte gülerek zihinsel matematiğini keskinleştir.",
@@ -1307,6 +1495,7 @@
         category: "learning",
         url: "https://candanumut.github.io/Scaleuniverse/",
         previewUrl: "https://candanumut.github.io/Scaleuniverse/",
+        icon_filename: "learning-scale-universe.png",
         description: {
           en: "An interactive visual journey from subatomic particles all the way to the edge of the observable universe. Designed for tefekkür and humility: scroll through the scales, jump between atoms, cells, Earth, and galaxies, and feel how small (and special) human life really is.",
           tr: "Atom altı parçacıklardan gözlemlenebilir evrenin sınırına uzanan etkileşimli bir görsel yolculuk. Tefekkür ve tevazu için tasarlandı: ölçekler arasında kay, atomlardan hücrelere, Dünya'dan galaksilere atla ve insan hayatının ne kadar küçük (ve özel) olduğunu hisset.",
@@ -1323,6 +1512,7 @@
         category: "spiritual",
         url: "https://candanumut.github.io/Readytodie/",
         previewUrl: "https://candanumut.github.io/Readytodie/",
+        icon_filename: "spiritual-ready-to-die.png",
         description: {
           en: "A Qur’an & Sunnah–inspired self-accounting tool. Reflect on faith, worship, character, rights of others, knowledge, tawba and sincerity. Generates an approximate ‘Ahirete hazırlık’ score to show direction — not a fatwa, just a gentle nudge to realign your life.",
           tr: "Kur’an ve Sünnet'ten ilham alan bir muhasebe aracı. İman, ibadet, ahlak, kul hakları, ilim, tevbe ve ihlas üzerine düşün. Hayata yön vermek için yaklaşık bir ‘Ahirete hazırlık’ puanı üretir; fetva değildir, sadece yumuşak bir hatırlatma.",
@@ -1339,6 +1529,7 @@
         category: "self-assessment",
         url: "https://candanumut.github.io/Addiction_test/",
         previewUrl: "https://candanumut.github.io/Addiction_test/",
+        icon_filename: "self-assessment-freedom-score.png",
         description: {
           en: "A private, browser-only addiction & habit self-check. In 15 A/B/C/D questions it scans substances, phone & social media, gaming, food, lust, money, ego and spiritual grounding, then turns your answers into a single ‘Freedom Score’. Nothing is saved on any server; it’s not a medical diagnosis, just a clear mirror to see where you’re free, where you’re slipping, and where to start breaking chains.",
           tr: "Tamamen tarayıcıda çalışan, gizli bir bağımlılık ve alışkanlık öz değerlendirme aracı. 15 A/B/C/D soruyla madde kullanımı, telefon ve sosyal medya, oyun, beslenme, şehvet, para, ego ve manevi dayanıklılık alanlarını tarar ve cevaplarını tek bir ‘Özgürlük Skoru’na dönüştürür. Hiçbir veri sunucuya gitmez; tıbbi teşhis değildir, sadece nerede özgür, nerede kaygan zeminde, nerede zincir kırmaya başlaman gerektiğini gösteren net bir ayna sunar.",
@@ -1356,6 +1547,7 @@
         category: "wellness",
         url: "https://candanumut.github.io/Howold/",
         previewUrl: "https://candanumut.github.io/Howold/",
+        icon_filename: "wellness-how-old.png",
         description: {
           en: "Science-inspired questionnaire to estimate your ‘body age’ and ‘mind age’ based on sleep, movement, nutrition, stress, habits, social life, and meaning. Not a medical test — just a mirror to see where lifestyle is keeping you young and where it’s quietly aging you.",
           tr: "Uyku, hareket, beslenme, stres, alışkanlıklar, sosyal hayat ve anlam üzerinden ‘beden yaşı’ ve ‘zihin yaşı’ tahmini yapan bilim esintili bir anket. Tıbbi bir test değil; yaşam tarzının seni nerede genç tuttuğunu, nerede sessizce yaşlandırdığını gösteren bir ayna.",
@@ -1372,6 +1564,7 @@
         category: "spiritual",
         url: "https://candanumut.github.io/hakikat_ucgeni/",
         previewUrl: "https://candanumut.github.io/hakikat_ucgeni/",
+        icon_filename: "spiritual-manevi-farkindalik.png",
         description: {
           en: "Spiritual Awareness Companion that reminds you of the games of Shaytan, Nafs, and Dunya from a Qur’anic lens. Daily checklists, breathing exercises, notes, and protection tips help you take steady, meaningful steps each day.",
           tr: "Kur’an perspektifinden şeytan, nefis ve dünyanın oyunlarını hatırlatan Manevî Farkındalık Rehberi. Günlük check-list’ler, nefes egzersizi, notlar ve korunma önerileriyle her gün küçük ama istikrarlı adımlar atmana yardım eder.",
@@ -1388,6 +1581,7 @@
         category: "learning",
         url: "https://candanumut.github.io/pru_simulation_engine/",
         previewUrl: "https://candanumut.github.io/pru_simulation_engine/",
+        icon_filename: "learning-pru-universe-simulator.png",
         description: {
           en: "A 3D scientific visualization tool that lets you build star systems, watch galaxies form, and observe black holes through the Precomputed Relational Universe (PRU) model. Adjust variables live and explore mass density, curvature, and solar system motion.",
           tr: "Precomputed Relational Universe (PRU) modeliyle yıldız sistemleri kurmanı, galaksi oluşumunu izlemeni ve kara delik etkilerini gözlemlemeni sağlayan 3B bilimsel görselleştirme aracı. Değişkenleri anlık düzenle, kütle yoğunluğu ve eğrilik alanlarını keşfet, Güneş Sistemi hareketlerini incele.",
@@ -1404,6 +1598,7 @@
         category: "games",
         url: "https://candanumut.github.io/adilstore-webapps/com.takvarace.takvarace/1.0.0/",
         previewUrl: "https://candanumut.github.io/adilstore-webapps/com.takvarace.takvarace/1.0.0/",
+        icon_filename: "games-takva-race.png",
         description: {
           en: "A small arcade experiment from the Takva universe. Dash through a minimalist track while symbolically racing toward khayr and away from distractions. Built as a playful reminder that life is a race where direction matters more than raw speed.",
           tr: "Takva evreninden küçük bir arcade denemesi. Minimalist parkurda hızla ilerlerken hayra doğru, dikkat dağıtıcılardan uzağa sembolik bir yarış koş. Hayatın, hızdan çok yönün önemli olduğu bir yarış olduğunu hatırlatmak için tasarlandı.",
@@ -1423,6 +1618,7 @@
         category: "wellness",
         url: "https://candanumut.github.io/adilstore-webapps/com.dreamsleep.dreamsleep/1.0.0/",
         previewUrl: "https://candanumut.github.io/adilstore-webapps/com.dreamsleep.dreamsleep/1.0.0/",
+        icon_filename: "wellness-dreamsleep.png",
         description: {
           en: "A calm sleep helper focused on better nights and kinder mornings. Mix soothing sounds and intentional routines, and use it together with your own sleep habits and dua to slowly rebuild a healthier relationship with rest.",
           tr: "Daha iyi geceler ve daha yumuşak sabahlar için sakin bir uyku yardımcısı. Sakinleştirici sesleri ve niyetli rutinleri karıştır, kendi uyku alışkanlıkların ve dualarınla birlikte kullanarak dinlenmeyle daha sağlıklı bir ilişkiyi yavaşça kur.",
@@ -1439,6 +1635,7 @@
         category: "tools",
         url: "https://candanumut.github.io/adilstore-webapps/com.example.pdfreader/1.0.1/",
         previewUrl: "https://candanumut.github.io/adilstore-webapps/com.example.pdfreader/1.0.1/",
+        icon_filename: "tools-pdf-reader.png",
         description: {
           en: "Lightweight, distraction-free PDF reader. No ads, no analytics, no nonsense — just open your files and read. Built for people who want to escape bloated readers and keep documents simple and local.",
           tr: "Hafif ve dikkat dağıtmayan bir PDF okuyucu. Reklam yok, analitik yok, gereksiz özellik yok — dosyalarını açıp oku. Şişkin okuyuculardan kaçıp belgelerini basit ve yerelde tutmak isteyenler için yapıldı.",
@@ -1455,6 +1652,7 @@
         category: "spiritual",
         url: "https://candanumut.github.io/adilstore-webapps/com.example.zikrchecker/1.0.9/",
         previewUrl: "https://candanumut.github.io/adilstore-webapps/com.example.zikrchecker/1.0.9/",
+        icon_filename: "spiritual-zikr-checker.png",
         description: {
           en: "A simple, focused dashboard to keep track of daily spiritual actions: istighfar, salawat, Qur’an reading, gratitude, and good deeds. Designed to build istiqamah gently — small consistent steps instead of guilt and burnout.",
           tr: "Günlük manevi amelleri takip etmek için sade bir pano: istiğfar, salavat, Kur’an okuma, şükür ve hayırlı işler. İstikameti nazikçe inşa etmek için tasarlandı — suçluluk ve tükenmişlik yerine küçük ama tutarlı adımlar.",
@@ -1471,6 +1669,7 @@
         category: "environment",
         url: "https://candanumut.github.io/Climatechange/",
         previewUrl: "https://candanumut.github.io/Climatechange/",
+        icon_filename: "environment-climate-change-dashboard.png",
         description: {
           en: "A climate change awareness dashboard built on live weather and air-quality data. Explore temperature, rain, wind, air pollution and perceived risk with clear graphs and city-based comparisons. Shows how today’s local weather connects to the bigger climate story so anyone can see trends, reflect on their lifestyle, and take action — all in a simple, bilingual interface.",
           tr: "Gerçek zamanlı hava durumu ve hava kalitesi verilerine dayalı bir iklim değişikliği farkındalık paneli. Sıcaklık, yağış, rüzgâr, hava kirliliği ve risk algısını net grafiklerle ve şehir bazlı karşılaştırmalarla gösterir. Bugünkü yerel havanın büyük iklim tablosuyla nasıl bağlantılı olduğunu görün, eğilimleri fark edin, hayat tarzınızı sorgulayın ve adım atın. Hepsi sade ve iki dilli bir arayüzde.",
@@ -1488,6 +1687,7 @@
         url: "https://play.google.com/store/apps/details?id=com.healing.healingsound.healingsounds",
         previewUrl:
           "https://play.google.com/store/apps/details?id=com.healing.healingsound.healingsounds",
+        icon_filename: "wellness-healing-sounds.png",
         description: {
           en: "A collection of calming soundscapes, nature ambience, and frequency-based tracks to support focus, relaxation, and meditation. Use it to wind down, create a soft background while you work, or deepen reflection and prayer.",
           tr: "Odaklanma, rahatlama ve meditasyonu desteklemek için sakinleştirici soundscape'ler, doğa ambiyansları ve frekans temelli parçalar. Günün yorgunluğunu atmak, çalışırken yumuşak bir arka plan oluşturmak veya tefekkür ve duayı derinleştirmek için kullan.",
@@ -1505,6 +1705,7 @@
         url: "https://play.google.com/store/apps/details?id=com.wakeup.wakeup.awakening",
         previewUrl:
           "https://play.google.com/store/apps/details?id=com.wakeup.wakeup.awakening",
+        icon_filename: "wellness-awakening.png",
         description: {
           en: "A meditation-first wake-up app. Instead of starting the day with chaos and social feeds, Awakening invites you to breathe, remember your values, and step into the morning with clarity and gratitude — with no tracking behind the scenes.",
           tr: "Güne meditasyonla başlaman için bir alarm uygulaması. Sabahı kaos ve sosyal akışlarla açmak yerine derin nefes almaya, değerlerini hatırlamaya ve şükürle berrak bir güne adım atmaya davet eder — arkada takip kodu olmadan.",
@@ -1522,6 +1723,7 @@
         url: "https://play.google.com/store/apps/details?id=com.hopy_tower3.hopy.hopy_tower3",
         previewUrl:
           "https://play.google.com/store/apps/details?id=com.hopy_tower3.hopy.hopy_tower3",
+        icon_filename: "games-hopy-tower-3.png",
         description: {
           en: "Fast, vertical arcade game where you climb a colorful tower, time your jumps, and try not to fall. Built for short, satisfying sessions when you just want a quick break without getting sucked into an endless feed.",
           tr: "Renkli bir kuleyi tırmandığın, zıplamalarını zamanladığın ve düşmemeye çalıştığın hızlı bir dikey arcade oyunu. Sonsuz bir akışa kapılmadan kısa ve tatmin edici oyun seansları için yapıldı.",
@@ -1540,7 +1742,7 @@
         category: "tools",
         url: "https://joplinapp.org/",
         previewUrl: "https://joplinapp.org/",
-        icon: "joplin-notes.svg",
+        icon_filename: "tools-joplin-notes.svg",
         description: {
           en: "Open-source notes and to-do app with end-to-end encryption, Markdown, notebooks and tags. Sync via Joplin Cloud or your own Nextcloud/WebDAV so your second brain stays portable and under your control.",
           tr: "Uçtan uca şifreleme, Markdown, defterler ve etiketler sunan açık kaynaklı not ve yapılacaklar uygulaması. Joplin Cloud veya kendi Nextcloud/WebDAV sunucunla eşitle; ikinci beynin taşınabilir ve senin kontrolünde kalsın.",
@@ -1560,7 +1762,7 @@
         category: "tools",
         url: "https://standardnotes.com/",
         previewUrl: "https://standardnotes.com/",
-        icon: "standard-notes.svg",
+        icon_filename: "tools-standard-notes.svg",
         description: {
           en: "Zero-knowledge encrypted note system with simple core and powerful optional editors. Built for 10+ years of safe note-keeping, not for harvesting your data.",
           tr: "Sıfır bilgi şifrelemeli, sade ama güçlü editörlere sahip not sistemi. Verini toplamak için değil, 10+ yıl güvenli not tutman için tasarlandı.",
@@ -1580,7 +1782,7 @@
         category: "tools",
         url: "https://proton.me/mail",
         previewUrl: "https://proton.me/mail",
-        icon: "proton-mail.svg",
+        icon_filename: "tools-proton-mail.svg",
         description: {
           en: "End-to-end encrypted email from Proton’s privacy suite. Open-source apps, zero-access encryption and servers in Switzerland — email that isn’t built on spying.",
           tr: "Proton’un mahremiyet odaklı paketinden uçtan uca şifreli e-posta. Açık kaynak uygulamalar, sıfır erişim şifreleme ve İsviçre sunucuları — gözetleme üzerine kurulu olmayan e-posta.",
@@ -1600,7 +1802,7 @@
         category: "tools",
         url: "https://tuta.com/",
         previewUrl: "https://tuta.com/",
-        icon: "tuta-mail.svg",
+        icon_filename: "tools-tuta-mail.svg",
         description: {
           en: "Open-source, end-to-end encrypted email and calendar with a clean interface. Based in Germany with a strong no-tracking, no-ads stance.",
           tr: "Açık kaynaklı, uçtan uca şifreli e-posta ve takvim. Almanya merkezli; takip yok, reklam yok, sade bir arayüzle geliyor.",
@@ -1620,7 +1822,7 @@
         category: "tools",
         url: "https://proton.me/drive",
         previewUrl: "https://proton.me/drive",
-        icon: "proton-drive.svg",
+        icon_filename: "tools-proton-drive.svg",
         description: {
           en: "End-to-end encrypted cloud storage and file sharing from the Proton ecosystem. Store docs, photos and backups without handing your life to an ad company.",
           tr: "Proton ekosisteminden uçtan uca şifreli bulut depolama ve dosya paylaşımı. Belgelerini, fotoğraflarını ve yedeklerini bir reklam şirketine teslim etmeden sakla.",
@@ -1640,7 +1842,7 @@
         category: "tools",
         url: "https://bitwarden.com/",
         previewUrl: "https://vault.bitwarden.com/#/register",
-        icon: "bitwarden.svg",
+        icon_filename: "tools-bitwarden.svg",
         description: {
           en: "Open-source, zero-knowledge password manager with vault sharing and two factor support. One master password; everything else can be 40+ random characters.",
           tr: "Açık kaynaklı, sıfır bilgi parol yöneticisi. Kasa paylaşımı ve iki adımlı doğrulama desteğiyle gelir. Bir ana parola; gerisi 40+ rastgele karakter olabilir.",
@@ -1660,7 +1862,7 @@
         category: "tools",
         url: "https://nextcloud.com/",
         previewUrl: "https://nextcloud.com/",
-        icon: "nextcloud-hub.svg",
+        icon_filename: "tools-nextcloud-hub.svg",
         description: {
           en: "Full open-source cloud you can self-host: files, photos, calendar, contacts, tasks and more. Like your own private Google Workspace that lives on a server you control.",
           tr: "Kendin barındırabildiğin tam açık kaynak bulut: dosyalar, fotoğraflar, takvim, kişiler, görevler ve daha fazlası. Kendi kontrolündeki sunucuda yaşayan özel bir Google Workspace gibi.",
@@ -1680,7 +1882,7 @@
         category: "tools",
         url: "https://www.openstreetmap.org/",
         previewUrl: "https://www.openstreetmap.org/",
-        icon: "openstreetmap.svg",
+        icon_filename: "tools-openstreetmap.svg",
         description: {
           en: "Collaboratively edited world map. Anonymous to use, free to embed, and improved by volunteers instead of ad-tech. A clean base map for navigation, research or just exploring cities.",
           tr: "Gönüllüler tarafından birlikte düzenlenen dünya haritası. Anonim kullanılabilir, gömmesi ücretsiz ve reklam teknolojisi yerine topluluk tarafından iyileştirilir. Navigasyon, araştırma veya şehirleri keşfetmek için temiz bir temel harita.",
@@ -1700,7 +1902,7 @@
         category: "tools",
         url: "https://cryptpad.fr/",
         previewUrl: "https://cryptpad.fr/",
-        icon: "cryptpad.svg",
+        icon_filename: "tools-cryptpad.svg",
         description: {
           en: "Open-source, end-to-end encrypted collaboration suite: notes, docs, sheets, kanban, whiteboards and more. A privacy-respecting alternative to Google Docs style tools.",
           tr: "Notlar, belgeler, tablolar, kanban panoları, beyaz tahta ve daha fazlasını sunan açık kaynaklı, uçtan uca şifreli işbirliği paketi. Google Dokümanlar tarzı araçlara mahremiyet odaklı bir alternatif.",
@@ -1720,7 +1922,7 @@
         category: "tools",
         url: "https://www.collaboraonline.com/",
         previewUrl: "https://www.collaboraonline.com/",
-        icon: "collabora-online.svg",
+        icon_filename: "tools-collabora-online.svg",
         description: {
           en: "LibreOffice-based online office suite for documents, spreadsheets and presentations with real-time collaboration. Often self-hosted together with Nextcloud as a private Google Docs replacement.",
           tr: "Belgeler, tablolar ve sunumlar için gerçek zamanlı işbirliği sunan, LibreOffice tabanlı çevrimiçi ofis paketi. Çoğunlukla Nextcloud ile birlikte barındırılarak özel bir Google Dokümanlar alternatifi olarak kullanılır.",
@@ -1736,6 +1938,23 @@
       },
 
     ];
+
+    let apps = [...FALLBACK_APPS];
+
+    const CATEGORY_ORDER = [
+      "all",
+      "spiritual",
+      "wellness",
+      "learning",
+      "games",
+      "tools",
+      "environment",
+      "self-assessment",
+    ];
+
+    const SUPABASE_URL = "https://";
+    const SUPABASE_ANON_KEY = "";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const appGrid = document.getElementById("appGrid");
     const filtersEl = document.getElementById("filters");
@@ -1773,6 +1992,119 @@
       return [];
     }
 
+    function getIconHtml(app) {
+      if (app.icon_filename) {
+        return `<img src="./icons/${app.icon_filename}" alt="${app.name} icon" class="app-icon-img" />`;
+      }
+      return app.name.charAt(0);
+    }
+
+    function supportsPreview(app) {
+      const url = app.previewUrl || app.url || "";
+      if (!url) return false;
+      if (/play\.google\.com/i.test(url)) return false;
+      return true;
+    }
+
+    async function loadAppsFromSupabase() {
+      if (!SUPABASE_URL || SUPABASE_URL === "https://" || !SUPABASE_ANON_KEY) {
+        apps = [...FALLBACK_APPS];
+        renderFilters();
+        renderApps();
+        renderFeatured();
+        renderHeroApp();
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("adil_apps")
+        .select("*")
+        .eq("is_published", true)
+        .order("is_featured", { ascending: false })
+        .order("sort_order", { ascending: true })
+        .order("created_at", { ascending: false });
+
+      if (error || !data || !data.length) {
+        apps = [...FALLBACK_APPS];
+      } else {
+        apps = data.map((row) => ({
+          id: row.id,
+          slug: row.slug,
+          name: row.name,
+          category: row.category,
+          url: row.url,
+          previewUrl: row.preview_url || row.url,
+          description: {
+            en: row.description_en || "",
+            tr: row.description_tr || row.description_en || "",
+          },
+          tags: {
+            en: row.tags_en || [],
+            tr: row.tags_tr || row.tags_en || [],
+          },
+          platforms: {
+            en: row.platforms_en || [],
+            tr: row.platforms_tr || row.platforms_en || [],
+          },
+          icon_filename: row.icon_filename || null,
+          is_featured: !!row.is_featured,
+          is_external: row.is_external,
+        }));
+      }
+
+      renderFilters();
+      renderApps();
+      renderFeatured();
+      renderHeroApp();
+    }
+
+    const submissionForm = document.getElementById("submissionForm");
+    const submitMessage = document.getElementById("submitMessage");
+
+    if (submissionForm) {
+      submissionForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!SUPABASE_URL || SUPABASE_URL === "https://" || !SUPABASE_ANON_KEY) {
+          submitMessage.textContent =
+            currentLang === "tr"
+              ? "Şu anda başvuru sistemi yapılandırılmamış. Lütfen daha sonra tekrar deneyin."
+              : "Submissions are not configured yet. Please try again later.";
+          submitMessage.className = "submit-message error";
+          return;
+        }
+
+        const formData = new FormData(submissionForm);
+        const payload = {
+          app_name: formData.get("app_name")?.toString().trim(),
+          app_url: formData.get("app_url")?.toString().trim(),
+          category: formData.get("category") || null,
+          description: formData.get("description")?.toString().trim() || null,
+          contact_email: formData.get("contact_email")?.toString().trim() || null,
+          extra_notes: formData.get("extra_notes")?.toString().trim() || null,
+        };
+
+        submitMessage.textContent = currentLang === "tr" ? "Gönderiliyor…" : "Sending...";
+        submitMessage.className = "submit-message";
+
+        const { error } = await supabase.from("adil_app_submissions").insert(payload);
+        if (error) {
+          console.error(error);
+          submitMessage.textContent =
+            currentLang === "tr"
+              ? "Bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+              : "Something went wrong. Please try again later.";
+          submitMessage.className = "submit-message error";
+        } else {
+          submissionForm.reset();
+          submitMessage.textContent =
+            currentLang === "tr"
+              ? "Teşekkürler! Uygulama başvurunuz bize ulaştı. Yayınlanmadan önce elle inceleyeceğiz."
+              : "Thank you! Your app submission has been received. We will review it manually before publishing.";
+          submitMessage.className = "submit-message success";
+        }
+      });
+    }
+
     function togglePreview(preview, btn, iframe, previewUrl = "") {
       if (!preview || !btn || !iframe) return;
       const isActive = preview.classList.contains("active");
@@ -1789,10 +2121,26 @@
       if (!iframe.src) {
         iframe.src = previewUrl || btn.dataset.previewUrl || "";
       }
+      let timeoutId;
       const handleLoad = () => {
         preview.classList.remove("preview-loading");
         iframe.removeEventListener("load", handleLoad);
+        if (timeoutId) window.clearTimeout(timeoutId);
       };
+      timeoutId = window.setTimeout(() => {
+        if (!preview.classList.contains("preview-loading")) return;
+        preview.classList.remove("active", "preview-loading");
+        preview.setAttribute("aria-hidden", "true");
+        iframe.removeEventListener("load", handleLoad);
+        iframe.src = "";
+        btn.disabled = true;
+        btn.classList.add("disabled");
+        const iconSpan = btn.querySelector("span.icon");
+        const labelSpan = btn.querySelector("span:last-child");
+        if (iconSpan) iconSpan.textContent = "🚫";
+        if (labelSpan) labelSpan.textContent = translations[currentLang].buttons.unavailable;
+        preview.remove();
+      }, 6000);
       iframe.addEventListener("load", handleLoad);
       preview.setAttribute("aria-hidden", "false");
       btn.querySelector("span.icon").textContent = "⏹";
@@ -1847,6 +2195,20 @@
         document.documentElement.getAttribute("data-theme") === "light" ? t("theme.light") : t("theme.dark");
       searchInput.setAttribute("placeholder", t("searchPlaceholder"));
       searchClear.setAttribute("aria-label", t("searchClear"));
+      const submitTitle = document.querySelector('[data-i18n="submit.title"]');
+      if (submitTitle) submitTitle.textContent = t("submit.title");
+      const submitSubtitle = document.querySelector('[data-i18n="submit.subtitle"]');
+      if (submitSubtitle) submitSubtitle.textContent = t("submit.subtitle");
+      document.querySelectorAll('[data-i18n^="submit."]').forEach((node) => {
+        const key = node.getAttribute("data-i18n");
+        const text = t(key);
+        if (text) node.textContent = text;
+      });
+      document.querySelectorAll('[data-i18n^="categories."]').forEach((node) => {
+        const key = node.getAttribute("data-i18n");
+        const label = t(key);
+        if (label) node.textContent = label;
+      });
     }
 
     // derive counts by category for display
@@ -1888,10 +2250,12 @@
       const tags = getLocalizedList(heroApp.tags).slice(0, 3);
       const platforms = getLocalizedList(heroApp.platforms).slice(0, 2);
       const isPlayStore = heroApp.url.includes("play.google.com");
+      const iconHtml = getIconHtml(heroApp);
+      const canPreview = supportsPreview(heroApp);
 
       heroAppCard.innerHTML = `
         <div class="hero-app-header">
-          <div class="app-icon lg">${heroApp.name.charAt(0)}</div>
+          <div class="app-icon lg">${iconHtml}</div>
           <div>
             <div class="eyebrow">${t("heroAppTagline")}</div>
             <h2>${heroApp.name}</h2>
@@ -1908,37 +2272,45 @@
             <span class="icon">${isPlayStore ? "↗" : "🚀"}</span>
             <span>${isPlayStore ? translations[currentLang].buttons.openPlay : translations[currentLang].buttons.open}</span>
           </a>
-          <button class="btn btn-ghost js-hero-preview" data-preview-url="${heroApp.previewUrl}" type="button">
-            <span class="icon">▶</span>
-            <span>${translations[currentLang].buttons.live}</span>
-          </button>
+          ${canPreview
+            ? `<button class="btn btn-ghost js-hero-preview" data-preview-url="${heroApp.previewUrl || heroApp.url}" type="button">
+                <span class="icon">▶</span>
+                <span>${translations[currentLang].buttons.live}</span>
+              </button>`
+            : ""}
         </div>
-        <div class="app-preview hero-preview" aria-hidden="true">
-          <div class="preview-hint">
-            <span class="small"><strong>${translations[currentLang].preview.lead}</strong> ${translations[currentLang].preview.body}</span>
-            <span class="small">${translations[currentLang].preview.fallback}</span>
-          </div>
-          <div class="preview-loader">${translations[currentLang].preview.loading}</div>
-          <iframe
-            class="preview-frame"
-            loading="lazy"
-            title="${heroApp.name} preview"
-            referrerpolicy="no-referrer"
-            sandbox="allow-scripts allow-forms allow-pointer-lock allow-same-origin allow-modals"
-          ></iframe>
-        </div>
+        ${canPreview
+          ? `<div class="app-preview hero-preview" aria-hidden="true">
+              <div class="preview-hint">
+                <span class="small"><strong>${translations[currentLang].preview.lead}</strong> ${translations[currentLang].preview.body}</span>
+                <span class="small">${translations[currentLang].preview.fallback}</span>
+              </div>
+              <div class="preview-loader">${translations[currentLang].preview.loading}</div>
+              <iframe
+                class="preview-frame"
+                loading="lazy"
+                title="${heroApp.name} preview"
+                referrerpolicy="no-referrer"
+                sandbox="allow-scripts allow-forms allow-pointer-lock allow-same-origin allow-modals"
+              ></iframe>
+            </div>`
+          : ""}
       `;
 
       const previewBtn = heroAppCard.querySelector(".js-hero-preview");
       const preview = heroAppCard.querySelector(".app-preview");
-      const iframe = heroAppCard.querySelector("iframe");
+      const iframe = preview ? preview.querySelector("iframe") : null;
 
-      previewBtn.addEventListener("click", () => togglePreview(preview, previewBtn, iframe, heroApp.previewUrl));
+      if (previewBtn && preview && iframe) {
+        previewBtn.addEventListener("click", () =>
+          togglePreview(preview, previewBtn, iframe, heroApp.previewUrl || heroApp.url)
+        );
+      }
     }
 
     function renderFilters() {
       const counts = countByCategory(apps);
-      const categories = ["all", "spiritual", "wellness", "learning", "games", "tools"];
+      const categories = CATEGORY_ORDER.filter((cat) => translations[currentLang].categories[cat]);
       const labels = translations[currentLang].categories;
       filtersEl.innerHTML = "";
       categories.forEach((cat) => {
@@ -1963,12 +2335,16 @@
       const tags = getLocalizedList(app.tags);
       const platforms = getLocalizedList(app.platforms);
       const isPlayStore = app.url.includes("play.google.com");
+      const iconHtml = getIconHtml(app);
+      const canPreview = supportsPreview(app);
+      const previewUrl = app.previewUrl || app.url;
       card.innerHTML = `
         <div class="app-header">
-          <h3 class="app-title"><span class="app-icon">${app.name.charAt(0)}</span>${app.name}</h3>
+          <h3 class="app-title"><span class="app-icon">${iconHtml}</span>${app.name}</h3>
           <div class="app-category">${translations[currentLang].categories[app.category]}</div>
         </div>
         <p class="app-description">${description}</p>
+        <div class="small app-extra-line">${t("storePromise")}</div>
         <div class="app-meta">
           <div class="chip-row">
             ${tags.map((tag) => `<span class="chip">${tag}</span>`).join("")}
@@ -1982,25 +2358,29 @@
             <span class="icon">${isPlayStore ? "↗" : "🚀"}</span>
             <span>${isPlayStore ? translations[currentLang].buttons.openPlay : translations[currentLang].buttons.open}</span>
           </a>
-          <button class="btn btn-ghost js-toggle-preview" data-preview-url="${app.previewUrl}" type="button">
-            <span class="icon">▶</span>
-            <span>${translations[currentLang].buttons.live}</span>
-          </button>
+          ${canPreview
+            ? `<button class="btn btn-ghost js-toggle-preview" data-preview-url="${previewUrl}" type="button">
+                <span class="icon">▶</span>
+                <span>${translations[currentLang].buttons.live}</span>
+              </button>`
+            : ""}
         </div>
-        <div class="app-preview" aria-hidden="true">
-          <div class="preview-hint">
-            <span class="small"><strong>${translations[currentLang].preview.lead}</strong> ${translations[currentLang].preview.body}</span>
-            <span class="small">${translations[currentLang].preview.fallback}</span>
-          </div>
-          <div class="preview-loader">${translations[currentLang].preview.loading}</div>
-          <iframe
-            class="preview-frame"
-            loading="lazy"
-            title="${app.name} preview"
-            referrerpolicy="no-referrer"
-            sandbox="allow-scripts allow-forms allow-pointer-lock allow-same-origin allow-modals"
-          ></iframe>
-        </div>
+        ${canPreview
+          ? `<div class="app-preview" aria-hidden="true">
+              <div class="preview-hint">
+                <span class="small"><strong>${translations[currentLang].preview.lead}</strong> ${translations[currentLang].preview.body}</span>
+                <span class="small">${translations[currentLang].preview.fallback}</span>
+              </div>
+              <div class="preview-loader">${translations[currentLang].preview.loading}</div>
+              <iframe
+                class="preview-frame"
+                loading="lazy"
+                title="${app.name} preview"
+                referrerpolicy="no-referrer"
+                sandbox="allow-scripts allow-forms allow-pointer-lock allow-same-origin allow-modals"
+              ></iframe>
+            </div>`
+          : ""}
       `;
       return card;
     }
@@ -2029,15 +2409,17 @@
 
     function renderFeatured() {
       featuredRow.innerHTML = "";
-      const picks = apps.slice(0, 3);
+      const featured = apps.filter((a) => a.is_featured);
+      const picks = featured.length ? featured : apps.slice(0, 3);
       picks.forEach((app) => {
         const card = document.createElement("button");
         card.type = "button";
         card.className = "featured-card";
         const description = getLocalizedText(app.description);
+        const iconHtml = getIconHtml(app);
         card.innerHTML = `
           <div class="featured-meta">
-            <span class="app-icon">${app.name.charAt(0)}</span>
+            <span class="app-icon">${iconHtml}</span>
             <div>
               <p class="featured-title">${app.name}</p>
               <div class="app-category">${translations[currentLang].categories[app.category]}</div>
@@ -2110,11 +2492,13 @@
 
     appGrid.addEventListener("click", (e) => {
       const btn = e.target.closest(".js-toggle-preview");
-      if (!btn) return;
+      if (!btn || btn.disabled) return;
 
       const card = btn.closest(".app-card");
+      if (!card) return;
       const preview = card.querySelector(".app-preview");
-      const iframe = preview.querySelector("iframe");
+      const iframe = preview ? preview.querySelector("iframe") : null;
+      if (!preview || !iframe) return;
       togglePreview(preview, btn, iframe, btn.dataset.previewUrl);
     });
 
@@ -2184,13 +2568,8 @@
     // INITIAL RENDER
     initTheme();
     initLanguage();
-    renderFilters();
-    renderApps();
-    renderFeatured();
-    renderHeroApp();
-
-    // ensure observer sees first render
-    observer.observeAll();
+    observer.setup();
+    loadAppsFromSupabase();
   </script>
 </body>
 </html>
