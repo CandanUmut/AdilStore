@@ -1,26 +1,59 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import type { DeveloperProfile } from "@/types/database.types";
 
-interface Props {
-  userId: string;
-  email: string;
-  existingProfile: DeveloperProfile | null;
-}
+export default function DeveloperProfileClient() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState("");
+  const [email, setEmail] = useState("");
+  const [existingProfile, setExistingProfile] = useState<DeveloperProfile | null>(null);
 
-export default function DeveloperProfileClient({ userId, email, existingProfile }: Props) {
-  const isEdit = !!existingProfile;
   const [form, setForm] = useState({
-    display_name: existingProfile?.display_name ?? "",
-    website: existingProfile?.website ?? "",
-    bio: existingProfile?.bio ?? "",
-    contact_email: existingProfile?.contact_email ?? email,
+    display_name: "",
+    website: "",
+    bio: "",
+    contact_email: "",
   });
   const [status, setStatus] = useState<"idle" | "saving" | "success" | "error">("idle");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    async function load() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.replace("/auth/signin?next=/developer/profile");
+        return;
+      }
+
+      setUserId(user.id);
+      setEmail(user.email ?? "");
+
+      const { data: profile } = await supabase
+        .from("developer_profiles")
+        .select("*")
+        .eq("user_id", user.id)
+        .single();
+
+      setExistingProfile(profile);
+      setForm({
+        display_name: profile?.display_name ?? "",
+        website: profile?.website ?? "",
+        bio: profile?.bio ?? "",
+        contact_email: profile?.contact_email ?? user.email ?? "",
+      });
+
+      setLoading(false);
+    }
+
+    load();
+  }, [router]);
 
   function update(field: keyof typeof form, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -36,6 +69,7 @@ export default function DeveloperProfileClient({ userId, email, existingProfile 
     setError("");
 
     const supabase = createClient();
+    const isEdit = !!existingProfile;
 
     if (isEdit) {
       const { error: dbError } = await supabase
@@ -80,6 +114,16 @@ export default function DeveloperProfileClient({ userId, email, existingProfile 
       window.location.href = "/developer";
     }, 1200);
   }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-sm text-[var(--text-soft)]">Loading…</div>
+      </div>
+    );
+  }
+
+  const isEdit = !!existingProfile;
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-8">

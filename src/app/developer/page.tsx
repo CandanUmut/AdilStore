@@ -1,11 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
-import Link from "next/link";
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Developer Portal",
-  description: "Submit and manage your apps on AdilStore",
-};
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
 
 const STATUS_COLORS = {
   pending: "text-yellow-400 bg-yellow-400/10",
@@ -21,9 +18,57 @@ const STATUS_LABELS = {
   needs_changes: "Needs changes",
 } as const;
 
-export default async function DeveloperPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+export default function DeveloperPage() {
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<{ id: string; email?: string } | null>(null);
+  const [profile, setProfile] = useState<{ id: string; is_verified?: boolean } | null>(null);
+  const [submissions, setSubmissions] = useState<{
+    id: string;
+    app_name: string;
+    description_en: string;
+    status: string;
+    reviewer_notes: string | null;
+    created_at: string;
+  }[]>([]);
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    async function load() {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+
+      if (!user) { setLoading(false); return; }
+
+      const { data: prof } = await supabase
+        .from("developer_profiles")
+        .select("*")
+        .eq("user_id", user.id)
+        .single();
+      setProfile(prof);
+
+      if (prof) {
+        const { data: subs } = await supabase
+          .from("app_submissions")
+          .select("*")
+          .eq("developer_id", prof.id)
+          .order("created_at", { ascending: false });
+        setSubmissions(subs ?? []);
+      }
+
+      setLoading(false);
+    }
+
+    load();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-sm text-[var(--text-soft)]">Loading…</div>
+      </div>
+    );
+  }
 
   if (!user) {
     return (
@@ -52,20 +97,6 @@ export default async function DeveloperPage() {
     );
   }
 
-  // Fetch developer profile
-  const { data: profile } = await supabase
-    .from("developer_profiles")
-    .select("*")
-    .eq("user_id", user.id)
-    .single();
-
-  // Fetch submissions
-  const { data: submissions } = await supabase
-    .from("app_submissions")
-    .select("*")
-    .eq("developer_id", profile?.id ?? "")
-    .order("created_at", { ascending: false });
-
   return (
     <div className="min-h-screen">
       <div className="max-w-[1260px] mx-auto px-4 md:px-6 py-8">
@@ -87,7 +118,6 @@ export default async function DeveloperPage() {
           </Link>
         </div>
 
-        {/* Profile card */}
         {!profile && (
           <div className="rounded-[18px] border border-[rgba(56,189,248,0.3)] bg-[rgba(56,189,248,0.08)] p-5 mb-6">
             <h2 className="text-sm font-bold m-0 mb-1">Complete your developer profile</h2>
@@ -103,10 +133,9 @@ export default async function DeveloperPage() {
           </div>
         )}
 
-        {/* Submissions */}
         <h2 className="text-base font-bold tracking-tight mb-3">My apps</h2>
 
-        {(!submissions || submissions.length === 0) ? (
+        {submissions.length === 0 ? (
           <div className="text-center py-10 px-4 rounded-[18px] border border-dashed border-[var(--border)] text-[var(--text-soft)] bg-[var(--panel-soft)]">
             <p className="font-medium m-0">You haven&apos;t submitted any apps yet.</p>
             <p className="text-xs mt-1 m-0">
