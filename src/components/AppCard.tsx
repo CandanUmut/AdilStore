@@ -21,27 +21,42 @@ interface AppCardProps {
 
 const PLAY_STORE_RE = /play\.google\.com/i;
 
-function StarDisplay({ avg }: { avg: number | null }) {
-  const stars = [1, 2, 3, 4, 5];
-  const filled = avg ? Math.floor(avg) : 0;
-  const hasHalf = avg ? avg - filled >= 0.5 : false;
+const CATEGORY_COLORS: Record<string, string> = {
+  spiritual:       "rgba(129,140,248,0.18)",
+  wellness:        "rgba(52,211,153,0.15)",
+  learning:        "rgba(56,189,248,0.15)",
+  games:           "rgba(251,191,36,0.15)",
+  tools:           "rgba(148,163,184,0.12)",
+  environment:     "rgba(74,222,128,0.15)",
+  "self-assessment": "rgba(249,115,115,0.14)",
+};
 
+const CATEGORY_TEXT: Record<string, string> = {
+  spiritual:       "#a5b4fc",
+  wellness:        "#6ee7b7",
+  learning:        "#7dd3fc",
+  games:           "#fcd34d",
+  tools:           "#cbd5e1",
+  environment:     "#86efac",
+  "self-assessment": "#fca5a5",
+};
+
+function Stars({ avg }: { avg: number | null }) {
+  const v = avg ?? 0;
   return (
-    <span className="flex gap-[2px] text-xs" aria-hidden="true">
-      {stars.map((s) => (
-        <span
-          key={s}
-          className={
-            s <= filled
-              ? "text-yellow-400"
-              : s === filled + 1 && hasHalf
-              ? "text-yellow-300 opacity-80"
-              : "text-[rgba(148,163,184,0.7)]"
-          }
-        >
-          {s <= filled || (s === filled + 1 && hasHalf) ? "★" : "☆"}
-        </span>
-      ))}
+    <span className="inline-flex gap-[2px]" aria-hidden="true">
+      {[1, 2, 3, 4, 5].map((s) => {
+        const filled = v >= s;
+        const half = !filled && v >= s - 0.5;
+        return (
+          <span
+            key={s}
+            className={`text-xs ${filled ? "star-filled" : half ? "star-half" : "star-empty"}`}
+          >
+            {filled || half ? "★" : "☆"}
+          </span>
+        );
+      })}
     </span>
   );
 }
@@ -57,6 +72,9 @@ export default function AppCard({ app, lang, rating }: AppCardProps) {
   const tags = (lang === "tr" && app.tags_tr?.length ? app.tags_tr : app.tags_en) ?? [];
   const platforms = (lang === "tr" && app.platforms_tr?.length ? app.platforms_tr : app.platforms_en) ?? [];
 
+  const catColor = CATEGORY_COLORS[app.category_id ?? ""] ?? "rgba(148,163,184,0.12)";
+  const catText  = CATEGORY_TEXT[app.category_id ?? ""]  ?? "#94a3b8";
+
   async function handleShare() {
     const url = appUrl(app.slug, typeof window !== "undefined" ? window.location.origin : "");
     const result = await shareApp(app.name, url, description);
@@ -68,49 +86,102 @@ export default function AppCard({ app, lang, rating }: AppCardProps) {
 
   return (
     <article
-      className="relative rounded-[18px] border border-[rgba(148,163,184,0.4)] bg-[var(--panel-soft)] p-[14px_14px_13px] shadow-[0_14px_30px_rgba(15,23,42,0.58)] flex flex-col gap-2 app-card-hover overflow-hidden opacity-0 translate-y-3 animate-fade-up"
+      className="relative rounded-[18px] border border-[var(--border-subtle)] bg-[var(--panel-card)] p-[14px_15px_13px] app-card-hover flex flex-col gap-2 overflow-hidden opacity-0 translate-y-3 animate-fade-up"
       data-app-id={app.id}
       data-category={app.category_id ?? ""}
-      style={{ animationFillMode: "forwards" }}
+      style={{
+        animationFillMode: "forwards",
+        boxShadow: "var(--shadow-card)",
+        backdropFilter: "blur(16px)",
+      }}
     >
+      {/* Subtle gradient accent in top-right */}
+      <div
+        className="pointer-events-none absolute -top-10 -right-10 w-32 h-32 rounded-full opacity-30"
+        style={{ background: catColor, filter: "blur(24px)" }}
+        aria-hidden="true"
+      />
+
+      {/* Featured badge */}
+      {app.is_featured && (
+        <div
+          className="absolute top-3 right-3 px-2 py-[3px] rounded-full text-[9px] font-bold uppercase tracking-[0.1em]"
+          style={{
+            background: "linear-gradient(135deg, rgba(56,189,248,0.22), rgba(129,140,248,0.22))",
+            border: "1px solid rgba(56,189,248,0.35)",
+            color: "#7dd3fc",
+          }}
+        >
+          ★ Featured
+        </div>
+      )}
+
       {/* Header */}
-      <div className="flex items-start justify-between gap-2">
+      <div className="flex items-start gap-2 pr-14">
         <Link
           href={`/app/${app.slug}`}
-          className="flex items-center gap-2 font-bold text-sm tracking-tight text-[var(--text)] hover:text-[var(--accent)] transition-colors"
+          className="flex items-center gap-2.5 font-bold text-[13px] tracking-tight text-[var(--text)] hover:text-[var(--accent)] transition-colors"
         >
-          <AppIcon app={app} size={34} />
-          {app.name}
+          <AppIcon app={app} size={36} />
+          <span className="leading-snug">{app.name}</span>
         </Link>
-        {app.category_id && (
-          <span className="text-[10px] uppercase tracking-[0.08em] px-[9px] py-1 rounded-full bg-[rgba(15,23,42,0.85)] border border-[rgba(148,163,184,0.7)] text-[var(--text-soft)] whitespace-nowrap flex-shrink-0">
-            {T.categories[app.category_id as keyof typeof T.categories] ?? app.category_id}
-          </span>
-        )}
       </div>
 
-      {/* Description */}
-      <p className="text-xs leading-[1.55] text-[var(--text-soft)] m-0">{description}</p>
+      {/* Category chip */}
+      {app.category_id && (
+        <div className="flex items-center gap-1.5">
+          <span
+            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-[0.07em]"
+            style={{ background: catColor, color: catText, border: `1px solid ${catText}33` }}
+          >
+            {T.categories[app.category_id as keyof typeof T.categories] ?? app.category_id}
+          </span>
+          {app.is_external && (
+            <span className="text-[9px] text-[var(--text-muted)] uppercase tracking-[0.08em]">
+              external
+            </span>
+          )}
+        </div>
+      )}
 
-      <p className="text-[10px] text-[var(--text-soft)]">{T.storePromise}</p>
+      {/* Description */}
+      <p className="text-[11.5px] leading-[1.6] text-[var(--text-soft)] m-0 line-clamp-3">
+        {description}
+      </p>
+
+      {/* Store promise */}
+      <p className="text-[10px] text-[var(--text-muted)] m-0 flex items-center gap-1">
+        <span className="text-[var(--green)] opacity-80">✓</span>
+        {T.storePromise}
+      </p>
 
       {/* Tags + Platforms */}
-      <div className="flex justify-between gap-1 items-start mt-1">
+      <div className="flex justify-between gap-1 items-start mt-0.5">
         <div className="flex flex-wrap gap-1">
-          {tags.slice(0, 4).map((tag) => (
+          {tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="text-[10px] px-2 py-1 rounded-full bg-[var(--chip-bg)] border border-[rgba(148,163,184,0.5)] text-[var(--text-soft)]"
+              className="text-[10px] px-2 py-1 rounded-full font-medium"
+              style={{
+                background: "var(--chip-bg)",
+                border: "1px solid var(--border-subtle)",
+                color: "var(--text-muted)",
+              }}
             >
               {tag}
             </span>
           ))}
         </div>
-        <div className="flex flex-col items-end gap-[2px] text-[10px] text-right text-[var(--text-soft)]">
+        <div className="flex flex-col items-end gap-[3px] text-[10px] text-right shrink-0">
           {platforms.slice(0, 2).map((p) => (
             <span
               key={p}
-              className="px-2 py-1 rounded-full border border-[rgba(148,163,184,0.5)] bg-[rgba(15,23,42,0.9)] whitespace-nowrap"
+              className="px-2 py-[3px] rounded-full whitespace-nowrap font-medium"
+              style={{
+                background: "var(--chip-bg)",
+                border: "1px solid var(--border-subtle)",
+                color: "var(--text-muted)",
+              }}
             >
               {p}
             </span>
@@ -118,28 +189,44 @@ export default function AppCard({ app, lang, rating }: AppCardProps) {
         </div>
       </div>
 
-      {/* Rating summary */}
+      {/* Rating */}
       {rating && (
-        <div className="flex items-center gap-2 text-[11px] text-[var(--text-soft)]">
-          <StarDisplay avg={rating.avg} />
-          <span>
-            {rating.avg ? `${rating.avg.toFixed(1)} · ` : ""}
-            {rating.count > 0
-              ? T.ratings.ratingCount(rating.count)
-              : T.ratings.noRatings}
+        <div className="flex items-center gap-1.5 text-[11px] text-[var(--text-soft)]">
+          <Stars avg={rating.avg} />
+          <span className="font-semibold text-[var(--text)]">
+            {rating.avg ? rating.avg.toFixed(1) : "—"}
+          </span>
+          <span className="text-[var(--text-muted)]">
+            {rating.count > 0 ? T.ratings.ratingCount(rating.count) : T.ratings.noRatings}
           </span>
         </div>
       )}
 
+      {/* Divider */}
+      <div className="h-px w-full bg-[var(--border-subtle)] mt-0.5" />
+
       {/* Actions */}
-      <div className="flex gap-2 mt-1 flex-wrap">
+      <div className="flex gap-1.5 flex-wrap">
         <a
           href={app.url}
           target="_blank"
           rel="noreferrer noopener"
-          className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-[11px] font-semibold bg-gradient-to-br from-[var(--accent)] to-[var(--accent-strong)] text-[#0b1120] shadow-[0_10px_25px_rgba(56,189,248,0.6)] hover:shadow-[0_14px_32px_rgba(56,189,248,0.9)] hover:-translate-y-[1.5px] transition-all"
+          className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[11px] font-bold"
+          style={{
+            background: "linear-gradient(135deg, var(--accent), var(--accent-strong))",
+            color: "#031018",
+            boxShadow: "var(--shadow-btn)",
+            transition: "transform 0.15s ease, box-shadow 0.15s ease",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLElement).style.transform = "translateY(-1.5px)";
+            (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 32px rgba(56,189,248,0.8)";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.transform = "";
+            (e.currentTarget as HTMLElement).style.boxShadow = "var(--shadow-btn)";
+          }}
           onClick={() => {
-            // record install (fire-and-forget)
             fetch("/api/install", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -154,7 +241,13 @@ export default function AppCard({ app, lang, rating }: AppCardProps) {
         {canPreview && (
           <button
             type="button"
-            className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-[11px] font-semibold bg-[rgba(15,23,42,0.9)] border border-[rgba(148,163,184,0.7)] text-[var(--text-soft)] hover:text-[var(--accent)] hover:border-[var(--accent)] hover:-translate-y-px transition-all"
+            className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[11px] font-semibold"
+            style={{
+              background: previewActive ? "var(--accent-soft)" : "var(--chip-bg)",
+              border: `1px solid ${previewActive ? "var(--accent)" : "var(--border-subtle)"}`,
+              color: previewActive ? "var(--accent)" : "var(--text-soft)",
+              transition: "all 0.15s ease",
+            }}
             onClick={() => setPreviewActive((v) => !v)}
           >
             <span>{previewActive ? "⏹" : "▶"}</span>
@@ -164,27 +257,41 @@ export default function AppCard({ app, lang, rating }: AppCardProps) {
 
         <button
           type="button"
-          className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-[11px] font-semibold bg-[rgba(15,23,42,0.9)] border border-[rgba(148,163,184,0.7)] text-[var(--text-soft)] hover:text-[var(--accent)] hover:border-[var(--accent)] hover:-translate-y-px transition-all"
+          className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[11px] font-semibold"
+          style={{
+            background: shareMsg ? "var(--green-soft)" : "var(--chip-bg)",
+            border: `1px solid ${shareMsg ? "rgba(52,211,153,0.35)" : "var(--border-subtle)"}`,
+            color: shareMsg ? "var(--green)" : "var(--text-soft)",
+            transition: "all 0.15s ease",
+          }}
           onClick={handleShare}
         >
-          <span>🔗</span>
+          <span>{shareMsg ? "✓" : "🔗"}</span>
           <span>{shareMsg || T.buttons.share}</span>
         </button>
       </div>
 
       {/* Inline preview */}
       {canPreview && previewActive && (
-        <div className="mt-2 rounded-[14px] overflow-hidden border border-[rgba(148,163,184,0.55)] bg-black">
-          <div className="px-3 py-2 bg-[rgba(15,23,42,0.92)] border-b border-[rgba(148,163,184,0.5)]">
+        <div
+          className="mt-1 rounded-[14px] overflow-hidden"
+          style={{ border: "1px solid var(--border-subtle)" }}
+        >
+          <div
+            className="px-3 py-2"
+            style={{
+              background: "var(--panel-strong)",
+              borderBottom: "1px solid var(--border-subtle)",
+            }}
+          >
             <p className="text-[11px] text-[var(--text-soft)] m-0">
               <strong>{T.preview.lead}</strong> {T.preview.body}
             </p>
-            <p className="text-[11px] text-[var(--text-soft)] m-0">{T.preview.fallback}</p>
           </div>
           <iframe
             src={app.preview_url ?? app.url}
             title={`${app.name} preview`}
-            className="w-full min-h-[360px] border-0 bg-black"
+            className="w-full min-h-[320px] border-0 bg-black block"
             loading="lazy"
             referrerPolicy="no-referrer"
             sandbox="allow-scripts allow-forms allow-pointer-lock allow-same-origin allow-modals"
@@ -197,18 +304,18 @@ export default function AppCard({ app, lang, rating }: AppCardProps) {
 
 export function AppIcon({
   app,
-  size = 34,
+  size = 36,
 }: {
   app: Pick<App, "name" | "icon_filename">;
   size?: number;
 }) {
-  const sizeStyle = { width: size, height: size };
+  const s = { width: size, height: size };
 
   if (app.icon_filename) {
     return (
       <span
         className="rounded-xl overflow-hidden flex-shrink-0 inline-flex"
-        style={sizeStyle}
+        style={{ ...s, boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }}
       >
         <Image
           src={`/icons/${app.icon_filename}`}
@@ -221,12 +328,18 @@ export function AppIcon({
     );
   }
 
+  const letter = app.name.charAt(0).toUpperCase();
   return (
     <span
-      className="rounded-xl bg-gradient-to-br from-[var(--accent)] to-[#6366f1] flex items-center justify-center font-extrabold text-[#0b1120] flex-shrink-0 shadow-[0_10px_26px_rgba(56,189,248,0.45)]"
-      style={{ ...sizeStyle, fontSize: size * 0.47 }}
+      className="rounded-xl flex items-center justify-center font-extrabold text-[#0b1120] flex-shrink-0"
+      style={{
+        ...s,
+        fontSize: size * 0.44,
+        background: "linear-gradient(135deg, #38bdf8, #6366f1)",
+        boxShadow: "0 6px 20px rgba(56,189,248,0.4)",
+      }}
     >
-      {app.name.charAt(0)}
+      {letter}
     </span>
   );
 }
