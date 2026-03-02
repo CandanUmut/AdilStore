@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 type Submission = {
@@ -32,21 +33,49 @@ const STATUS_COLORS: Record<string, string> = {
   needs_changes: "bg-orange-500/15 text-orange-400 border-orange-500/30",
 };
 
-export default function AdminReviewClient({ submissions: initial }: { submissions: Submission[] }) {
-  const [submissions, setSubmissions] = useState(initial);
+export default function AdminReviewClient() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [unauthorized, setUnauthorized] = useState(false);
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [filter, setFilter] = useState<FilterStatus>("pending");
   const [actionState, setActionState] = useState<Record<string, "loading" | "done">>({});
   const [reviewNotes, setReviewNotes] = useState<Record<string, string>>({});
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  const displayed = filter === "all"
-    ? submissions
-    : submissions.filter((s) => s.status === filter);
+  useEffect(() => {
+    const supabase = createClient();
 
-  const counts: Record<string, number> = {};
-  for (const s of submissions) {
-    counts[s.status] = (counts[s.status] ?? 0) + 1;
-  }
+    async function load() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.replace("/auth/signin?next=/admin/review");
+        return;
+      }
+
+      const { data: roleRow } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id)
+        .single();
+
+      if (roleRow?.role !== "admin") {
+        setUnauthorized(true);
+        setLoading(false);
+        return;
+      }
+
+      const { data: subs } = await supabase
+        .from("app_submissions")
+        .select("*, developer_profiles(display_name, contact_email, website)")
+        .order("created_at", { ascending: true });
+
+      setSubmissions(subs ?? []);
+      setLoading(false);
+    }
+
+    load();
+  }, [router]);
 
   async function updateStatus(id: string, newStatus: string) {
     setActionState((prev) => ({ ...prev, [id]: "loading" }));
@@ -73,6 +102,31 @@ export default function AdminReviewClient({ submissions: initial }: { submission
       });
       alert("Failed to update: " + error.message);
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-sm text-[var(--text-soft)]">Loading…</div>
+      </div>
+    );
+  }
+
+  if (unauthorized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-sm text-[var(--text-soft)]">Access denied.</div>
+      </div>
+    );
+  }
+
+  const displayed = filter === "all"
+    ? submissions
+    : submissions.filter((s) => s.status === filter);
+
+  const counts: Record<string, number> = {};
+  for (const s of submissions) {
+    counts[s.status] = (counts[s.status] ?? 0) + 1;
   }
 
   return (
