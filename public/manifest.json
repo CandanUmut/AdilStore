@@ -1,0 +1,27 @@
+{
+  "name": "AdilStore",
+  "short_name": "AdilStore",
+  "description": "A fair, ad-free app store. No promoted placements, no ads, no pay-to-win.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#020617",
+  "background_color": "#020617",
+  "lang": "en",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/adilstore-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/adilstore-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "productivity"],
+  "screenshots": []
+}
