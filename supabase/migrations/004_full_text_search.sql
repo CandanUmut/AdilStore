@@ -33,8 +33,8 @@ RETURNS trigger
 LANGUAGE plpgsql AS $$
 BEGIN
   NEW.search_vector := build_app_search_vector(
-    NEW.name_en,
-    NEW.name_tr,
+    NEW.name,
+    NEW.name,
     NEW.description_en,
     NEW.description_tr,
     NEW.category_id
@@ -45,11 +45,11 @@ $$;
 
 DROP TRIGGER IF EXISTS apps_search_vector_trigger ON apps;
 CREATE TRIGGER apps_search_vector_trigger
-  BEFORE INSERT OR UPDATE OF name_en, name_tr, description_en, description_tr, category_id
+  BEFORE INSERT OR UPDATE OF name, description_en, description_tr, category_id
   ON apps
   FOR EACH ROW EXECUTE FUNCTION trg_apps_search_vector();
 
 -- Backfill all existing rows
 UPDATE apps
-SET search_vector = build_app_search_vector(name_en, name_tr, description_en, description_tr, category_id)
+SET search_vector = build_app_search_vector(name, name, description_en, description_tr, category_id)
 WHERE search_vector IS NULL;
