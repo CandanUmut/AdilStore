@@ -3,6 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import type { User } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/client";
 import type { Lang } from "@/lib/i18n";
 import { translations } from "@/lib/i18n";
 
@@ -15,6 +17,7 @@ export default function Navbar({ lang, onLangChange }: NavbarProps) {
   const T = translations[lang];
   const [scrolled, setScrolled] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const stored = localStorage.getItem("adilstore-theme");
@@ -27,11 +30,27 @@ export default function Navbar({ lang, onLangChange }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
   function toggleTheme() {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
     document.documentElement.setAttribute("data-theme", next);
     localStorage.setItem("adilstore-theme", next);
+  }
+
+  async function handleSignOut() {
+    await fetch("/auth/signout", { method: "POST" });
+    window.location.href = "/";
   }
 
   return (
@@ -84,6 +103,29 @@ export default function Navbar({ lang, onLangChange }: NavbarProps) {
               {T.nav.developer}
             </Link>
           </nav>
+
+          {/* Auth */}
+          {user ? (
+            <div className="hidden md:flex items-center gap-1">
+              <span className="text-[11px] text-[var(--text-soft)] px-2 truncate max-w-[120px]">
+                {user.email}
+              </span>
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="text-[11px] px-3 py-1.5 rounded-full text-[var(--text-soft)] hover:text-[var(--danger)] hover:bg-[rgba(249,115,115,0.08)] border border-transparent hover:border-[rgba(249,115,115,0.25)] transition-all"
+              >
+                Sign out
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/auth/signin"
+              className="hidden md:inline-flex text-[11px] px-3 py-1.5 rounded-full border border-[var(--border)] text-[var(--text-soft)] hover:text-[var(--accent)] hover:border-[var(--accent)] hover:bg-[var(--accent-soft)] transition-all"
+            >
+              Sign in
+            </Link>
+          )}
 
           {/* Language toggle */}
           <div className="inline-flex items-center p-1 rounded-full border border-[var(--border)] bg-[var(--panel-soft)] gap-1">
