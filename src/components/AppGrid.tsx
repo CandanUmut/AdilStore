@@ -1,20 +1,20 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import AppCard from "./AppCard";
+import AppCard, { AppIcon } from "./AppCard";
 import type { App } from "@/types/database.types";
 import type { Lang } from "@/lib/i18n";
 import { translations } from "@/lib/i18n";
 
-const CATEGORY_ORDER = [
-  "all",
-  "spiritual",
-  "wellness",
-  "learning",
-  "games",
-  "tools",
-  "environment",
-  "self-assessment",
+const CATEGORIES = [
+  { id: "all",             icon: "🏠" },
+  { id: "spiritual",       icon: "🌙" },
+  { id: "wellness",        icon: "🌿" },
+  { id: "learning",        icon: "📚" },
+  { id: "games",           icon: "🎮" },
+  { id: "tools",           icon: "🔧" },
+  { id: "environment",     icon: "🌍" },
+  { id: "self-assessment", icon: "🔍" },
 ];
 
 interface RatingMap {
@@ -28,10 +28,7 @@ interface AppGridProps {
 }
 
 function normalize(s: string) {
-  return s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "");
+  return s.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
 }
 
 export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
@@ -54,118 +51,182 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
       if (!q) return true;
       const desc = lang === "tr" && app.description_tr ? app.description_tr : app.description_en;
       const tags = (lang === "tr" && app.tags_tr?.length ? app.tags_tr : app.tags_en) ?? [];
-      const haystack = normalize(`${app.name} ${desc} ${tags.join(" ")}`);
-      return haystack.includes(q);
+      return normalize(`${app.name} ${desc} ${tags.join(" ")}`).includes(q);
     });
   }, [apps, category, search, lang]);
 
-  const featured = useMemo(() => apps.filter((a) => a.is_featured).slice(0, 4), [apps]);
+  const featured = useMemo(() => apps.filter((a) => a.is_featured).slice(0, 6), [apps]);
   const heroApp = useMemo(() => {
     if (!apps.length) return null;
     const eligible = apps.filter((a) => a.url);
     if (!eligible.length) return null;
-    const dayOfYear = Math.floor(
-      (Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000
-    );
-    return eligible[dayOfYear % eligible.length];
+    const day = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
+    return eligible[day % eligible.length];
   }, [apps]);
 
   const resultLabel = filtered.length === 1 ? T.results.single : T.results.plural;
 
   return (
-    <div className="w-full max-w-[1260px] mx-auto px-4 md:px-6 pb-8">
-      {/* Hero */}
+    <div className="w-full max-w-[1260px] mx-auto px-4 md:px-6 pb-10">
+
+      {/* ── Hero ─────────────────────────────────────────────────── */}
       {heroApp && (
         <section
-          className="mt-4 mb-3 rounded-[18px] border border-[rgba(148,163,184,0.3)] p-5 md:p-6 relative overflow-hidden"
+          className="mt-4 mb-4 rounded-[22px] border overflow-hidden relative"
           style={{
+            borderColor: "rgba(56,189,248,0.18)",
             background:
-              "linear-gradient(135deg, rgba(56,189,248,0.1), rgba(99,102,241,0.1)), var(--panel)",
-            boxShadow: "0 18px 40px rgba(15,23,42,0.6)",
+              "radial-gradient(ellipse 70% 80% at 0% 60%, rgba(56,189,248,0.09) 0%, transparent 60%)," +
+              "radial-gradient(ellipse 50% 60% at 100% 20%, rgba(129,140,248,0.09) 0%, transparent 55%)," +
+              "var(--panel)",
+            boxShadow: "0 24px 64px rgba(0,0,0,0.55)",
           }}
         >
-          <div className="relative z-10 grid md:grid-cols-[1.2fr_0.9fr] gap-4 items-start">
+          {/* Top accent line */}
+          <div
+            className="h-px w-full"
+            style={{ background: "linear-gradient(90deg, transparent, rgba(56,189,248,0.5), rgba(129,140,248,0.4), transparent)" }}
+          />
+
+          <div className="p-5 md:p-7 grid md:grid-cols-[1.4fr_0.9fr] gap-5 items-start">
+            {/* Left: branding */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[rgba(148,163,184,0.6)] bg-[rgba(15,23,42,0.7)] text-[11px] tracking-[0.08em] text-[var(--text-soft)] uppercase mb-2">
-                <span className="w-2 h-2 rounded-full bg-gradient-to-br from-green-400 to-sky-500 shadow-[0_0_0_5px_rgba(34,197,94,0.2)]" />
+              <div
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] tracking-[0.08em] uppercase mb-3 font-medium"
+                style={{
+                  background: "rgba(52,211,153,0.1)",
+                  border: "1px solid rgba(52,211,153,0.25)",
+                  color: "var(--green)",
+                }}
+              >
+                <span
+                  className="w-2 h-2 rounded-full animate-pulse-ring"
+                  style={{ background: "var(--green)", flexShrink: 0 }}
+                />
                 {T.heroKicker}
               </div>
-              <h1 className="text-[clamp(26px,4vw,32px)] font-extrabold tracking-[-0.03em] m-0 mb-2">
-                {T.heroTitle}
+
+              <h1
+                className="font-extrabold tracking-[-0.03em] m-0 mb-3"
+                style={{ fontSize: "clamp(24px, 4vw, 32px)", lineHeight: 1.15 }}
+              >
+                <span className="gradient-text">{T.heroTitle}</span>
               </h1>
-              <p className="text-sm leading-[1.65] text-[var(--text-soft)] max-w-[540px] m-0">
+
+              <p className="text-sm leading-[1.7] text-[var(--text-soft)] m-0 max-w-[540px]">
                 {T.heroSubtitle}
               </p>
-              <div className="mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[rgba(148,163,184,0.28)] bg-[rgba(56,189,248,0.12)] text-xs text-[var(--text)]">
+
+              <div
+                className="mt-4 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium"
+                style={{
+                  background: "rgba(56,189,248,0.08)",
+                  border: "1px solid rgba(56,189,248,0.2)",
+                  color: "var(--text)",
+                }}
+              >
                 {T.heroNote}
               </div>
-            </div>
-            <div className="flex flex-col gap-3">
-              {/* Daily hero app mini-card */}
-              <div className="rounded-[18px] border border-[rgba(148,163,184,0.35)] p-3 bg-[var(--panel)] shadow-[0_18px_32px_rgba(0,0,0,0.28)]">
-                <p className="text-[11px] uppercase tracking-[0.08em] text-[var(--text-soft)] mb-1">
-                  {T.heroAppTagline}
-                </p>
-                <h2 className="text-base font-bold m-0 mb-1">{heroApp.name}</h2>
-                <p className="text-[12px] text-[var(--text-soft)] m-0 leading-snug line-clamp-3">
-                  {lang === "tr" && heroApp.description_tr
-                    ? heroApp.description_tr
-                    : heroApp.description_en}
-                </p>
-                <div className="mt-2 flex gap-2 flex-wrap">
-                  <a
-                    href={`/app/${heroApp.slug}`}
-                    className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-[11px] font-semibold bg-gradient-to-br from-[var(--accent)] to-[var(--accent-strong)] text-[#0b1120] hover:-translate-y-px transition-all"
-                  >
-                    🚀 {T.buttons.open}
-                  </a>
-                </div>
-              </div>
-              {/* Metrics */}
-              <div className="grid grid-cols-2 gap-2">
+
+              {/* Stats row */}
+              <div className="mt-4 flex gap-3 flex-wrap">
                 {[
-                  { label: T.metrics.apps, value: String(apps.length) },
-                  { label: T.metrics.privacy, value: T.metrics.privacyValue },
-                ].map((m) => (
+                  { value: String(apps.length), label: T.metrics.apps },
+                  { value: T.metrics.privacyValue, label: T.metrics.privacy },
+                  { value: String(CATEGORIES.length - 1), label: "categories" },
+                ].map((stat) => (
                   <div
-                    key={m.label}
-                    className="p-3 rounded-[14px] bg-[var(--panel-strong)] border border-[rgba(148,163,184,0.45)] text-xs"
+                    key={stat.label}
+                    className="flex flex-col px-3 py-2 rounded-[12px]"
+                    style={{
+                      background: "var(--panel-strong)",
+                      border: "1px solid var(--border-subtle)",
+                      minWidth: 70,
+                    }}
                   >
-                    <div className="uppercase tracking-[0.08em] text-[var(--text-soft)] mb-1">
-                      {m.label}
-                    </div>
-                    <div className="font-bold text-base text-[var(--text)]">{m.value}</div>
+                    <span className="font-extrabold text-base text-[var(--text)]">{stat.value}</span>
+                    <span className="text-[10px] uppercase tracking-[0.07em] text-[var(--text-muted)]">{stat.label}</span>
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Right: daily hero app */}
+            <div>
+              <p
+                className="text-[11px] uppercase tracking-[0.1em] font-semibold mb-2"
+                style={{ color: "var(--accent)" }}
+              >
+                {T.heroAppTagline}
+              </p>
+              <a
+                href={`/app/${heroApp.slug}`}
+                className="block rounded-[16px] p-4 no-underline featured-card"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(56,189,248,0.1), rgba(129,140,248,0.08))," +
+                    "var(--panel-strong)",
+                  border: "1px solid rgba(56,189,248,0.25)",
+                  boxShadow: "0 12px 32px rgba(0,0,0,0.35)",
+                }}
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <AppIcon app={heroApp} size={44} />
+                  <div>
+                    <p className="font-bold text-sm m-0 text-[var(--text)] leading-snug">{heroApp.name}</p>
+                    {heroApp.category_id && (
+                      <span className="text-[10px] uppercase tracking-[0.08em] text-[var(--text-muted)]">
+                        {T.categories[heroApp.category_id as keyof typeof T.categories] ?? heroApp.category_id}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <p className="text-xs text-[var(--text-soft)] m-0 leading-snug line-clamp-3">
+                  {lang === "tr" && heroApp.description_tr ? heroApp.description_tr : heroApp.description_en}
+                </p>
+                <div
+                  className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold"
+                  style={{
+                    background: "linear-gradient(135deg, var(--accent), var(--accent-strong))",
+                    color: "#031018",
+                  }}
+                >
+                  🚀 {T.buttons.open}
+                </div>
+              </a>
             </div>
           </div>
         </section>
       )}
 
-      {/* Controls bar */}
+      {/* ── Controls bar ─────────────────────────────────────────── */}
       <div
-        className="mt-2 flex flex-wrap gap-3 items-center justify-between px-3 py-3 rounded-[18px] border border-[var(--border)] bg-[var(--panel-strong)] shadow-[0_12px_28px_rgba(15,23,42,0.3)] sticky top-0 z-20 backdrop-blur-md"
-        style={{ top: "calc(var(--nav-height) - 6px)" }}
+        className="mt-2 flex flex-wrap gap-2.5 items-center justify-between px-3 py-3 rounded-[18px] sticky z-20 backdrop-blur-lg"
+        style={{
+          top: "calc(var(--nav-height) - 6px)",
+          background: "var(--panel-strong)",
+          border: "1px solid var(--border-subtle)",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.35)",
+        }}
       >
         {/* Category filters */}
-        <div className="flex flex-wrap gap-2">
-          {CATEGORY_ORDER.filter(
-            (cat) => T.categories[cat as keyof typeof T.categories]
-          ).map((cat) => (
+        <div className="flex flex-wrap gap-1.5">
+          {CATEGORIES.filter(
+            ({ id }) => T.categories[id as keyof typeof T.categories]
+          ).map(({ id, icon }) => (
             <button
-              key={cat}
+              key={id}
               type="button"
-              className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] border transition-all ${
-                cat === category
-                  ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--accent-strong)] -translate-y-px shadow-[0_12px_24px_rgba(56,189,248,0.25)]"
-                  : "bg-[rgba(15,23,42,0.82)] border-[var(--border)] text-[var(--text-soft)] hover:text-[var(--accent)] hover:border-[var(--accent)]"
-              }`}
-              onClick={() => setCategory(cat)}
+              className={`cat-btn ${id === category ? "active" : ""}`}
+              onClick={() => setCategory(id)}
             >
-              <span>{T.categories[cat as keyof typeof T.categories]}</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-[rgba(255,255,255,0.06)] opacity-90 font-variant-numeric tabular-nums">
-                {counts[cat] ?? 0}
+              <span>{icon}</span>
+              <span>{T.categories[id as keyof typeof T.categories]}</span>
+              <span
+                className="text-[10px] px-1.5 py-0.5 rounded-full font-bold tabular-nums"
+                style={{ background: "rgba(255,255,255,0.06)" }}
+              >
+                {counts[id] ?? 0}
               </span>
             </button>
           ))}
@@ -173,13 +234,27 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
 
         {/* Search */}
         <div className="flex items-center gap-2 flex-1 min-w-0 justify-end">
-          <div className="relative flex-1 max-w-[300px]">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm opacity-70 pointer-events-none">
+          <div className="relative flex-1 max-w-[280px]">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] text-sm pointer-events-none">
               🔍
             </span>
             <input
               type="search"
-              className="w-full pl-8 pr-8 py-2 rounded-full border border-[var(--border)] bg-[rgba(15,23,42,0.95)] text-[var(--text)] text-xs outline-none focus:border-[var(--accent)] focus:shadow-[0_0_0_1px_rgba(56,189,248,0.5)] transition-all placeholder:text-[var(--text-soft)]"
+              className="w-full pl-8 pr-8 py-2 rounded-full text-xs outline-none"
+              style={{
+                background: "var(--chip-bg)",
+                border: "1px solid var(--border-subtle)",
+                color: "var(--text)",
+                transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "var(--accent)";
+                e.target.style.boxShadow = "0 0 0 3px rgba(56,189,248,0.12)";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "var(--border-subtle)";
+                e.target.style.boxShadow = "";
+              }}
               placeholder={T.searchPlaceholder}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -188,7 +263,12 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
             {search && (
               <button
                 type="button"
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-[rgba(255,255,255,0.08)] text-[var(--text-soft)] hover:bg-[var(--accent-soft)] hover:text-[var(--accent-strong)] text-xs flex items-center justify-center"
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center text-xs"
+                style={{
+                  background: "rgba(255,255,255,0.08)",
+                  color: "var(--text-muted)",
+                  transition: "background 0.15s ease",
+                }}
                 onClick={() => setSearch("")}
                 aria-label={T.searchClear}
               >
@@ -196,46 +276,55 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
               </button>
             )}
           </div>
-          <span className="text-[11px] text-[var(--text-soft)] whitespace-nowrap">
-            {filtered.length} {resultLabel}
+          <span className="text-[11px] text-[var(--text-muted)] whitespace-nowrap">
+            <span className="font-bold text-[var(--text-soft)]">{filtered.length}</span> {resultLabel}
           </span>
         </div>
       </div>
 
-      {/* Featured row */}
+      {/* ── Featured row ──────────────────────────────────────────── */}
       {featured.length > 0 && (
         <>
-          <div className="mt-6 mb-3 flex items-center justify-between">
-            <h3 className="text-base font-bold tracking-tight m-0">{T.featuredTitle}</h3>
+          <div className="mt-7 mb-3 flex items-center gap-2">
+            <h3 className="text-sm font-bold tracking-tight m-0">{T.featuredTitle}</h3>
+            <span
+              className="text-[10px] px-2 py-0.5 rounded-full font-semibold"
+              style={{
+                background: "var(--accent-soft)",
+                border: "1px solid rgba(56,189,248,0.3)",
+                color: "var(--accent)",
+              }}
+            >
+              {featured.length}
+            </span>
           </div>
-          <div className="grid grid-flow-col auto-cols-[minmax(220px,1fr)] gap-3 overflow-x-auto pb-1 snap-x snap-mandatory">
+          <div className="grid grid-flow-col auto-cols-[minmax(200px,1fr)] gap-3 overflow-x-auto pb-2 snap-x snap-mandatory">
             {featured.map((app) => (
               <a
                 key={app.id}
                 href={`/app/${app.slug}`}
-                className="relative rounded-[16px] p-[14px] border border-[rgba(148,163,184,0.35)] bg-gradient-to-[145deg] from-[rgba(56,189,248,0.16)] to-[rgba(99,102,241,0.12)] shadow-[0_16px_32px_rgba(0,0,0,0.35)] flex flex-col gap-2 snap-start min-h-[140px] hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(56,189,248,0.45)] hover:border-[var(--accent)] transition-all no-underline"
+                className="relative rounded-[16px] p-4 flex flex-col gap-2 snap-start min-h-[130px] no-underline featured-card"
                 style={{
                   background:
-                    "linear-gradient(145deg, rgba(56,189,248,0.16), rgba(99,102,241,0.12)), var(--panel-soft)",
+                    "linear-gradient(145deg, rgba(56,189,248,0.12), rgba(99,102,241,0.08))," +
+                    "var(--panel-soft)",
+                  border: "1px solid rgba(56,189,248,0.2)",
+                  boxShadow: "0 12px 32px rgba(0,0,0,0.35)",
                 }}
               >
-                <div className="flex items-center gap-2">
-                  <AppCardIcon app={app} />
+                <div className="flex items-center gap-2.5">
+                  <FeaturedIcon app={app} />
                   <div>
-                    <p className="font-bold text-sm m-0 text-[var(--text)]">{app.name}</p>
+                    <p className="font-bold text-[13px] m-0 text-[var(--text)] leading-snug">{app.name}</p>
                     {app.category_id && (
-                      <span className="text-[10px] uppercase tracking-[0.08em] text-[var(--text-soft)]">
+                      <span className="text-[10px] uppercase tracking-[0.07em] text-[var(--text-muted)]">
                         {T.categories[app.category_id as keyof typeof T.categories] ?? app.category_id}
                       </span>
                     )}
                   </div>
                 </div>
-                <p className="text-xs text-[var(--text-soft)] m-0 leading-snug line-clamp-2">
-                  {(lang === "tr" && app.description_tr
-                    ? app.description_tr
-                    : app.description_en
-                  ).slice(0, 110)}
-                  …
+                <p className="text-[11px] text-[var(--text-soft)] m-0 leading-snug line-clamp-2">
+                  {(lang === "tr" && app.description_tr ? app.description_tr : app.description_en).slice(0, 100)}…
                 </p>
               </a>
             ))}
@@ -243,28 +332,45 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
         </>
       )}
 
-      {/* All apps grid */}
-      <div className="mt-6 mb-3 flex items-center justify-between">
-        <h3 className="text-base font-bold tracking-tight m-0">{T.allAppsTitle}</h3>
+      {/* ── All apps grid ─────────────────────────────────────────── */}
+      <div className="mt-7 mb-3 flex items-center gap-2">
+        <h3 className="text-sm font-bold tracking-tight m-0">{T.allAppsTitle}</h3>
+        {search && (
+          <span className="text-[10px] text-[var(--text-muted)]">· searching "{search}"</span>
+        )}
       </div>
 
       {filtered.length === 0 ? (
-        <div className="text-center py-6 px-4 rounded-[18px] border border-dashed border-[var(--border)] text-[var(--text-soft)] bg-[var(--panel-soft)] mt-2">
-          <p className="font-medium m-0">{T.empty.title}</p>
-          <p className="text-xs mt-1 m-0">{T.empty.subtitle}</p>
+        <div
+          className="text-center py-10 px-4 rounded-[18px] mt-2"
+          style={{
+            border: "1px dashed var(--border-subtle)",
+            background: "var(--panel-soft)",
+          }}
+        >
+          <p className="text-2xl m-0 mb-2">🔍</p>
+          <p className="font-semibold m-0 text-[var(--text-soft)]">{T.empty.title}</p>
+          <p className="text-xs mt-1 m-0 text-[var(--text-muted)]">{T.empty.subtitle}</p>
+          {search && (
+            <button
+              type="button"
+              onClick={() => setSearch("")}
+              className="mt-3 text-xs px-3 py-1.5 rounded-full"
+              style={{
+                background: "var(--accent-soft)",
+                border: "1px solid rgba(56,189,248,0.35)",
+                color: "var(--accent)",
+              }}
+            >
+              Clear search
+            </button>
+          )}
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-1">
           {filtered.map((app, idx) => (
-            <div
-              key={app.id}
-              style={{ animationDelay: `${idx * 40}ms` }}
-            >
-              <AppCard
-                app={app}
-                lang={lang}
-                rating={ratings[app.id]}
-              />
+            <div key={app.id} style={{ animationDelay: `${idx * 35}ms` }}>
+              <AppCard app={app} lang={lang} rating={ratings[app.id]} />
             </div>
           ))}
         </div>
@@ -273,13 +379,13 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
   );
 }
 
-function AppCardIcon({ app }: { app: Pick<App, "name" | "icon_filename"> }) {
-  const size = 34;
+function FeaturedIcon({ app }: { app: Pick<App, "name" | "icon_filename"> }) {
+  const size = 36;
   if (app.icon_filename) {
     return (
       <span
         className="rounded-xl overflow-hidden flex-shrink-0 inline-flex"
-        style={{ width: size, height: size }}
+        style={{ width: size, height: size, boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }}
       >
         <img
           src={`/icons/${app.icon_filename}`}
@@ -293,8 +399,14 @@ function AppCardIcon({ app }: { app: Pick<App, "name" | "icon_filename"> }) {
   }
   return (
     <span
-      className="rounded-xl bg-gradient-to-br from-[var(--accent)] to-[#6366f1] flex items-center justify-center font-extrabold text-[#0b1120] flex-shrink-0"
-      style={{ width: size, height: size, fontSize: size * 0.47 }}
+      className="rounded-xl flex items-center justify-center font-extrabold text-[#0b1120] flex-shrink-0"
+      style={{
+        width: size,
+        height: size,
+        fontSize: size * 0.44,
+        background: "linear-gradient(135deg, #38bdf8, #6366f1)",
+        boxShadow: "0 4px 14px rgba(56,189,248,0.4)",
+      }}
     >
       {app.name.charAt(0)}
     </span>

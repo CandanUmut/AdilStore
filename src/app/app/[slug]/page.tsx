@@ -4,6 +4,33 @@ import { createClient } from "@/lib/supabase/server";
 import AppDetailClient from "./AppDetailClient";
 import type { Review } from "@/types/database.types";
 
+// For static export: pre-render all known app slugs
+export async function generateStaticParams() {
+  const fallbackSlugs = [
+    "unmask", "nova-arena-3d", "roulette-rooms", "high-or-low", "mathbomb",
+    "scale-universe", "ready-to-die", "freedom-score", "how-old",
+    "manevi-farkindalik", "pru-universe-simulator", "takva-race", "dreamsleep",
+    "pdf-reader", "zikr-checker", "climate-change-dashboard", "healing-sounds",
+    "awakening", "hopy-tower-3", "quizroom", "joplin-notes", "standard-notes",
+    "proton-mail", "tuta-mail", "proton-drive", "bitwarden", "nextcloud-hub",
+    "openstreetmap", "cryptpad", "collabora-online", "breath-aurora",
+    "marifah", "pomodoro-circle",
+  ];
+
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("apps")
+      .select("slug")
+      .eq("is_published", true);
+    if (data?.length) return (data as { slug: string }[]).map((a) => ({ slug: a.slug }));
+  } catch {
+    // Supabase unavailable during build — use fallback slugs
+  }
+
+  return fallbackSlugs.map((slug) => ({ slug }));
+}
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
@@ -46,37 +73,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function AppDetailPage({ params }: Props) {
   const { slug } = await params;
-  const supabase = await createClient();
 
-  const { data: app } = await supabase
-    .from("apps")
-    .select("*")
-    .eq("slug", slug)
-    .eq("is_published", true)
-    .single();
+  try {
+    const supabase = await createClient();
 
-  if (!app) notFound();
+    const { data: app } = await supabase
+      .from("apps")
+      .select("*")
+      .eq("slug", slug)
+      .eq("is_published", true)
+      .single();
 
-  // Fetch reviews for this app
-  const { data: reviewsData } = await supabase
-    .from("reviews")
-    .select("id, app_id, user_id, nickname, score, comment, is_verified_install, helpful_count, is_published, developer_reply, developer_reply_at, created_at")
-    .eq("app_id", app.id)
-    .eq("is_published", true)
-    .order("created_at", { ascending: false })
-    .limit(20);
+    if (!app) notFound();
 
-  const reviews: Review[] = reviewsData ?? [];
+    const { data: reviewsData } = await supabase
+      .from("reviews")
+      .select("id, app_id, user_id, nickname, score, comment, is_verified_install, helpful_count, is_published, developer_reply, developer_reply_at, created_at")
+      .eq("app_id", app.id)
+      .eq("is_published", true)
+      .order("created_at", { ascending: false })
+      .limit(20);
 
-  const ratingAvg = reviews.length
-    ? reviews.reduce((s, r) => s + r.score, 0) / reviews.length
-    : null;
+    const reviews: Review[] = reviewsData ?? [];
+    const ratingAvg = reviews.length
+      ? reviews.reduce((s, r) => s + r.score, 0) / reviews.length
+      : null;
 
-  return (
-    <AppDetailClient
-      app={app}
-      reviews={reviews}
-      ratingAvg={ratingAvg}
-    />
-  );
+    return <AppDetailClient app={app} reviews={reviews} ratingAvg={ratingAvg} />;
+  } catch {
+    notFound();
+  }
 }
