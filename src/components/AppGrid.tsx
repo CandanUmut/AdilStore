@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import AppCard, { AppIcon } from "./AppCard";
 import type { App } from "@/types/database.types";
 import type { Lang } from "@/lib/i18n";
@@ -35,6 +35,23 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
   const T = translations[lang];
   const [category, setCategory] = useState("all");
   const [search, setSearch] = useState("");
+  const searchRef = useRef<HTMLInputElement>(null);
+
+  // Press "/" or Ctrl+K to focus search
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "/" && !(e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)) {
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   const counts = useMemo(() => {
     const base: Record<string, number> = { all: apps.length };
@@ -239,8 +256,9 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
               🔍
             </span>
             <input
+              ref={searchRef}
               type="search"
-              className="w-full pl-8 pr-8 py-2 rounded-full text-xs outline-none"
+              className="w-full pl-8 pr-16 py-2 rounded-full text-xs outline-none"
               style={{
                 background: "var(--chip-bg)",
                 border: "1px solid var(--border-subtle)",
@@ -260,6 +278,14 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
               onChange={(e) => setSearch(e.target.value)}
               aria-label={T.searchPlaceholder}
             />
+            {!search && (
+              <span
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] px-1.5 py-0.5 rounded pointer-events-none hidden sm:flex items-center gap-0.5"
+                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid var(--border-subtle)", color: "var(--text-muted)" }}
+              >
+                /
+              </span>
+            )}
             {search && (
               <button
                 type="button"
@@ -333,43 +359,70 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
       )}
 
       {/* ── All apps grid ─────────────────────────────────────────── */}
-      <div className="mt-7 mb-3 flex items-center gap-2">
-        <h3 className="text-sm font-bold tracking-tight m-0">{T.allAppsTitle}</h3>
-        {search && (
-          <span className="text-[10px] text-[var(--text-muted)]">· searching "{search}"</span>
-        )}
+      <div className="mt-7 mb-3 flex items-center justify-between gap-2 flex-wrap">
+        <div className="flex items-center gap-2">
+          <h3 className="text-sm font-bold tracking-tight m-0">{T.allAppsTitle}</h3>
+          {search && (
+            <span className="text-[10px] text-[var(--text-muted)]">· &ldquo;{search}&rdquo;</span>
+          )}
+        </div>
+        <span className="text-[11px] text-[var(--text-muted)]">
+          <span className="font-semibold text-[var(--text-soft)]">{filtered.length}</span>
+          {" "}{filtered.length === 1 ? T.results.single : T.results.plural}
+        </span>
       </div>
 
       {filtered.length === 0 ? (
         <div
-          className="text-center py-10 px-4 rounded-[18px] mt-2"
+          className="text-center py-12 px-4 rounded-[18px] mt-2"
           style={{
             border: "1px dashed var(--border-subtle)",
             background: "var(--panel-soft)",
           }}
         >
-          <p className="text-2xl m-0 mb-2">🔍</p>
+          <p className="text-3xl m-0 mb-2">🔍</p>
           <p className="font-semibold m-0 text-[var(--text-soft)]">{T.empty.title}</p>
           <p className="text-xs mt-1 m-0 text-[var(--text-muted)]">{T.empty.subtitle}</p>
-          {search && (
-            <button
-              type="button"
-              onClick={() => setSearch("")}
-              className="mt-3 text-xs px-3 py-1.5 rounded-full"
-              style={{
-                background: "var(--accent-soft)",
-                border: "1px solid rgba(56,189,248,0.35)",
-                color: "var(--accent)",
-              }}
-            >
-              Clear search
-            </button>
+          {(search || category !== "all") && (
+            <div className="flex items-center justify-center gap-2 mt-4 flex-wrap">
+              {search && (
+                <button
+                  type="button"
+                  onClick={() => setSearch("")}
+                  className="text-xs px-3 py-1.5 rounded-full"
+                  style={{
+                    background: "var(--accent-soft)",
+                    border: "1px solid rgba(56,189,248,0.35)",
+                    color: "var(--accent)",
+                  }}
+                >
+                  Clear search
+                </button>
+              )}
+              {category !== "all" && (
+                <button
+                  type="button"
+                  onClick={() => setCategory("all")}
+                  className="text-xs px-3 py-1.5 rounded-full"
+                  style={{
+                    background: "var(--chip-bg)",
+                    border: "1px solid var(--border-subtle)",
+                    color: "var(--text-muted)",
+                  }}
+                >
+                  Show all categories
+                </button>
+              )}
+            </div>
           )}
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-1">
+        <div
+          className="grid gap-4 mt-1"
+          style={{ gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 320px), 1fr))" }}
+        >
           {filtered.map((app, idx) => (
-            <div key={app.id} style={{ animationDelay: `${idx * 35}ms` }}>
+            <div key={app.id} style={{ animationDelay: `${idx * 30}ms` }}>
               <AppCard app={app} lang={lang} rating={ratings[app.id]} />
             </div>
           ))}

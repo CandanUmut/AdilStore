@@ -58,7 +58,8 @@ export default function Navbar({ lang, onLangChange }: NavbarProps) {
   }
 
   async function handleSignOut() {
-    await fetch("/auth/signout", { method: "POST" });
+    const supabase = createClient();
+    await supabase.auth.signOut();
     window.location.href = "/";
   }
 
