@@ -5,11 +5,19 @@ export function createClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  if (!url || !key) {
+  // Validate URL is a real HTTP(S) URL — catches empty strings, "undefined", missing protocol, etc.
+  try {
+    const parsed = new URL(url ?? "");
+    if (!parsed.protocol.startsWith("http")) throw new Error();
+  } catch {
     throw new Error(
-      "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY."
+      `Supabase is not configured correctly. NEXT_PUBLIC_SUPABASE_URL="${url}" is not a valid https:// URL.`
     );
   }
 
-  return createBrowserClient<Database>(url, key);
+  if (!key) {
+    throw new Error("Supabase is not configured. NEXT_PUBLIC_SUPABASE_ANON_KEY is missing.");
+  }
+
+  return createBrowserClient<Database>(url!, key);
 }
