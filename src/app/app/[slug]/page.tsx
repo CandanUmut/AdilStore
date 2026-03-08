@@ -3,20 +3,10 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import AppDetailClient from "./AppDetailClient";
 import type { Review } from "@/types/database.types";
+import { FALLBACK_APP_SLUGS } from "@/lib/fallback-apps";
 
 // For static export: pre-render all known app slugs
 export async function generateStaticParams() {
-  const fallbackSlugs = [
-    "unmask", "nova-arena-3d", "roulette-rooms", "high-or-low", "mathbomb",
-    "scale-universe", "ready-to-die", "freedom-score", "how-old",
-    "manevi-farkindalik", "pru-universe-simulator", "takva-race", "dreamsleep",
-    "pdf-reader", "zikr-checker", "climate-change-dashboard", "healing-sounds",
-    "awakening", "hopy-tower-3", "quizroom", "joplin-notes", "standard-notes",
-    "proton-mail", "tuta-mail", "proton-drive", "bitwarden", "nextcloud-hub",
-    "openstreetmap", "cryptpad", "collabora-online", "breath-aurora",
-    "marifah", "pomodoro-circle",
-  ];
-
   try {
     const supabase = await createClient();
     const { data } = await supabase
@@ -28,7 +18,7 @@ export async function generateStaticParams() {
     // Supabase unavailable during build — use fallback slugs
   }
 
-  return fallbackSlugs.map((slug) => ({ slug }));
+  return FALLBACK_APP_SLUGS.map((slug) => ({ slug }));
 }
 
 interface Props {

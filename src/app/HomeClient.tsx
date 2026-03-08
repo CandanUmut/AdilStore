@@ -66,23 +66,40 @@ export default function HomeClient({ apps, initialRatings }: HomeClientProps) {
 
       {/* Footer */}
       <footer
-        className="max-w-[1260px] mx-auto px-4 md:px-6 mt-4 pb-8 pt-5"
-        style={{
-          borderTop: "1px solid var(--border-subtle)",
-        }}
+        className="max-w-[1260px] mx-auto px-4 md:px-6 mt-4 pb-10 pt-6"
+        style={{ borderTop: "1px solid var(--border-subtle)" }}
       >
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="text-xs text-[var(--text-muted)] leading-relaxed">
-            <p className="m-0" dangerouslySetInnerHTML={{ __html: T.footer.line1 }} />
-            <p className="m-0 mt-1" dangerouslySetInnerHTML={{ __html: T.footer.line2 }} />
+        <div className="flex flex-wrap items-start justify-between gap-6">
+          <div>
+            <p className="font-extrabold text-sm text-[var(--text)] m-0 mb-1">AdilStore</p>
+            <p className="text-xs text-[var(--text-muted)] m-0 max-w-[320px] leading-relaxed"
+               dangerouslySetInnerHTML={{ __html: T.footer.line1 }} />
+            <p className="text-xs text-[var(--text-muted)] m-0 mt-1"
+               dangerouslySetInnerHTML={{ __html: T.footer.line2 }} />
           </div>
-          <div className="flex items-center gap-3 text-[11px] text-[var(--text-muted)]">
+          <div className="flex flex-col items-end gap-3">
             <span
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold"
               style={{ background: "var(--green-soft)", border: "1px solid rgba(52,211,153,0.2)", color: "var(--green)" }}
             >
               ✓ No ads. No tracking. No pay-to-win.
             </span>
+            <div className="flex items-center gap-3 text-[11px] text-[var(--text-muted)]">
+              <a
+                href="https://github.com/CandanUmut/AdilStore"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[var(--accent)] transition-colors"
+              >
+                GitHub ↗
+              </a>
+              <a href="/submit" className="hover:text-[var(--accent)] transition-colors">
+                Submit an App
+              </a>
+              <a href="/developer" className="hover:text-[var(--accent)] transition-colors">
+                Developer Portal
+              </a>
+            </div>
           </div>
         </div>
       </footer>
