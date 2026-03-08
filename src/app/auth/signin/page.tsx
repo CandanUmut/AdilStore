@@ -1,10 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+
 export default function SignInPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
@@ -27,7 +31,7 @@ export default function SignInPage() {
       return;
     }
 
-    window.location.href = "/developer";
+    router.push("/developer");
   }
 
   async function handleGoogleSignIn() {
@@ -36,7 +40,7 @@ export default function SignInPage() {
     const { error: authError } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/developer`,
+        redirectTo: `${SITE_URL}/auth/callback?next=/developer`,
       },
     });
     if (authError) {

@@ -60,10 +60,11 @@ export default function Navbar({ lang, onLangChange }: NavbarProps) {
   }
 
   async function handleSignOut() {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "/";
     let supabase: ReturnType<typeof createClient> | null = null;
-    try { supabase = createClient(); } catch { window.location.href = '/'; return; }
+    try { supabase = createClient(); } catch { window.location.href = siteUrl; return; }
     await supabase.auth.signOut();
-    window.location.href = "/";
+    window.location.href = siteUrl;
   }
 
   return (
