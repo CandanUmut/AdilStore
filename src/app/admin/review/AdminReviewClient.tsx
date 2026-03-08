@@ -14,7 +14,7 @@ type Submission = {
   extra_notes: string | null;
   icon_path: string | null;
   status: string;
-  review_notes: string | null;
+  reviewer_notes: string | null;
   created_at: string;
   developer_id: string | null;
   developer_profiles: {
@@ -85,12 +85,12 @@ export default function AdminReviewClient() {
 
     const { error } = await supabase
       .from("app_submissions")
-      .update({ status: newStatus, review_notes: notes })
+      .update({ status: newStatus, reviewer_notes: notes })
       .eq("id", id);
 
     if (!error) {
       setSubmissions((prev) =>
-        prev.map((s) => (s.id === id ? { ...s, status: newStatus, review_notes: notes } : s))
+        prev.map((s) => (s.id === id ? { ...s, status: newStatus, reviewer_notes: notes } : s))
       );
       setActionState((prev) => ({ ...prev, [id]: "done" }));
       setExpandedId(null);
@@ -261,9 +261,9 @@ export default function AdminReviewClient() {
                     )}
 
                     {/* Existing review notes */}
-                    {sub.review_notes && (
+                    {sub.reviewer_notes && (
                       <div className="px-3 py-2 rounded-lg bg-[rgba(249,115,115,0.06)] border border-[rgba(249,115,115,0.2)] text-[11px] text-[var(--text-soft)]">
-                        <span className="font-semibold">Previous notes: </span>{sub.review_notes}
+                        <span className="font-semibold">Previous notes: </span>{sub.reviewer_notes}
                       </div>
                     )}
 

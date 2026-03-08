@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect, useRef } from "react";
+import Link from "next/link";
 import AppCard, { AppIcon } from "./AppCard";
 import type { App } from "@/types/database.types";
 import type { Lang } from "@/lib/i18n";
@@ -176,7 +177,7 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
               >
                 {T.heroAppTagline}
               </p>
-              <a
+              <Link
                 href={`/app/${heroApp.slug}`}
                 className="block rounded-[16px] p-4 no-underline featured-card"
                 style={{
@@ -210,7 +211,7 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
                 >
                   🚀 {T.buttons.open}
                 </div>
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -326,7 +327,7 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
           </div>
           <div className="grid grid-flow-col auto-cols-[minmax(200px,1fr)] gap-3 overflow-x-auto pb-2 snap-x snap-mandatory">
             {featured.map((app) => (
-              <a
+              <Link
                 key={app.id}
                 href={`/app/${app.slug}`}
                 className="relative rounded-[16px] p-4 flex flex-col gap-2 snap-start min-h-[130px] no-underline featured-card"
@@ -352,7 +353,7 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
                 <p className="text-[11px] text-[var(--text-soft)] m-0 leading-snug line-clamp-2">
                   {(lang === "tr" && app.description_tr ? app.description_tr : app.description_en).slice(0, 100)}…
                 </p>
-              </a>
+              </Link>
             ))}
           </div>
         </>

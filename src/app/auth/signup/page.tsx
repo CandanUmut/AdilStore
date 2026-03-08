@@ -30,6 +30,7 @@ export default function SignUpPage() {
     setError("");
 
     const supabase = createClient();
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
     const { error: authError } = await supabase.auth.signUp({
       email: email.trim(),
       password,
@@ -50,6 +51,7 @@ export default function SignUpPage() {
   async function handleGoogleSignIn() {
     setStatus("loading");
     const supabase = createClient();
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {

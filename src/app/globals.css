@@ -6,34 +6,34 @@
 
 /* ─── Token System ─────────────────────────────────────────────────── */
 :root {
-  --bg: #020617;
-  --panel: rgba(15, 23, 42, 0.92);
-  --panel-soft: rgba(15, 23, 42, 0.80);
-  --panel-strong: rgba(8, 14, 36, 0.98);
-  --panel-card: rgba(13, 20, 40, 0.85);
+  --bg: #010b18;
+  --panel: rgba(8, 16, 34, 0.95);
+  --panel-soft: rgba(8, 16, 34, 0.82);
+  --panel-strong: rgba(4, 9, 24, 0.98);
+  --panel-card: rgba(8, 16, 34, 0.90);
   --accent: #38bdf8;
-  --accent-soft: rgba(56, 189, 248, 0.14);
+  --accent-soft: rgba(56, 189, 248, 0.12);
   --accent-strong: #0ea5e9;
-  --accent-glow: rgba(56, 189, 248, 0.22);
+  --accent-glow: rgba(56, 189, 248, 0.20);
   --purple: #818cf8;
-  --purple-soft: rgba(129, 140, 248, 0.14);
+  --purple-soft: rgba(129, 140, 248, 0.12);
   --green: #34d399;
-  --green-soft: rgba(52, 211, 153, 0.14);
-  --danger: #f97373;
-  --danger-soft: rgba(249, 115, 115, 0.12);
+  --green-soft: rgba(52, 211, 153, 0.12);
+  --danger: #f87171;
+  --danger-soft: rgba(248, 113, 113, 0.10);
   --text: #e2e8f0;
   --text-soft: #94a3b8;
   --text-muted: #64748b;
-  --border: rgba(30, 41, 59, 0.8);
-  --border-subtle: rgba(148, 163, 184, 0.12);
-  --chip-bg: rgba(8, 14, 36, 0.9);
+  --border: rgba(30, 41, 59, 0.7);
+  --border-subtle: rgba(148, 163, 184, 0.10);
+  --chip-bg: rgba(4, 9, 24, 0.92);
   --radius-lg: 18px;
   --radius-xl: 22px;
-  --blur: 22px;
+  --blur: 24px;
   --nav-height: 66px;
-  --shadow-card: 0 8px 32px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.03) inset;
-  --shadow-btn: 0 8px 24px rgba(56,189,248,0.55);
-  --shadow-float: 0 20px 60px rgba(0,0,0,0.6);
+  --shadow-card: 0 4px 20px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.04) inset;
+  --shadow-btn: 0 6px 20px rgba(56,189,248,0.5);
+  --shadow-float: 0 20px 60px rgba(0,0,0,0.65);
 }
 
 html[data-theme="light"] {
@@ -79,17 +79,17 @@ body {
 /* ─── Page background ──────────────────────────────────────────────── */
 .bg-page-gradient {
   background:
-    radial-gradient(ellipse 80% 50% at 10% 0%, rgba(14,165,233,0.16) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(129,140,248,0.14) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 60% at 50% 100%, rgba(56,189,248,0.08) 0%, transparent 50%),
-    linear-gradient(180deg, #020c1b 0%, #020617 40%, #010410 100%);
+    radial-gradient(ellipse 90% 55% at 5% 0%, rgba(14,165,233,0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 65% 45% at 95% 5%, rgba(129,140,248,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 65% at 50% 100%, rgba(52,211,153,0.06) 0%, transparent 55%),
+    linear-gradient(180deg, #020e20 0%, #010b18 35%, #010714 100%);
 }
 
 html[data-theme="light"] .bg-page-gradient {
   background:
     radial-gradient(ellipse 80% 50% at 10% 0%, rgba(14,165,233,0.10) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(99,102,241,0.08) 0%, transparent 50%),
-    linear-gradient(180deg, #f0f6ff 0%, #f0f4f8 60%, #e8edf5 100%);
+    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(99,102,241,0.07) 0%, transparent 50%),
+    linear-gradient(180deg, #eef6ff 0%, #f0f4f8 60%, #e8edf5 100%);
 }
 
 /* ─── Accessibility ────────────────────────────────────────────────── */
@@ -117,30 +117,44 @@ html[data-theme="light"] .bg-page-gradient {
 
 /* ─── App card ─────────────────────────────────────────────────────── */
 .app-card-hover {
-  transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease, border-color 0.22s ease;
   will-change: transform;
+  position: relative;
 }
 
+.app-card-hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(56,189,248,0.04), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  pointer-events: none;
+}
+
+.app-card-hover:hover::after { opacity: 1; }
+
 .app-card-hover:hover {
-  transform: translateY(-4px) translateZ(0);
-  border-color: rgba(56,189,248,0.55) !important;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(56,189,248,0.15), 0 -1px 0 rgba(56,189,248,0.08) inset !important;
+  transform: translateY(-5px) translateZ(0);
+  border-color: rgba(56,189,248,0.45) !important;
+  box-shadow: 0 20px 56px rgba(0,0,0,0.6), 0 0 0 1px rgba(56,189,248,0.12), 0 -1px 0 rgba(56,189,248,0.06) inset !important;
 }
 
 html[data-theme="light"] .app-card-hover:hover {
-  border-color: rgba(14,165,233,0.5) !important;
-  box-shadow: 0 12px 40px rgba(14,165,233,0.14), 0 0 0 1px rgba(14,165,233,0.12) !important;
+  border-color: rgba(14,165,233,0.45) !important;
+  box-shadow: 0 12px 40px rgba(14,165,233,0.13), 0 0 0 1px rgba(14,165,233,0.10) !important;
 }
 
 /* ─── Featured card ────────────────────────────────────────────────── */
 .featured-card {
-  transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease, border-color 0.2s ease;
+  transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease, border-color 0.2s ease;
 }
 
 .featured-card:hover {
-  transform: translateY(-5px) scale(1.01);
-  border-color: rgba(56,189,248,0.7) !important;
-  box-shadow: 0 20px 56px rgba(0,0,0,0.65), 0 0 40px rgba(56,189,248,0.18), 0 0 0 1px rgba(56,189,248,0.25) !important;
+  transform: translateY(-6px) scale(1.015);
+  border-color: rgba(56,189,248,0.65) !important;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.65), 0 0 48px rgba(56,189,248,0.14), 0 0 0 1px rgba(56,189,248,0.22) !important;
 }
 
 /* ─── Animations ───────────────────────────────────────────────────── */
@@ -166,10 +180,18 @@ html[data-theme="light"] .app-card-hover:hover {
 
 /* ─── Gradient text ────────────────────────────────────────────────── */
 .gradient-text {
-  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #34d399 100%);
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 45%, #34d399 100%);
+  background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: gradientShift 6s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* ─── Utility ──────────────────────────────────────────────────────── */

@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#020617",
+  themeColor: "#010b18",
   width: "device-width",
   initialScale: 1,
 };
@@ -71,10 +71,10 @@ export default function RootLayout({
           aria-hidden="true"
           style={{
             background:
-              "radial-gradient(circle, rgba(56,189,248,0.08) 0, transparent 40%), " +
-              "radial-gradient(circle at 80% 20%, rgba(94,234,212,0.08) 0, transparent 35%), " +
-              "radial-gradient(circle at 20% 80%, rgba(59,130,246,0.08) 0, transparent 35%)",
-            filter: "blur(90px)",
+              "radial-gradient(ellipse 70% 50% at 15% 0%, rgba(56,189,248,0.10) 0, transparent 55%), " +
+              "radial-gradient(ellipse 60% 45% at 85% 5%, rgba(129,140,248,0.09) 0, transparent 55%), " +
+              "radial-gradient(ellipse 50% 60% at 50% 100%, rgba(52,211,153,0.06) 0, transparent 55%)",
+            filter: "blur(80px)",
             zIndex: 0,
           }}
         />
