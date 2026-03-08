@@ -4,7 +4,6 @@
 > **Date:** 2026-03-02
 > **Reviewer:** Senior Product Engineer
 
----
 
 ## STEP 1 — Repo Audit (Brutally Honest)
 
