@@ -101,12 +101,13 @@ export default function AppDetailClient({ app, reviews, ratingAvg }: AppDetailCl
             {/* App header */}
             <div className="flex items-start gap-4 mb-4">
               {app.icon_filename ? (
-                <Image
-                  src={`/icons/${app.icon_filename}`}
+                <img
+                  src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/icons/${app.icon_filename}`}
                   alt={`${app.name} icon`}
                   width={72}
                   height={72}
                   className="rounded-2xl shadow-[0_12px_28px_rgba(56,189,248,0.32)] flex-shrink-0"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                 />
               ) : (
                 <span

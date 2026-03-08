@@ -434,19 +434,22 @@ export default function AppGrid({ apps, lang, ratings = {} }: AppGridProps) {
 }
 
 function FeaturedIcon({ app }: { app: Pick<App, "name" | "icon_filename"> }) {
+  const [imgError, setImgError] = useState(false);
   const size = 36;
-  if (app.icon_filename) {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  if (app.icon_filename && !imgError) {
     return (
       <span
         className="rounded-xl overflow-hidden flex-shrink-0 inline-flex"
         style={{ width: size, height: size, boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }}
       >
         <img
-          src={`/icons/${app.icon_filename}`}
+          src={`${basePath}/icons/${app.icon_filename}`}
           alt={`${app.name} icon`}
           width={size}
           height={size}
           className="object-cover w-full h-full"
+          onError={() => setImgError(true)}
         />
       </span>
     );

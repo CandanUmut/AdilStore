@@ -34,7 +34,9 @@ export default function Navbar({ lang, onLangChange }: NavbarProps) {
   }, []);
 
   useEffect(() => {
-    const supabase = createClient();
+    let supabase: ReturnType<typeof createClient> | null = null;
+    try { supabase = createClient(); } catch { return; }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
     });
@@ -60,9 +62,11 @@ export default function Navbar({ lang, onLangChange }: NavbarProps) {
   }
 
   async function handleSignOut() {
-    const supabase = createClient();
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "/";
+    let supabase: ReturnType<typeof createClient> | null = null;
+    try { supabase = createClient(); } catch { window.location.href = siteUrl; return; }
     await supabase.auth.signOut();
-    router.push("/");
+    window.location.href = siteUrl;
   }
 
   return (

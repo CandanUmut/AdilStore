@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -39,7 +42,7 @@ export default function SignInPage() {
     const { error: authError } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${siteUrl}/auth/callback?next=/developer`,
+        redirectTo: `${SITE_URL}/auth/callback?next=/developer`,
       },
     });
     if (authError) {

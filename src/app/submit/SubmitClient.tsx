@@ -66,7 +66,11 @@ export default function SubmitClient({ developerId, defaultEmail }: Props) {
       const { error: uploadError } = await supabase.storage
         .from("adil-icons")
         .upload(path, iconFile, { contentType: iconFile.type || "image/png", upsert: false });
-      if (!uploadError) icon_path = path;
+      if (uploadError) {
+        console.error("Icon upload error:", uploadError.message);
+      } else {
+        icon_path = path;
+      }
     }
 
     const { error } = await supabase.from("app_submissions").insert({
@@ -82,7 +86,7 @@ export default function SubmitClient({ developerId, defaultEmail }: Props) {
 
     if (error) {
       setStatus("error");
-      setMessage(T.submit.error);
+      setMessage(`${T.submit.error} (${error.message})`);
       return;
     }
 

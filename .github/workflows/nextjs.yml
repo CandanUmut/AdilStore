@@ -45,6 +45,7 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
           NEXT_PUBLIC_SITE_URL: "https://candanumut.github.io/AdilStore"
+          NEXT_PUBLIC_BASE_PATH: "/AdilStore"
 
       - name: Add .nojekyll
         run: touch out/.nojekyll

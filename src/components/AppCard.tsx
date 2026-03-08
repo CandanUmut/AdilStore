@@ -309,20 +309,23 @@ export function AppIcon({
   app: Pick<App, "name" | "icon_filename">;
   size?: number;
 }) {
+  const [imgError, setImgError] = useState(false);
   const s = { width: size, height: size };
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
-  if (app.icon_filename) {
+  if (app.icon_filename && !imgError) {
     return (
       <span
         className="rounded-xl overflow-hidden flex-shrink-0 inline-flex"
         style={{ ...s, boxShadow: "0 4px 12px rgba(0,0,0,0.3)" }}
       >
-        <Image
-          src={`/icons/${app.icon_filename}`}
+        <img
+          src={`${basePath}/icons/${app.icon_filename}`}
           alt={`${app.name} icon`}
           width={size}
           height={size}
           className="object-cover w-full h-full"
+          onError={() => setImgError(true)}
         />
       </span>
     );

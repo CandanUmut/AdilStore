@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+
 type Step = "credentials" | "verify";
 
 export default function SignUpPage() {
@@ -33,7 +35,7 @@ export default function SignUpPage() {
       email: email.trim(),
       password,
       options: {
-        emailRedirectTo: `${siteUrl}/auth/callback?next=/developer/profile`,
+        emailRedirectTo: `${SITE_URL}/auth/callback?next=/developer/profile`,
       },
     });
 
@@ -53,7 +55,7 @@ export default function SignUpPage() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${siteUrl}/auth/callback?next=/developer/profile`,
+        redirectTo: `${SITE_URL}/auth/callback?next=/developer/profile`,
       },
     });
   }

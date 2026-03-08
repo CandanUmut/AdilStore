@@ -33,7 +33,6 @@ export const metadata: Metadata = {
     description: "A fair, ad-free app store. No promoted placements, no ads, no pay-to-win.",
     images: ["/adilstore-icon.png"],
   },
-  manifest: "/manifest.json",
   icons: {
     icon: "/adilstore-icon.png",
     apple: "/adilstore-icon.png",
@@ -58,6 +57,8 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
+        {/* Manifest link with basePath applied manually — Next.js metadata.manifest does not prepend basePath */}
+        <link rel="manifest" href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/manifest.json`} />
         <link
           rel="preconnect"
           href="https://fonts.googleapis.com"
