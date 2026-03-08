@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 export default function SignInPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
@@ -27,16 +29,17 @@ export default function SignInPage() {
       return;
     }
 
-    window.location.href = "/developer";
+    router.push("/developer");
   }
 
   async function handleGoogleSignIn() {
     setStatus("loading");
     const supabase = createClient();
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
     const { error: authError } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/developer`,
+        redirectTo: `${siteUrl}/auth/callback?next=/developer`,
       },
     });
     if (authError) {

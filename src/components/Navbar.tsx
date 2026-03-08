@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
 import type { Lang } from "@/lib/i18n";
@@ -14,6 +15,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ lang, onLangChange }: NavbarProps) {
+  const router = useRouter();
   const T = translations[lang];
   const [scrolled, setScrolled] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -60,7 +62,7 @@ export default function Navbar({ lang, onLangChange }: NavbarProps) {
   async function handleSignOut() {
     const supabase = createClient();
     await supabase.auth.signOut();
-    window.location.href = "/";
+    router.push("/");
   }
 
   return (

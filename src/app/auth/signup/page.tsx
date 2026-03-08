@@ -28,11 +28,12 @@ export default function SignUpPage() {
     setError("");
 
     const supabase = createClient();
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
     const { error: authError } = await supabase.auth.signUp({
       email: email.trim(),
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback?next=/developer/profile`,
+        emailRedirectTo: `${siteUrl}/auth/callback?next=/developer/profile`,
       },
     });
 
@@ -48,10 +49,11 @@ export default function SignUpPage() {
   async function handleGoogleSignIn() {
     setStatus("loading");
     const supabase = createClient();
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=/developer/profile`,
+        redirectTo: `${siteUrl}/auth/callback?next=/developer/profile`,
       },
     });
   }
