@@ -2,13 +2,13 @@
   "name": "AdilStore",
   "short_name": "AdilStore",
   "description": "A fair, ad-free app store. No promoted placements, no ads, no pay-to-win.",
-  "start_url": "/",
+  "start_url": "/AdilStore/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "theme_color": "#020617",
   "background_color": "#020617",
   "lang": "en",
-  "scope": "/",
+  "scope": "/AdilStore/",
   "icons": [
     {
       "src": "/adilstore-icon.png",
